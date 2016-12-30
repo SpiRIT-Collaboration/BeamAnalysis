@@ -21,7 +21,7 @@ using namespace std;
 const char *cutfname = NULL;
 bool filecalled = false;
 
-double getTOF(int RunNo){
+double getTOF(int RunNo){//return custom time of flight from ridf_events.csv
   int r,run;
   double Custom_TOF=280.;
   std::string ModLine;
@@ -29,42 +29,36 @@ double getTOF(int RunNo){
   in.open("./ridf_events.csv");
   in.ignore(10000,'\n');
   cout << "start: "<< RunNo << endl;
-  for( std::string line; getline( in, line ); )
-{
-    //cout << line << endl;
+  for( std::string line; getline( in, line ); ){
     r = line.find(',');
     run=stoi(line.substr(0,r));
     if(run >= RunNo){
-      //cout << run << endl;
       ModLine= line.substr(0,line.rfind(','));
-      //cout << ModLine.substr(ModLine.rfind(',')+1) << endl;
       if(ModLine.substr(ModLine.rfind(',')+1).length()>0) Custom_TOF=stod(ModLine.substr(ModLine.rfind(',')+1));
       break;
     }
-}
-
-
+  }
   in.close();
-  //cout << Custom_TOF << endl;
-  //cout << "done" << endl;
   return Custom_TOF;
 }
 
 void aoqByRun(){
     gROOT->ForceStyle();
     double myTOF;
+    //define the first and last run to evaluate
     int first_run=2840;
     int last_run=2845;
+    //define the AoQ range to investigate
     double startAoQ=2.63;
     double endAoQ=2.65;
-
+    // where we want the AoQ to be: for 132 Sn, this is 132/50 = 2.64
     double goalAoQ=2.64;
     double guessTOF=0.;
 
     ofstream myfile;
     myfile.open (Form("output/AoqByRun.%i.%i.csv",first_run,last_run));
+    //the canvas is used to store a graph of the reconstructed AoQ, run by run
     TCanvas *cvs1 = new TCanvas("cvs1","",0,0,800,1200);
-    //TCanvas *cvs2 = new TCanvas("cvs2","",0,0,800,800);
     auto graph = new TGraphErrors();
     graph->SetMarkerStyle(5);
     graph->SetMarkerSize(0.8);
@@ -106,7 +100,7 @@ void aoqByRun(){
       cvs->SaveAs(Form("./figures/aoqByRun/AOQ%i.png",ii));
 
 
-      if(goalAoQ-fitFuncAoq->GetParameter(1)<endAoQ-startAoQ){
+      if(goalAoQ-fitFuncAoq->GetParameter(1)<endAoQ-startAoQ){//using a rudimentary correction to suggest a TOF to bring the reconstructed AoQ closer to the desired AoQ
         guessTOF=(goalAoQ-fitFuncAoq->GetParameter(1))*50.+myTOF;
 
       }
