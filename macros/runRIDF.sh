@@ -41,6 +41,11 @@ if  [ "$RUN" -eq "$RUN" ] 2>/dev/null; then
 if [ "$RUN" -ge $START ] && [ "$RUN" -le $END ] && [ "$EVENTS" -ge 1 ]; then
 echo "$RUN"
 
+if [ ${#IC} -ge 1 ]; then
+ln -sf BigRIPSIC/BigRIPSIC."$IC".xml ../db/BigRIPSIC.xml
+else
+ln -sf BigRIPSIC/BigRIPSIC.xml ../db/BigRIPSIC.xml
+fi
 if [ ${#PLAS} -ge 1 ]; then
 ln -sf BigRIPSPlastic/BigRIPSPlastic."$PLAS".xml ../db/BigRIPSPlastic.xml
 else
