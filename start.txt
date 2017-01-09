@@ -1,1 +1,10 @@
-working with git
+To start, anaroot should be installed and sourced. To check if anaroot is sourced correctly, try:
+echo $TARTSYS
+Or use the bash script:
+./setup_dir.sh 
+which automatically checks for the variable and creates the link needed.
+
+The additional setup step that must be done manually is to set the ridf location, using a soft link:
+ln -sf /RIDF/FOLDER/LOCATION ridf
+
+The macros in this repository will expect structure: ridf/SMDAQ####.ridf
