@@ -40,7 +40,9 @@ TOF=${input[10]}
 if  [ "$RUN" -eq "$RUN" ] 2>/dev/null; then
 if [ "$RUN" -ge $START ] && [ "$RUN" -le $END ] && [ "$EVENTS" -ge 1 ]; then
 echo "$RUN"
-
+cd db/
+./setup_db_dir.sh
+cd ../
 if [ ${#IC} -ge 1 ]; then
 ln -sf BigRIPSIC/BigRIPSIC."$IC".xml ../db/BigRIPSIC.xml
 else
