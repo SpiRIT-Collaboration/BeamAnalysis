@@ -96,7 +96,7 @@ int main(int argc, char *argv[]) {
     //------------------------------------------------------------
     TArtEventStore * eventStore = new TArtEventStore();
     eventStore->SetInterrupt(&stoploop);
-    TString ridfFile = Form("ridf/sdaq02/SMDAQ%i.ridf", runNo);
+    TString ridfFile = Form("ridf/SMDAQ%i.ridf", runNo);
     eventStore -> Open(ridfFile.Data());
     //  eventStore -> Open();// for online analysis
 
