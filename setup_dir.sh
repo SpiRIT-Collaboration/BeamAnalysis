@@ -8,4 +8,6 @@ if [ -e $TARTSYS ]; then
     echo "using $TARTSYS as src directory"
     ln -sf $TARTSYS src
   fi
+else
+echo "cannot find TARTSYS location. Check that anaroot is installed and sourced."
 fi
