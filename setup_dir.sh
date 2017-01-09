@@ -12,4 +12,5 @@ else
 echo "cannot find TARTSYS location. Check that anaroot is installed and sourced."
 fi
 echo "attempting to setup initial db links"
-./db/setup_db_dir.sh
+cd db/
+./setup_db_dir.sh
