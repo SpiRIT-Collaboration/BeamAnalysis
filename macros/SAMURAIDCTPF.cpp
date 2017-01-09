@@ -72,7 +72,7 @@ int main(int argc, char *argv[]) {
     cerr << "Run Number =" << runNo << endl;
 
 //void MakeSAMURAIDCTPF(Int_t runNo, Int_t nanaeve=500000){
-  TString ridffile = Form("ridf/sdaq02/SMDAQ%04d.ridf", runNo);
+  TString ridffile = Form("ridf/SMDAQ%04d.ridf", runNo);
 
   TArtEventStore *estore = new TArtEventStore;
   estore->Open(ridffile.Data());
