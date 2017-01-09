@@ -16,3 +16,5 @@ cd db/
 ./setup_db_dir.sh
 echo "please create ridf link to folder containing ridf files:"
 echo "ln -sf RIDF/FILE/LOCATION ridf"
+cd ../macros
+./setup_macros_dir.sh
