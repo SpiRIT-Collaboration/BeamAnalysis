@@ -29,7 +29,7 @@ void SimpleOut(int runNo){
     TChain *tree = new TChain("tr");
 
     //Output file and Trees to write out
-    TFile *fout = new TFile(Form("./output/beam_run.%i.root",runNo),"recreate");
+    TFile *fout = new TFile(Form("./output/beam/beam_run.%i.root",runNo),"recreate");
     auto beam_info = new TTree("beam_info","beam_info");
     auto BDC = new TTree("BDC","BDC");
     //auto beam_out = new TTree("beam_out","beam_out");
