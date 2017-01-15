@@ -24,16 +24,12 @@ select option in S015 Fishtank RIKENHPC MSUHPC other
 do
     case $option in
         S015)
-            echo "S015";;
             ln -sf /home/s015/ridf/sdaq02 ridf;;
         Fishtank)
-            echo "Fishtank";;
             ln -sf /mnt/spirit/rawdata/ridf ridf;;
         RIKENHPC)
-            echo "RIKENHPC";;
             ln -sf /data/Q16264/rawdata/ridf/sdaq02 ridf;;
         MSUHPC)
-            echo "MSUHPC";;
             ln -sf /mnt/research/spirit/SPIRIT_TPC/data/ridf ridf;;
         other)
             echo "Please link ridf folder manually";;
