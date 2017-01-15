@@ -20,7 +20,7 @@ cd ../macros
 ./setup_macros_dir.sh
 cd ../
 PS3="Please choose your working environment:"
-select option in S015 RIKENHPC wait quit
+select option in S015 Fishtank RIKENHPC MSUHPC other
 do
     case $option in
         S015)
