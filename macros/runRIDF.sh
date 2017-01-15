@@ -36,6 +36,7 @@ NEUVETO=${input[7]}
 BDC1=${input[8]}
 BDC2=${input[9]}
 TOF=${input[10]}
+DCTPF=${input[11]}
 
 if  [ "$RUN" -eq "$RUN" ] 2>/dev/null; then
 if [ "$RUN" -ge $START ] && [ "$RUN" -le $END ] && [ "$EVENTS" -ge 1 ]; then
@@ -61,11 +62,9 @@ fi
 
 
 if [ ${#TOF} -ge 1 ]; then
-./SAMURAIDCTPF $RUN $EVENTS
 ./RIDFtoROOT $RUN $TOF
 else
 echo "no TOF information in ridf_events.csv for run "$RUN", using 280 ns"
-./SAMURAIDCTPF $RUN $EVENTS
 ./RIDFtoROOT $RUN 280.
 fi
 
