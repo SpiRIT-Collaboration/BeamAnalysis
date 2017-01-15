@@ -19,19 +19,28 @@ echo "ln -sf RIDF/FILE/LOCATION ridf"
 cd ../macros
 ./setup_macros_dir.sh
 cd ../
+if [ ! -e ridf ]; then
 PS3="Please choose your working environment:"
 select option in S015 Fishtank RIKENHPC MSUHPC other
 do
     case $option in
         S015)
-            ln -sf /home/s015/ridf/sdaq02 ridf;;
+            ln -sf /home/s015/ridf/sdaq02 ridf
+            break;;
         Fishtank)
-            ln -sf /mnt/spirit/rawdata/ridf ridf;;
+            ln -sf /mnt/spirit/rawdata/ridf ridf
+            break;;
         RIKENHPC)
-            ln -sf /data/Q16264/rawdata/ridf/sdaq02 ridf;;
+            ln -sf /data/Q16264/rawdata/ridf/sdaq02 ridf
+            break;;
         MSUHPC)
-            ln -sf /mnt/research/spirit/SPIRIT_TPC/data/ridf ridf;;
+            ln -sf /mnt/research/spirit/SPIRIT_TPC/data/ridf ridf
+            break;;
         other)
-            echo "Please link ridf folder manually";;
+            echo "Please link ridf folder manually"
+            break;;
      esac
 done
+else
+    echo "ridf link exists, leaving unchanged"
+fi
