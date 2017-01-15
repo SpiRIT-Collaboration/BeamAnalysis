@@ -59,8 +59,10 @@ ln -sf BigRIPSPPAC/BigRIPSPPAC."$PPAC".xml ../db/BigRIPSPPAC.xml
 else
 ln -sf BigRIPSPPAC/BigRIPSPPAC.xml ../db/BigRIPSPPAC.xml
 fi
-
-
+if [ ! -e dctpf/dc_tpf_$DCTPF.root ]; then
+  echo "dc_tpf file not found, creating it"
+  ./SAMURAIDCTPF $DCTPF
+fi
 if [ ${#TOF} -ge 1 ]; then
 ./RIDFtoROOT $RUN $TOF
 else
