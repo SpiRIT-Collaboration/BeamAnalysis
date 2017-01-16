@@ -248,9 +248,9 @@ int main(int argc, char *argv[]) {
 
     //Defining BDCs for SAMURAI
     char myname[128];
-    TFile *bdcin = new TFile(Form("./dctpf/dc_tpf_%04d.root", dctpfRun), "READ");
+    TFile *bdcin = new TFile("./dctpf/dc_tpf.root", "READ");
     if (bdcin->IsOpen()){
-        std::cout << "open dc_tpf_" << dctpfRun << ".root" << std::endl;
+        std::cout << "open dc_tpf.root" << std::endl;
         gROOT->cd();
         TH2* hist = NULL;
 
