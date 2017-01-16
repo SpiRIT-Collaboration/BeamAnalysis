@@ -249,13 +249,13 @@ void BDCprojection(Int_t runNo = 3202, Int_t neve_max=30000000)
   }//end of event loop
 
   cvs -> cd(1);
-  htgt2xy -> Draw("colz");
+  htgt2xy0T -> Draw("colz");
 
   cvs -> cd(2);
-  htgt2xa -> Draw("colz");
+  htgt2xa0T -> Draw("colz");
 
   cvs -> cd(3);
-  htgt2yb -> Draw("colz");
+  htgt2yb0T -> Draw("colz");
 
   cvs3->cd(1);
   hbdc1xy->Draw("colz");
