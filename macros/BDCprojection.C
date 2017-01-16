@@ -81,15 +81,6 @@ void BDCprojection(Int_t runNo = 3202, Int_t neve_max=30000000)
   TH1* htgt2xa0T = new TH2D("htgt2xa0T", "TGT XA; x (mm); x' (mrad)",200,-100,100, 200, -100, 100); // angle: mrad
   TH1* htgt2yb0T = new TH2D("htgt2yb0T", "TGT YB; y (mm); y' (mrad)",200,-100,100, 200, -100, 100); // angle: mrad
 
-  TH1* hbdc1abdc2a = new TH2D("hbdc1abdc2a", "BDC1A vs BDC2A",200,-100,100, 200, -100, 100); // angle: mrad
-  TH1* hbdc1bbdc2b = new TH2D("hbdc1bbdc2b", "BDC1B vs BDC2B",200,-100,100, 200, -100, 100); // angle: mrad
-
-  TH1* hbdc1xbdc2x = new TH2D("hbdc1xbdc2x", "BDC1Xvs BDC2X",200,-100,100, 200, -100, 100); // angle: mrad
-  TH1* hbdc1ybdc2y = new TH2D("hbdc1ybdc2y", "BDC1Y vs BDC2Y",200,-100,100, 200, -100, 100); // angle: mrad
-
-  TH1* hbdc1aexta = new TH2D("hbdc1aexta", "BDC1A vs extrapolated angle",200,-100,100, 200, -100, 100); // angle: mrad
-  TH1* hbdc1bextb = new TH2D("hbdc1bextb", "BDC1B vs extrapolated angle",200,-100,100, 200, -100, 100); // angle: mrad
-
 
   TArtStoreManager *sman = TArtStoreManager::Instance();
 
@@ -102,14 +93,6 @@ void BDCprojection(Int_t runNo = 3202, Int_t neve_max=30000000)
   auto cvs4 = new TCanvas("cvs4", "", 1200, 500);
   cvs4 -> Divide(3, 1);
 
-  auto cvs5 = new TCanvas("cvs5", "", 1000, 500);
-  cvs5 -> Divide(2, 1);
-
-  auto cvs6 = new TCanvas("cvs6", "", 1000, 500);
-  cvs6 -> Divide(2, 1);
-
-  auto cvs7 = new TCanvas("cvs7", "", 1000, 500);
-  cvs7 -> Divide(2, 1);
 
   int neve = 0;
   while(estore->GetNextEvent() && neve<neve_max){
@@ -233,8 +216,8 @@ void BDCprojection(Int_t runNo = 3202, Int_t neve_max=30000000)
     //produce linear projection
     Double_t TGT_x_0T=( bdc2trx-bdc1trx )/dist_BDCs*dist_BDC1_TGT + bdc1trx; //mm
     Double_t TGT_y_0T=( bdc2try-bdc1try )/dist_BDCs*dist_BDC1_TGT + bdc1try; //mm
-    Double_t TGT_a_0T=atan(( bdc2trx-bdc1trx )/dist_BDCs)/1000.; //mrad
-    Double_t TGT_b_0T=atan(( bdc2try-bdc1try )/dist_BDCs)/1000.; //mrad
+    Double_t TGT_a_0T=atan(( bdc2trx-bdc1trx )/dist_BDCs)*1000.; //mrad
+    Double_t TGT_b_0T=atan(( bdc2try-bdc1try )/dist_BDCs)*1000.; //mrad
 
     if( bdc1trx>-1000 && bdc1try>-1000 && bdc2trx>-1000 && bdc2try>-1000){
       htgt2xy0T -> Fill(TGT_x_0T,TGT_y_0T); // mm
@@ -274,24 +257,6 @@ void BDCprojection(Int_t runNo = 3202, Int_t neve_max=30000000)
 
   cvs4->cd(3);
   hbdc2yb->Draw("colz");
-
-  cvs5->cd(1);
-  hbdc1abdc2a->Draw("colz");
-
-  cvs5->cd(2);
-  hbdc1bbdc2b->Draw("colz");
-
-  cvs6->cd(1);
-  hbdc1xbdc2x->Draw("colz");
-
-  cvs6->cd(2);
-  hbdc1ybdc2y->Draw("colz");
-
-  cvs7->cd(1);
-  hbdc1aexta->Draw("colz");
-
-  cvs7->cd(2);
-  hbdc1bextb->Draw("colz");
 
   TCanvas *cvs2 = new TCanvas("cvs2", "", 800, 400);
   cvs2 -> Divide(2, 1);
