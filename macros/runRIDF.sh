@@ -64,7 +64,7 @@ if [ ! -e dctpf/dc_tpf_$DCTPF.root ]; then
   ./SAMURAIDCTPF $DCTPF
 fi
 rm dctpf/dc_tpf.root
-ln -sf dctpf/dc_tpf_$DCTPF.root dc_tpf.root
+ln -sf ./dctpf/dc_tpf_$DCTPF.root ./dctpf/dc_tpf.root
 if [ ${#TOF} -ge 1 ]; then
 ./RIDFtoROOT $RUN $TOF
 else
