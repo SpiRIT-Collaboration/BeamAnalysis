@@ -196,16 +196,7 @@ void BDCprojection(Int_t runNo = 3202, Int_t neve_max=30000000)
       hbdc2yb->Fill(posy,bdc2tray);
 
     }
-    //---------------------------
-    //Investigating correlation between BDC's
-    hbdc1abdc2a->Fill(bdc1trax,bdc2trax);
-    hbdc1bbdc2b->Fill(bdc1tray,bdc2tray);
 
-    hbdc1xbdc2x->Fill(bdc1trx,bdc2trx);
-    hbdc1ybdc2y->Fill(bdc1try,bdc2try);
-
-    hbdc1aexta->Fill(bdc1trax,(bdc2trx-bdc1trx));
-    hbdc1bextb->Fill(bdc1tray,(bdc2try-bdc1try));
     //----------------------------------------------------------
     // Target
 
