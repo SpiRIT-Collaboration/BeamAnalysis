@@ -296,8 +296,8 @@ void BDCprojection(Int_t runNo = 3202, Int_t neve_max=30000000)
   TCanvas *cvs2 = new TCanvas("cvs2", "", 800, 400);
   cvs2 -> Divide(2, 1);
 
-  TH1D *projX = ((TH2D *) htgt2xy) -> ProjectionX();
-  TH1D *projY = ((TH2D *) htgt2xy) -> ProjectionY();
+  TH1D *projX = ((TH2D *) htgt2xy0T) -> ProjectionX();
+  TH1D *projY = ((TH2D *) htgt2xy0T) -> ProjectionY();
 
   cvs2 -> cd(1);
   projX -> Draw();
