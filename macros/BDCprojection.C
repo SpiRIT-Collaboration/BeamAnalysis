@@ -13,7 +13,7 @@ void BDCprojection(Int_t runNo = 3202, Int_t neve_max=30000000)
   TFile *fout = new TFile(Form("./output/BDC/BDCout.%i.root",runNo),"recreate");
   auto TGT_lin = new TTree("TGT_lin","TGT_lin");
   auto TGT_mag = new TTree("TGT_mag","TGT_mag");
-  auto BDC = new TTree("BDC","BDC");
+  auto bdc_info = new TTree("bdc_info","bdc_info");
 
   TArtSAMURAIParameters *samurai_prm = new TArtSAMURAIParameters();
   samurai_prm->LoadParameter("db/SAMURAIBDC1.xml");
@@ -98,22 +98,22 @@ void BDCprojection(Int_t runNo = 3202, Int_t neve_max=30000000)
 
 
   int neve = 0;
-  BDC -> Branch("neve",&neve);
+  bdc_info -> Branch("neve",&neve);
 
-  Double_t TGT_x_0T=-9999; //mm
-  Double_t TGT_y_0T=-9999; //mm
-  Double_t TGT_a_0T=-999; //mrad
-  Double_t TGT_b_0T=-999; //mrad
-  Double_t TGT_px_0=-9999;//MeV/c
-  Double_t TGT_py_0T=-9999;//MeV/c
-  Double_t TGT_pz_0T=-9999;//MeV/c
-  Double_t TGT_x_0_5T=-9999; //mm
-  Double_t TGT_y_0_5T=-9999; //mm
-  Double_t TGT_a_0_5T=-999; //mrad
-  Double_t TGT_b_0_5T=-999; //mrad
-  Double_t TGT_px_0_5T=-9999;//MeV/c
-  Double_t TGT_py_0_5T=-9999;//MeV/c
-  Double_t TGT_pz_0_5T=-9999;//MeV/c
+  Double_t TGT_x_0T; //mm
+  Double_t TGT_y_0T; //mm
+  Double_t TGT_a_0T; //mrad
+  Double_t TGT_b_0T; //mrad
+  Double_t TGT_px_0T;//MeV/c
+  Double_t TGT_py_0T;//MeV/c
+  Double_t TGT_pz_0T;//MeV/c
+  Double_t TGT_x_0_5T; //mm
+  Double_t TGT_y_0_5T; //mm
+  Double_t TGT_a_0_5T; //mrad
+  Double_t TGT_b_0_5T; //mrad
+  Double_t TGT_px_0_5T;//MeV/c
+  Double_t TGT_py_0_5T;//MeV/c
+  Double_t TGT_pz_0_5T;//MeV/c
 
   TGT_lin -> Branch("TGT_x_0T",&TGT_x_0T,"TGT_x_0T/D");
   TGT_lin -> Branch("TGT_y_0T",&TGT_y_0T,"TGT_y_0T/D");
@@ -132,15 +132,15 @@ void BDCprojection(Int_t runNo = 3202, Int_t neve_max=30000000)
   TGT_mag -> Branch("TGT_pz_0_5T",&TGT_pz_0_5T,"TGT_pz_0_5T/D");
 
   Double_t bdc1trax, bdc1tray;
-  Double_t bdc1trx=-9999.;
-  Double_t bdc1try=-9999.;
+  Double_t bdc1trx;
+  Double_t bdc1try;
   Double_t bdc2trax, bdc2tray;
-  Double_t bdc2trx=-9999.;
-  Double_t bdc2try=-9999.;
-  BDC -> Branch("bdc1trx",&bdc1trx,"bdc1trx/D");
-  BDC -> Branch("bdc1try",&bdc1trx,"bdc1try/D");
-  BDC -> Branch("bdc2trx",&bdc1trx,"bdc2trx/D");
-  BDC -> Branch("bdc2try",&bdc1trx,"bdc2try/D");
+  Double_t bdc2trx;
+  Double_t bdc2try;
+  bdc_info -> Branch("bdc1trx",&bdc1trx,"bdc1trx/D");
+  bdc_info -> Branch("bdc1try",&bdc1trx,"bdc1try/D");
+  bdc_info -> Branch("bdc2trx",&bdc1trx,"bdc2trx/D");
+  bdc_info -> Branch("bdc2try",&bdc1trx,"bdc2try/D");
 
   while(estore->GetNextEvent() && neve<neve_max){
     if (neve%100==0){
@@ -291,7 +291,7 @@ void BDCprojection(Int_t runNo = 3202, Int_t neve_max=30000000)
 
     TGT_lin -> Fill();
     TGT_mag -> Fill();
-    BDC -> Fill();
+    bdc_info -> Fill();
     //move to next event
     estore->ClearData();
     ++neve;
@@ -307,7 +307,15 @@ void BDCprojection(Int_t runNo = 3202, Int_t neve_max=30000000)
 
   cvs -> cd(3);
   htgt2yb0T -> Draw("colz");
-  fout -> Write();
+
+
+  fout->cd();
+  TGT_lin->Write();
+  TGT_mag->Write();
+  bdc_info->Write();
+  fout->Write();
+  fout->Close();
+
 
   return;
 }
