@@ -1,14 +1,54 @@
 //macro to asses BDC information. Starting point.
+//Parameters////////////
+
+Double_t BDC1_z=-3160.;//mm, center of BDC1 z in magnet frame
+Double_t BDC2_z=-2160.;//mm, center of BDC2 z in magnet frame
+Double_t TGT_z=-593.1;//mm, desired projection plane in magnet frame
+Double_t B_Field= 0.5; //Tesla
+//temporary parameters, eventually to be included from ridf files. For now, assume every particle matches these parameters (not true)
+Double_t brho=6.95; //T*m
+Double_t beta=0.647;//dimensionless
+Double_t Z = 50.;
+Double_t AoQ = 2.64;
+Double_t mp = 1.66053886e-27; //mass proton in kg
+Double_t mass = Z*AoQ*mp;//mass in kg
+Double_t c = 2.99e8;//m/s**2
+Double_t dt = 1.e-5;//time step in seconds
+////////////////////////
+double * getBfield(double bx, double by, double bz){//return the magnetic field. Temporarily returns a static field
+  static double Bfield[3]={0.,0.,0.};
+  if (std::sqrt(bx**2 + bz**2) < 1000.){
+    Bfield[0]=0.;
+    Bfield[1]=0.5;
+    Bfield[2]-0.;
+  }
+  return Bfield;
+}
+
+double * next_step(double mx, double my, double mz, double ma, double mb, double mE, double mmass, double mZ){
+  static double pos_ang[6]={mx,my,mz,ma,mb,mE};
+  double Efield[3]={0.,0.,0,};
+  double mB=getBfield(mx,my,mz);
+  double mp = std::sqrt(mE**2-(mmass*c**2)**2)/c;//calculate momentum from energy and mass
+  double mpz = mp/std::sqrt(1+std::tan(ma)**2+std::tan(mb)**2);//z component of momentum
+  double mom[3]={mpz*std::tan(ma),mpz*std::tan(mb),mpz};//momentum broken into three components
+  double mv[3];
+  mv[0]=mom[0]/mmass+mZ*(Efield[0]+(mom[1]*mB[2]-mom[2]*mB[1])/mmass)*dt/mmass;
+  mv[1]=mom[1]/mmass+mZ*(Efield[1]+(mom[2]*mB[0]-mom[0]*mB[2])/mmass)*dt/mmass;
+  mv[2]=mom[2]/mmass+mZ*(Efield[2]+(mom[0*mB[1]-mom[1]*mB[0])/mmass)*dt/mmass;
+
+
+  return pos_ang;
+}
 
 void BDCprojection(Int_t runNo = 3202, Int_t neve_max=30000000)
 {
-  //Parameters////////////
 
-  Double_t BDC1_z=-3160.;//mm, center of BDC1 z in magnet frame
-  Double_t BDC2_z=-2160.;//mm, center of BDC2 z in magnet frame
-  Double_t TGT_z=-593.1;//mm, desired projection plane in magnet frame
-
-  ////////////////////////
+  //Output file and Trees to write out
+  TFile *fout = new TFile(Form("./output/BDC/BDCout.%i.root",runNo),"recreate");
+  auto TGT_lin = new TTree("TGT_lin","TGT_lin");
+  auto TGT_mag = new TTree("TGT_mag","TGT_mag");
+  auto BDC = new TTree("BDC","BDC");
 
   TArtSAMURAIParameters *samurai_prm = new TArtSAMURAIParameters();
   samurai_prm->LoadParameter("db/SAMURAIBDC1.xml");
@@ -87,14 +127,56 @@ void BDCprojection(Int_t runNo = 3202, Int_t neve_max=30000000)
   auto cvs = new TCanvas("cvs", "", 1200, 500);
   cvs -> Divide(3, 1);
 
-  auto cvs3 = new TCanvas("cvs3", "", 1200, 500);
-  cvs3 -> Divide(3, 1);
+  auto cvs2 = new TCanvas("cvs2", "", 1200, 500);
+  cvs2 -> Divide(3, 1);
 
-  auto cvs4 = new TCanvas("cvs4", "", 1200, 500);
-  cvs4 -> Divide(3, 1);
 
 
   int neve = 0;
+  BDC -> Branch("neve",&neve);
+
+  Double_t TGT_x_0T=-9999; //mm
+  Double_t TGT_y_0T=-9999; //mm
+  Double_t TGT_a_0T=-999; //mrad
+  Double_t TGT_b_0T=-999; //mrad
+  Double_t TGT_px_0=-9999;//MeV/c
+  Double_t TGT_py_0T=-9999;//MeV/c
+  Double_t TGT_pz_0T=-9999;//MeV/c
+  Double_t TGT_x_0_5T=-9999; //mm
+  Double_t TGT_y_0_5T=-9999; //mm
+  Double_t TGT_a_0_5T=-999; //mrad
+  Double_t TGT_b_0_5T=-999; //mrad
+  Double_t TGT_px_0_5T=-9999;//MeV/c
+  Double_t TGT_py_0_5T=-9999;//MeV/c
+  Double_t TGT_pz_0_5T=-9999;//MeV/c
+
+  TGT_lin -> Branch("TGT_x_0T",&TGT_x_0T,"TGT_x_0T/D");
+  TGT_lin -> Branch("TGT_y_0T",&TGT_y_0T,"TGT_y_0T/D");
+  TGT_lin -> Branch("TGT_a_0T",&TGT_a_0T,"TGT_a_0T/D");
+  TGT_lin -> Branch("TGT_b_0T",&TGT_b_0T,"TGT_b_0T/D");
+  TGT_lin -> Branch("TGT_px_0T",&TGT_px_0T,"TGT_px_0T/D");
+  TGT_lin -> Branch("TGT_py_0T",&TGT_py_0T,"TGT_py_0T/D");
+  TGT_lin -> Branch("TGT_pz_0T",&TGT_pz_0T,"TGT_pz_0T/D");
+
+  TGT_mag -> Branch("TGT_x_0_5T",&TGT_x_0_5T,"TGT_x_0_5T/D");
+  TGT_mag -> Branch("TGT_y_0_5T",&TGT_y_0_5T,"TGT_y_0_5T/D");
+  TGT_mag -> Branch("TGT_a_0_5T",&TGT_a_0_5T,"TGT_a_0_5T/D");
+  TGT_mag -> Branch("TGT_b_0_5T",&TGT_b_0_5T,"TGT_b_0_5T/D");
+  TGT_mag -> Branch("TGT_px_0_5T",&TGT_px_0_5T,"TGT_px_0_5T/D");
+  TGT_mag -> Branch("TGT_py_0_5T",&TGT_py_0_5T,"TGT_py_0_5T/D");
+  TGT_mag -> Branch("TGT_pz_0_5T",&TGT_pz_0_5T,"TGT_pz_0_5T/D");
+
+  Double_t bdc1trax, bdc1tray;
+  Double_t bdc1trx=-9999.;
+  Double_t bdc1try=-9999.;
+  Double_t bdc2trax, bdc2tray;
+  Double_t bdc2trx=-9999.;
+  Double_t bdc2try=-9999.;
+  BDC -> Branch("bdc1trx",&bdc1trx,"bdc1trx/D");
+  BDC -> Branch("bdc1try",&bdc1trx,"bdc1try/D");
+  BDC -> Branch("bdc2trx",&bdc1trx,"bdc2trx/D");
+  BDC -> Branch("bdc2try",&bdc1trx,"bdc2try/D");
+
   while(estore->GetNextEvent() && neve<neve_max){
     if (neve%100==0){
       std::cout<<"\r event: "<<neve<<" / "
@@ -102,6 +184,15 @@ void BDCprojection(Int_t runNo = 3202, Int_t neve_max=30000000)
 	       <<" ("<<100.*neve/neve_max<<"%)"
 	       <<std::flush;
     }
+    bdc1trax=-999;
+    bdc1tray=-999;
+    bdc1trx=-9999.;
+    bdc1try=-9999.;
+    bdc2trax=-999;
+    bdc2tray=-999;
+    bdc2trx=-9999.;
+    bdc2try=-9999.;
+
     //----------------------------------------------------------
     // BDC1
     calibbdc1hit->ClearData();
@@ -115,8 +206,6 @@ void BDCprojection(Int_t runNo = 3202, Int_t neve_max=30000000)
       hbdc1idtdc->Fill(hit->GetID(), hit->GetTDC());
     }
 
-    Double_t bdc1trx, bdc1try, bdc1trax, bdc1tray;
-    Double_t bdc2trx, bdc2try, bdc2trax, bdc2tray;
 
     TClonesArray *bdc1trks = (TClonesArray *)sman->FindDataContainer("SAMURAIBDC1Track");
     if(bdc1trks){
@@ -199,23 +288,46 @@ void BDCprojection(Int_t runNo = 3202, Int_t neve_max=30000000)
 
     //----------------------------------------------------------
     // Target
+    TGT_x_0T=-9999; //mm
+    TGT_y_0T=-9999; //mm
+    TGT_a_0T=-999; //mrad
+    TGT_b_0T=-999; //mrad
+    TGT_px_0=-9999;//MeV/c
+    TGT_py_0T=-9999;//MeV/c
+    TGT_pz_0T=-9999;//MeV/c
+    TGT_x_0_5T=-9999; //mm
+    TGT_y_0_5T=-9999; //mm
+    TGT_a_0_5T=-999; //mrad
+    TGT_b_0_5T=-999; //mrad
+    TGT_px_0_5T=-9999;//MeV/c
+    TGT_py_0_5T=-9999;//MeV/c
+    TGT_pz_0_5T=-9999;//MeV/c
 
 
 
     Double_t dist_BDCs = BDC2_z-BDC1_z; //mm
     Double_t dist_BDC1_TGT = TGT_z-BDC1_z; //mm
     //produce linear projection
-    Double_t TGT_x_0T=( bdc2trx-bdc1trx )/dist_BDCs*dist_BDC1_TGT + bdc1trx; //mm
-    Double_t TGT_y_0T=( bdc2try-bdc1try )/dist_BDCs*dist_BDC1_TGT + bdc1try; //mm
-    Double_t TGT_a_0T=atan(( bdc2trx-bdc1trx )/dist_BDCs)*1000.; //mrad
-    Double_t TGT_b_0T=atan(( bdc2try-bdc1try )/dist_BDCs)*1000.; //mrad
+    if(bdc1trks && bdc2trks){
 
-    if( bdc1trx>-1000 && bdc1try>-1000 && bdc2trx>-1000 && bdc2try>-1000){
-      htgt2xy0T -> Fill(TGT_x_0T,TGT_y_0T); // mm
-      htgt2xa0T -> Fill(TGT_x_0T,TGT_a_0T); //mrad
-      htgt2yb0T -> Fill(TGT_y_0T,TGT_b_0T); //mrad
+      if( bdc1trx>-1000 && bdc1try>-1000 && bdc2trx>-1000 && bdc2try>-1000){
+	TGT_x_0T=( bdc2trx-bdc1trx )/dist_BDCs*dist_BDC1_TGT + bdc1trx; //mm
+	TGT_y_0T=( bdc2try-bdc1try )/dist_BDCs*dist_BDC1_TGT + bdc1try; //mm
+	TGT_a_0T=atan(( bdc2trx-bdc1trx )/dist_BDCs)*1000.; //mrad
+	TGT_b_0T=atan(( bdc2try-bdc1try )/dist_BDCs)*1000.; //mrad
+	htgt2xy0T -> Fill(TGT_x_0T,TGT_y_0T); // mm
+	htgt2xa0T -> Fill(TGT_x_0T,TGT_a_0T); //mrad
+	htgt2yb0T -> Fill(TGT_y_0T,TGT_b_0T); //mrad
+	//magnetic field inclusion
+
+      }
+
     }
 
+    TGT_lin -> Fill();
+    TGT_mag -> Fill();
+    BDC -> Fill();
+    //move to next event
     estore->ClearData();
     ++neve;
 
@@ -230,45 +342,7 @@ void BDCprojection(Int_t runNo = 3202, Int_t neve_max=30000000)
 
   cvs -> cd(3);
   htgt2yb0T -> Draw("colz");
-
-  cvs3->cd(1);
-  hbdc1xy->Draw("colz");
-
-  cvs3->cd(2);
-  hbdc1xa->Draw("colz");
-
-  cvs3->cd(3);
-  hbdc1yb->Draw("colz");
-
-  cvs4->cd(1);
-  hbdc2xy->Draw("colz");
-
-  cvs4->cd(2);
-  hbdc2xa->Draw("colz");
-
-  cvs4->cd(3);
-  hbdc2yb->Draw("colz");
-
-  TCanvas *cvs2 = new TCanvas("cvs2", "", 800, 400);
-  cvs2 -> Divide(2, 1);
-
-  TH1D *projX = ((TH2D *) htgt2xy0T) -> ProjectionX();
-  TH1D *projY = ((TH2D *) htgt2xy0T) -> ProjectionY();
-
-  cvs2 -> cd(1);
-  projX -> Draw();
-  projX -> Fit("gaus");
-  Double_t mean = projX -> GetFunction("gaus") -> GetParameter(1);
-  projX -> GetXaxis() -> SetRangeUser(mean - 30, mean + 30);
-  cvs2 -> cd(2);
-  projY -> Draw();
-  projY -> Fit("gaus");
-  mean = projY -> GetFunction("gaus") -> GetParameter(1);
-  projY -> GetXaxis() -> SetRangeUser(mean - 30, mean + 30);
-
-  cvs -> SaveAs(Form("figures/beam_%04d.png", runNo));
-  cvs2 -> SaveAs(Form("figures/beam_proj_%04d.png", runNo));
-
-
+  fout -> Write();
+  
   return;
 }
