@@ -4,8 +4,23 @@
 Double_t BDC1_z=-3160.;//mm, center of BDC1 z in magnet frame
 Double_t BDC2_z=-2160.;//mm, center of BDC2 z in magnet frame
 Double_t TGT_z=-593.1;//mm, desired projection plane in magnet frame
-
-
+Double_t dist_BDCs = BDC2_z-BDC1_z; //mm
+Double_t dist_BDC1_TGT = TGT_z-BDC1_z; //mm
+Double_t pi = 3.14159;
+Double_t *MagStep(Double_t Mdz,Double_t MBrho,Double_t MB,Double_t Ma){
+  Double_t Arr[8]={-9999.,-9999.};//output:dx, a2
+  if(abs(MB)>0.){
+    Double_t Mrho=MBrho/MB;
+    Double_t z_norm= Mdz/Mrho;
+    Arr[0]=Mdz*(1.-2.*std::sin(Ma/1000.));//dx
+    Arr[1]=pi*(std::sin(Ma/1000.)-1.)*z_norm/2.;//a2
+  }
+  else(){
+    Arr[0]=std::tan(Ma)*Mdz;
+    Arr[1]=Ma;
+  }
+  return Arr;
+}
 void BDCprojection(Int_t runNo = 3202, Int_t neve_max=30000000)
 {
 
@@ -269,9 +284,6 @@ void BDCprojection(Int_t runNo = 3202, Int_t neve_max=30000000)
     TGT_pz_0_5T=-9999;//MeV/c
 
 
-
-    Double_t dist_BDCs = BDC2_z-BDC1_z; //mm
-    Double_t dist_BDC1_TGT = TGT_z-BDC1_z; //mm
     //produce linear projection
     if(bdc1trks && bdc2trks){
 
