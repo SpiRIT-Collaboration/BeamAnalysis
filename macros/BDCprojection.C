@@ -4,42 +4,7 @@
 Double_t BDC1_z=-3160.;//mm, center of BDC1 z in magnet frame
 Double_t BDC2_z=-2160.;//mm, center of BDC2 z in magnet frame
 Double_t TGT_z=-593.1;//mm, desired projection plane in magnet frame
-Double_t B_Field= 0.5; //Tesla
-//temporary parameters, eventually to be included from ridf files. For now, assume every particle matches these parameters (not true)
-Double_t brho=6.95; //T*m
-Double_t beta=0.647;//dimensionless
-Double_t Z = 50.;
-Double_t AoQ = 2.64;
-Double_t mp = 1.66053886e-27; //mass proton in kg
-Double_t mass = Z*AoQ*mp;//mass in kg
-Double_t c = 2.99e8;//m/s**2
-Double_t dt = 1.e-5;//time step in seconds
-////////////////////////
-double * getBfield(double bx, double by, double bz){//return the magnetic field. Temporarily returns a static field
-  static double Bfield[3]={0.,0.,0.};
-  if (std::sqrt(bx**2 + bz**2) < 1000.){
-    Bfield[0]=0.;
-    Bfield[1]=0.5;
-    Bfield[2]-0.;
-  }
-  return Bfield;
-}
 
-double * next_step(double mx, double my, double mz, double ma, double mb, double mE, double mmass, double mZ){
-  static double pos_ang[6]={mx,my,mz,ma,mb,mE};
-  double Efield[3]={0.,0.,0,};
-  double mB=getBfield(mx,my,mz);
-  double mp = std::sqrt(mE**2-(mmass*c**2)**2)/c;//calculate momentum from energy and mass
-  double mpz = mp/std::sqrt(1+std::tan(ma)**2+std::tan(mb)**2);//z component of momentum
-  double mom[3]={mpz*std::tan(ma),mpz*std::tan(mb),mpz};//momentum broken into three components
-  double mv[3];
-  mv[0]=mom[0]/mmass+mZ*(Efield[0]+(mom[1]*mB[2]-mom[2]*mB[1])/mmass)*dt/mmass;
-  mv[1]=mom[1]/mmass+mZ*(Efield[1]+(mom[2]*mB[0]-mom[0]*mB[2])/mmass)*dt/mmass;
-  mv[2]=mom[2]/mmass+mZ*(Efield[2]+(mom[0*mB[1]-mom[1]*mB[0])/mmass)*dt/mmass;
-
-
-  return pos_ang;
-}
 
 void BDCprojection(Int_t runNo = 3202, Int_t neve_max=30000000)
 {
@@ -343,6 +308,6 @@ void BDCprojection(Int_t runNo = 3202, Int_t neve_max=30000000)
   cvs -> cd(3);
   htgt2yb0T -> Draw("colz");
   fout -> Write();
-  
+
   return;
 }
