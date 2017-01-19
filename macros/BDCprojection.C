@@ -21,9 +21,9 @@ Double_t *MagStep(Double_t Mdz,Double_t MBrho,Double_t MB,Double_t Ma){
   }
   return Arr;
 }
-Double_t GetBField(Double_t x, Double_t y, Double_t z){//Simple estimate 
+Double_t GetBField(Double_t x, Double_t y, Double_t z){//Simple estimate
   Double_t By=0.;
-  if(x**2+z**2<1500.**2){
+  if( (x*x+z*z) < 1500.*1500. ){
     By=0.5;
   }
   return By;
@@ -318,17 +318,18 @@ void BDCprojection(Int_t runNo = 3202, Int_t neve_max=30000000)
 
       if( bdc1trx>-1000 && bdc1try>-1000 && bdc2trx>-1000 && bdc2try>-1000){
 	TGT_x_0T=( bdc2trx-bdc1trx )/dist_BDCs*dist_BDC1_TGT + bdc1trx; //mm
-	TGT_y_0T=( bdc2try-bdc1try )/dist_BDCs*dist_BDC1_TGT + bdc1try; //mm
-	TGT_a_0T=atan(( bdc2trx-bdc1trx )/dist_BDCs)*1000.; //mrad
-	TGT_b_0T=atan(( bdc2try-bdc1try )/dist_BDCs)*1000.; //mrad
-	htgt2xy0T -> Fill(TGT_x_0T,TGT_y_0T); // mm
-	htgt2xa0T -> Fill(TGT_x_0T,TGT_a_0T); //mrad
-	htgt2yb0T -> Fill(TGT_y_0T,TGT_b_0T); //mrad
-	//magnetic field inclusion
-	TGT_x_0_5T=Step(bdc2trx,bdc2try,7.,TGT_a_0T,TGT_b_0T)[0];
-	TGT_y_0_5T=Step(bdc2trx,bdc2try,7.,TGT_a_0T,TGT_b_0T)[1];
-	TGT_a_0_5T=Step(bdc2trx,bdc2try,7.,TGT_a_0T,TGT_b_0T)[3];
-	TGT_b_0_5T=Step(bdc2trx,bdc2try,7.,TGT_a_0T,TGT_b_0T)[4];
+  	TGT_y_0T=( bdc2try-bdc1try )/dist_BDCs*dist_BDC1_TGT + bdc1try; //mm
+  	TGT_a_0T=atan(( bdc2trx-bdc1trx )/dist_BDCs)*1000.; //mrad
+  	TGT_b_0T=atan(( bdc2try-bdc1try )/dist_BDCs)*1000.; //mrad
+  	htgt2xy0T -> Fill(TGT_x_0T,TGT_y_0T); // mm
+  	htgt2xa0T -> Fill(TGT_x_0T,TGT_a_0T); //mrad
+  	htgt2yb0T -> Fill(TGT_y_0T,TGT_b_0T); //mrad
+  	//magnetic field inclusion
+  	TGT_x_0_5T=Step(bdc2trx,bdc2try,7.,TGT_a_0T,TGT_b_0T)[0];
+  	TGT_y_0_5T=Step(bdc2trx,bdc2try,7.,TGT_a_0T,TGT_b_0T)[1];
+  	TGT_a_0_5T=Step(bdc2trx,bdc2try,7.,TGT_a_0T,TGT_b_0T)[3];
+  	TGT_b_0_5T=Step(bdc2trx,bdc2try,7.,TGT_a_0T,TGT_b_0T)[4];
+    if( abs(TGT_x_0_5T)>10000) TGT_x_0_5T=-9999;
       }
 
     }
