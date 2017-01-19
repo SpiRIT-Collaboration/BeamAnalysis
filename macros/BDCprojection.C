@@ -16,7 +16,7 @@ Double_t *MagStep(Double_t Mdz,Double_t MBrho,Double_t MB,Double_t Ma){
     Arr[1]=pi*(std::sin(Ma/1000.)-1.)*z_norm/2.*1000;//a2
   }
   else{
-    Arr[0]=std::tan(Ma)*Mdz;
+    Arr[0]=std::tan(Ma/1000)*Mdz;
     Arr[1]=Ma;
   }
   return Arr;
