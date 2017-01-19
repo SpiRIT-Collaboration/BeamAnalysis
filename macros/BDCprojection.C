@@ -10,7 +10,7 @@ Double_t pi = 3.14159;
 Double_t *MagStep(Double_t Mdz,Double_t MBrho,Double_t MB,Double_t Ma){
   Double_t static Arr[2]={-9999.,-9999.};//output:dx, a2
   if(abs(MB)>0.){
-    Double_t Mrho=MBrho/MB;
+    Double_t Mrho=MBrho/MB*1000.;
     Double_t z_norm= Mdz/Mrho;
     Arr[0]=Mdz*(1.-2.*std::sin(Ma/1000.));//dx
     Arr[1]=pi*(std::sin(Ma/1000.)-1.)*z_norm/2.;//a2
