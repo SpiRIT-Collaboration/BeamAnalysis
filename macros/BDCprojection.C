@@ -8,12 +8,12 @@ Double_t dist_BDCs = BDC2_z-BDC1_z; //mm
 Double_t dist_BDC1_TGT = TGT_z-BDC1_z; //mm
 Double_t pi = 3.14159;
 Double_t *MagStep(Double_t Mdz,Double_t MBrho,Double_t MB,Double_t Ma){
-  Double_t static Arr[2]={-9999.,-9999.};//output:dx, a2
+  //only for positive charge in +y magnetic field
+  Double_t static Arr[2];//output:dx, a2
   if(abs(MB)>0.){
     Double_t Mrho=MBrho/MB*1000.;
-    Double_t z_norm= Mdz/Mrho;
-    Arr[0]=Mdz*(1.-2.*std::sin(Ma/1000.));//dx
-    Arr[1]=pi*(std::sin(Ma/1000.)-1.)*z_norm/2.*1000;//a2
+    Arr[0]=Mrho-std::sqrt(Mrho*Mrho-Mdz*Mdz)+Mdz*std::sin(Ma/1000.);//dx
+    Arr[1]=std::asin(Mdz/Mrho)*1000.+Ma;//a2
   }
   else{
     Arr[0]=std::tan(Ma/1000)*Mdz;
@@ -23,7 +23,7 @@ Double_t *MagStep(Double_t Mdz,Double_t MBrho,Double_t MB,Double_t Ma){
 }
 Double_t GetBField(Double_t x, Double_t y, Double_t z){//Simple estimate
   Double_t By=0.;
-  if( (x*x+z*z) < 1500.*1500. ){
+  if( (x*x+z*z) < 1000.*1000. ){
     By=0.5;
   }
   return By;
