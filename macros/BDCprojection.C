@@ -35,7 +35,7 @@ Double_t *Step(Double_t sx, Double_t sy, Double_t sBrho, Double_t sa, Double_t s
   //start at BDC2, project up to the target
   //simple version, for testing only
   FieldMan *field = few FieldMan();
-  field.SetFileName("/mnt/spirit/analysis/barneyj/Bmap.bin");
+  field->SetFileName("/mnt/spirit/analysis/barneyj/Bmap.bin");
   field->Initialize(0.5);
   Double_t static pos[5];
   Double_t dz=10.;
