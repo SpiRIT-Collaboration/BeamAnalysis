@@ -12,7 +12,7 @@ Double_t *MagStep(Double_t Mdz,Double_t MBrho,Double_t MB,Double_t Ma){
   Double_t static Arr[2];//output:dx, a2
   if(abs(MB)>0.){
     Double_t Mrho=MBrho/MB*1000.;
-    Arr[0]=Mrho-std::sqrt(Mrho*Mrho-Mdz*Mdz)-Mdz*std::sin(Ma/1000.);//dx
+    Arr[0]=Mrho-std::sqrt(Mrho*Mrho-Mdz*Mdz)+Mdz*std::sin(Ma/1000.);//dx
     Arr[1]=std::asin(Mdz/Mrho)*1000.+Ma;//a2
   }
   else{
@@ -23,7 +23,7 @@ Double_t *MagStep(Double_t Mdz,Double_t MBrho,Double_t MB,Double_t Ma){
 }
 Double_t GetBField(Double_t x, Double_t y, Double_t z){//Simple estimate
   Double_t By=0.;
-  if( (x*x+z*z) < 2000.*2000. ){
+  if( (x*x+z*z) < 1500.*1500. ){
     By=0.5;
   }
   return By;
