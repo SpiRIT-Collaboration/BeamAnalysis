@@ -130,6 +130,10 @@ void BDCprojection(Int_t runNo = 3202, Int_t neve_max=30000000)
   TH1* htgt2xa0T = new TH2D("htgt2xa0T", "TGT XA; x (mm); x' (mrad)",200,-100,100, 200, -100, 100); // angle: mrad
   TH1* htgt2yb0T = new TH2D("htgt2yb0T", "TGT YB; y (mm); y' (mrad)",200,-100,100, 200, -100, 100); // angle: mrad
 
+  TH1* htgt2xy0_5T = new TH2D("htgt2xy0_5T", "TGT XY; x (mm); y (mm)",200,-100,100, 200,-100,100); // mm
+  TH1* htgt2xa0_5T = new TH2D("htgt2xa0T_5", "TGT XA; x (mm); x' (mrad)",200,-100,100, 200, -100, 100); // angle: mrad
+  TH1* htgt2yb0_5T = new TH2D("htgt2yb0T_5", "TGT YB; y (mm); y' (mrad)",200,-100,100, 200, -100, 100); // angle: mrad
+
 
   TArtStoreManager *sman = TArtStoreManager::Instance();
 
@@ -330,6 +334,9 @@ void BDCprojection(Int_t runNo = 3202, Int_t neve_max=30000000)
   	TGT_a_0_5T=Step(bdc2trx,bdc2try,7.,TGT_a_0T,TGT_b_0T)[3];
   	TGT_b_0_5T=Step(bdc2trx,bdc2try,7.,TGT_a_0T,TGT_b_0T)[4];
     if( abs(TGT_x_0_5T)>10000) TGT_x_0_5T=-9999;
+    htgt2xy0_5T -> Fill(TGT_x_0_5T,TGT_y_0_5T); // mm
+  	htgt2xa0_5T -> Fill(TGT_x_0_5T,TGT_a_0_5T); //mrad
+  	htgt2yb0_5T -> Fill(TGT_y_0_5T,TGT_b_0_5T); //mrad
       }
 
     }
@@ -352,6 +359,15 @@ void BDCprojection(Int_t runNo = 3202, Int_t neve_max=30000000)
 
   cvs -> cd(3);
   htgt2yb0T -> Draw("colz");
+
+  cvs2 -> cd(1);
+  htgt2xy0_5T -> Draw("colz");
+
+  cvs2 -> cd(2);
+  htgt2xa0_5T -> Draw("colz");
+
+  cvs2 -> cd(3);
+  htgt2yb0_5T -> Draw("colz");
 
 
   fout->cd();
