@@ -1,3 +1,5 @@
+#include <FieldMan.hh>
+
 //macro to asses BDC information. Starting point.
 //Parameters////////////
 
@@ -22,6 +24,7 @@ Double_t *MagStep(Double_t Mdz,Double_t MBrho,Double_t MB,Double_t Ma){
   return Arr;
 }
 Double_t GetBField(Double_t x, Double_t y, Double_t z){//Simple estimate
+
   Double_t By=0.;
   if( (x*x+z*z) < 1500.*1500. ){
     By=0.5;
@@ -31,6 +34,9 @@ Double_t GetBField(Double_t x, Double_t y, Double_t z){//Simple estimate
 Double_t *Step(Double_t sx, Double_t sy, Double_t sBrho, Double_t sa, Double_t sb){
   //start at BDC2, project up to the target
   //simple version, for testing only
+  FieldMan *field = few FieldMan();
+  field.SetFileName("/mnt/spirit/analysis/barneyj/Bmap.bin");
+  field->Initialize(0.5);
   Double_t static pos[5];
   Double_t dz=10.;
   Double_t sz=BDC2_z;
