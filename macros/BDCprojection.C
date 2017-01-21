@@ -35,6 +35,8 @@ Double_t GetBField(Double_t x, Double_t y, Double_t z){//Simple estimate
 Double_t *Step(Double_t sx, Double_t sy, Double_t sBrho, Double_t sa, Double_t sb){
   //start at BDC2, project up to the target
   //simple version, for testing only
+  FieldMan *field = FieldMan::GetInstance();
+  field->SetFileName("/mnt/spirit/analysis/barneyj/Bmap.bin");
   Double_t static pos[5];
   Double_t dz=10.;
   Double_t sz=BDC2_z;
