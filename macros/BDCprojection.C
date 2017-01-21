@@ -2,8 +2,8 @@
 
 //macro to asses BDC information. Starting point.
 //Parameters////////////
-FieldMan *field = new FieldMan();
-field->SetFileName("/mnt/spirit/analysis/barneyj/Bmap.bin");
+//FieldMan *field = new FieldMan();
+//field->SetFileName("/mnt/spirit/analysis/barneyj/Bmap.bin");
 Double_t BDC1_z=-3160.;//mm, center of BDC1 z in magnet frame
 Double_t BDC2_z=-2160.;//mm, center of BDC2 z in magnet frame
 Double_t TGT_z=-593.1;//mm, desired projection plane in magnet frame
