@@ -32,6 +32,8 @@ Double_t *MagStep(Double_t Mdz,Double_t MBrho,Double_t MB,Double_t Ma){
   return Arr;
 }
 Double_t GetBField(Double_t x, Double_t y, Double_t z){//Simple estimate
+  FieldMan & mfield = FieldMan::GetInstance();
+  mfield.SetFileName("/mnt/spirit/analysis/barneyj/Bmap.bin");
   Double_t By=0.;
   TVector3 v1(0,0,0);
   TVector3 vec =mfield.GetField(v1);
