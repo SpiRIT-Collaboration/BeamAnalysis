@@ -375,8 +375,8 @@ void BDCprojection(Int_t runNo = 3202, Int_t neve_max=30000000)
 
 
 
-  	TGT_x_0_5T=x//Step(bdc2trx,bdc2try,7.,TGT_a_0T,TGT_b_0T)[0];
-  	TGT_y_0_5T=y//Step(bdc2trx,bdc2try,7.,TGT_a_0T,TGT_b_0T)[1];
+  	TGT_x_0_5T=x;
+  	TGT_y_0_5T=y;
 
 
     if( abs(TGT_x_0_5T)>10000) TGT_x_0_5T=-9999;
