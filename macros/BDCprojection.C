@@ -357,7 +357,7 @@ void BDCprojection(Int_t runNo = 3202, Int_t neve_max=30000000)
     Double_t B;
     Double_t Brho=7;//this is to be determined event by event in coming versions
     x=bdc2trx;
-    y=bdc2try+(dist_BDC1_TGT-dist_BDCs)*std::tan(sb/1000.);
+    y=bdc2try+(dist_BDC1_TGT-dist_BDCs)*std::tan(TGT_b_0T/1000.);
     z=BDC2_z;
     TGT_a_0_5T=TGT_a_0T;
     TGT_b_0_5T=TGT_b_0T;
@@ -375,10 +375,10 @@ void BDCprojection(Int_t runNo = 3202, Int_t neve_max=30000000)
 
 
 
-  	TGT_x_0_5T=Step(bdc2trx,bdc2try,7.,TGT_a_0T,TGT_b_0T)[0];
-  	TGT_y_0_5T=Step(bdc2trx,bdc2try,7.,TGT_a_0T,TGT_b_0T)[1];
-  	TGT_a_0_5T=Step(bdc2trx,bdc2try,7.,TGT_a_0T,TGT_b_0T)[3];
-  	TGT_b_0_5T=Step(bdc2trx,bdc2try,7.,TGT_a_0T,TGT_b_0T)[4];
+  	TGT_x_0_5T=x//Step(bdc2trx,bdc2try,7.,TGT_a_0T,TGT_b_0T)[0];
+  	TGT_y_0_5T=y//Step(bdc2trx,bdc2try,7.,TGT_a_0T,TGT_b_0T)[1];
+
+
     if( abs(TGT_x_0_5T)>10000) TGT_x_0_5T=-9999;
     htgt2xy0_5T -> Fill(TGT_x_0_5T,TGT_y_0_5T); // mm
   	htgt2xa0_5T -> Fill(TGT_x_0_5T,TGT_a_0_5T); //mrad
