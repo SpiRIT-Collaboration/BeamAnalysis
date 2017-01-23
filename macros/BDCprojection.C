@@ -340,7 +340,8 @@ void BDCprojection(Int_t runNo = 3202, Int_t neve_max=30000000)
 
   	TGT_x_0_5T=x;
   	TGT_y_0_5T=y;
-
+    TGT_a_0_5T=a;
+    TGT_b_0_5T=b;
 
     if( abs(TGT_x_0_5T)>10000) TGT_x_0_5T=-9999;
     htgt2xy0_5T -> Fill(TGT_x_0_5T,TGT_y_0_5T); // mm
