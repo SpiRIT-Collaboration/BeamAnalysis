@@ -17,10 +17,6 @@ Double_t *MagStep(Double_t Mdz,Double_t MBrho,Double_t MB,Double_t Ma){
   //only for positive charge in +y magnetic field
   Double_t static Arr[2];//output:dx, a2
   if(abs(MB)>0.){
-    FieldMan & mfield = FieldMan::GetInstance();
-    mfield.SetFileName("/mnt/spirit/analysis/barneyj/Bmap.bin");
-    mfield.Initialize(0.5);
-    
     Double_t Mrho=MBrho/MB*1000.;
     Arr[0]=Mrho-std::sqrt(Mrho*Mrho-Mdz*Mdz)-Mdz*std::sin(Ma/1000.);//dx
     Arr[1]=std::asin(Mdz/Mrho)*1000.+Ma;//a2
@@ -34,6 +30,11 @@ Double_t *MagStep(Double_t Mdz,Double_t MBrho,Double_t MB,Double_t Ma){
 Double_t GetBField(Double_t x, Double_t y, Double_t z){//Simple estimate
   FieldMan & mfield = FieldMan::GetInstance();
   mfield.SetFileName("/mnt/spirit/analysis/barneyj/Bmap.bin");
+  mfield.Initialize(0.5);
+
+  
+  //FieldMan & mfield = FieldMan::GetInstance();
+  //mfield.SetFileName("/mnt/spirit/analysis/barneyj/Bmap.bin");
   Double_t By=0.;
   TVector3 v1(0,0,0);
   TVector3 vec =mfield.GetField(v1);
