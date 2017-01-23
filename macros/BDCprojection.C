@@ -13,7 +13,7 @@ Double_t TGT_z=-593.1;//mm, desired projection plane in magnet frame
 Double_t dist_BDCs = BDC2_z-BDC1_z; //mm
 Double_t dist_BDC1_TGT = TGT_z-BDC1_z; //mm
 Double_t pi = 3.14159;
-Double_t dz=10.;
+Double_t dz=1.;
 
 
 
@@ -367,7 +367,7 @@ void BDCprojection(Int_t runNo = 3202, Int_t neve_max=30000000)
     while(z<TGT_z){
       v1.SetXYZ(x,y,z);
       TVector3 vec=mfield.GetField(v1);
-      B=vec(2);
+      B=vec.Y();
       x=x+MagStep(dz,Brho,B,TGT_a_0_5T)[0];
       TGT_a_0_5T=MagStep(dz,Brho,B,TGT_a_0_5T)[1];
       z=z+dz;
