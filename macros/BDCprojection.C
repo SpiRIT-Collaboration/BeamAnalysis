@@ -321,16 +321,14 @@ void BDCprojection(Int_t runNo = 3202, Int_t neve_max=30000000)
     z=BDC2_z;
     a=TGT_a_0T;
     b=TGT_b_0T;
-
+    TVector3 v1(x/10.,y/10.,z/10.);
+    TVector3 vec=mfield.GetField(v1);
 
 
     while(z<TGT_z){
-      //std::cout << neve << endl;
-      mfield.Initialize(0.5);
-      TVector3 v1(x,y,z);
-      TVector3 vec=mfield.GetField(v1);
+      v1.SetXYZ(x/10.,y/10.,z/10.);
+      vec=mfield.GetField(v1);
       B=vec(2);
-      //std::cout << B << "," << x << "," << y << "," << z <<endl;
       x=x+MagStep(dz,Brho,B,a)[0];
       a=MagStep(dz,Brho,B,a)[1];
       z=z+dz;
