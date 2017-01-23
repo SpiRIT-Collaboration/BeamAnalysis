@@ -353,14 +353,14 @@ void BDCprojection(Int_t runNo = 3202, Int_t neve_max=30000000)
   	htgt2yb0T -> Fill(TGT_y_0T,TGT_b_0T); //mrad
   	//magnetic field inclusion
 
-    Double_t x,y,z;
+    Double_t x,y,z,a,b;
     Double_t B;
     Double_t Brho=7;//this is to be determined event by event in coming versions
     x=bdc2trx;
     y=bdc2try+(dist_BDC1_TGT-dist_BDCs)*std::tan(TGT_b_0T/1000.);
     z=BDC2_z;
-    TGT_a_0_5T=TGT_a_0T;
-    TGT_b_0_5T=TGT_b_0T;
+    a=TGT_a_0T;
+    b=TGT_b_0T;
 
     TVector3 v1(x,y,z);
 
@@ -368,8 +368,8 @@ void BDCprojection(Int_t runNo = 3202, Int_t neve_max=30000000)
       v1.SetXYZ(x,y,z);
       TVector3 vec=mfield.GetField(v1);
       B=vec.Y();
-      x=x+MagStep(dz,Brho,B,TGT_a_0_5T)[0];
-      TGT_a_0_5T=MagStep(dz,Brho,B,TGT_a_0_5T)[1];
+      x=x+MagStep(dz,Brho,B,a)[0];
+      a=MagStep(dz,Brho,B,a)[1];
       z=z+dz;
     }
 
