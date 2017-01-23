@@ -13,10 +13,7 @@ Double_t TGT_z=-593.1;//mm, desired projection plane in magnet frame
 Double_t dist_BDCs = BDC2_z-BDC1_z; //mm
 Double_t dist_BDC1_TGT = TGT_z-BDC1_z; //mm
 Double_t pi = 3.14159;
-Double_t dz=1.;
-
-
-
+Double_t dz=10.;
 
 
 Double_t *MagStep(Double_t Mdz,Double_t MBrho,Double_t MB,Double_t Ma){
@@ -33,44 +30,7 @@ Double_t *MagStep(Double_t Mdz,Double_t MBrho,Double_t MB,Double_t Ma){
   }
   return Arr;
 }
-/*Double_t GetBField(Double_t x, Double_t y, Double_t z){//Simple estimate
-  Double_t By=0.;
-  TVector3 v1(x,y,z);
-  TVector3 vec =mfield.GetField(v1);
-  By=vec(2);
-  return By;
-  }
-Double_t *Step(Double_t sx, Double_t sy, Double_t sBrho, Double_t sa, Double_t sb, Double_t By){
-  //start at BDC2, project up to the target
-  //simple version, for testing only
-  FieldMan & mfield = FieldMan::GetInstance();
-  mfield.SetFileName("/mnt/spirit/analysis/barneyj/Bmap.bin");
-  mfield.Initialize(0.5);
 
-
-  Double_t static pos[5];
-  Double_t dz=10.;
-  Double_t sz=BDC2_z;
-  Double_t B;
-  sy=sy+(dist_BDC1_TGT-dist_BDCs)*std::tan(sb/1000.);
-  TVector3 v1(sx,sy,sz);
-
-  while(sz<TGT_z){
-    v1.SetXYZ(sx,sy,sz);
-    TVector3 vec =mfield.GetField(v1);
-    B=vec(2);
-    sx=sx+MagStep(dz,sBrho,By,sa)[0];
-    sa=MagStep(dz,sBrho,By,sa)[1];
-    sz=sz+dz;
-  }
-  pos[0]=sx;
-  pos[1]=sy;
-  pos[2]=sz;
-  pos[3]=sa;
-  pos[4]=sb;
-  return pos;
-}
-*/
 void BDCprojection(Int_t runNo = 3202, Int_t neve_max=30000000)
 {
   FieldMan & mfield = FieldMan::GetInstance();
@@ -355,7 +315,7 @@ void BDCprojection(Int_t runNo = 3202, Int_t neve_max=30000000)
 
     Double_t x,y,z,a,b;
     Double_t B;
-    Double_t Brho=7;//this is to be determined event by event in coming versions
+    Double_t Brho=7.;//this is to be determined event by event in coming versions
     x=bdc2trx;
     y=bdc2try+(dist_BDC1_TGT-dist_BDCs)*std::tan(TGT_b_0T/1000.);
     z=BDC2_z;
