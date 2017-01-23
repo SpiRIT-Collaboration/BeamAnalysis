@@ -40,13 +40,15 @@ Double_t *Step(Double_t sx, Double_t sy, Double_t sBrho, Double_t sa, Double_t s
   FieldMan & mfield = FieldMan::GetInstance();
   mfield.SetFileName("/mnt/spirit/analysis/barneyj/Bmap.bin");
   mfield.Initialize(0.5);
-  TVector3 v1(sx,sy,sz);
+  
 
   Double_t static pos[5];
   Double_t dz=10.;
   Double_t sz=BDC2_z;
   Double_t B;
   sy=sy+(dist_BDC1_TGT-dist_BDCs)*std::tan(sb/1000.);
+  TVector3 v1(sx,sy,sz);
+  
   while(sz<TGT_z){
     v1.SetXYZ(sx,sy,sz);
     TVector3 vec =mfield.GetField(v1);
