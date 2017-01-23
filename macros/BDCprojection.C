@@ -1,9 +1,13 @@
 #include <FieldMan.hh>
 
 //macro to asses BDC information. Starting point.
-//Parameters////////////
-//FieldMan *field = new FieldMan();
-//field->SetFileName("/mnt/spirit/analysis/barneyj/Bmap.bin");
+
+//initialize magnetic field
+Double_t Bstr[1]={0.5};
+FieldMan & mfield = FieldMan::GetInstance();
+mfield.SetFileName("/mnt/spirit/analysis/barneyj/Bmap.bin");
+mfield.Initialize(0.5);
+//parameters
 Double_t BDC1_z=-3160.;//mm, center of BDC1 z in magnet frame
 Double_t BDC2_z=-2160.;//mm, center of BDC2 z in magnet frame
 Double_t TGT_z=-593.1;//mm, desired projection plane in magnet frame
@@ -25,11 +29,10 @@ Double_t *MagStep(Double_t Mdz,Double_t MBrho,Double_t MB,Double_t Ma){
   return Arr;
 }
 Double_t GetBField(Double_t x, Double_t y, Double_t z){//Simple estimate
-
   Double_t By=0.;
-  if( (x*x+z*z) < 1500.*1500. ){
-    By=0.5;
-  }
+  TVector3 v1(0,0,0);
+  TVector3 vec =mfield.GetField(v1);
+  By=vec(2);
   return By;
 }
 Double_t *Step(Double_t sx, Double_t sy, Double_t sBrho, Double_t sa, Double_t sb){
