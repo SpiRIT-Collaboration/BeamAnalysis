@@ -3,6 +3,10 @@
 //macro to asses BDC information. Starting point.
 
 //initialize magnetic field
+FieldMan & mfield = FieldMan::GetInstance();
+mfield.SetFileName("/mnt/spirit/analysis/barneyj/Bmap.bin");
+mfield.Initialize(0.5);
+
 //FieldMan & mfield = FieldMan::GetInstance();
 //mfield.SetFileName("/mnt/spirit/analysis/barneyj/Bmap.bin");
 //mfield.Initialize(0.5);
@@ -28,13 +32,10 @@ Double_t *MagStep(Double_t Mdz,Double_t MBrho,Double_t MB,Double_t Ma){
   return Arr;
 }
 Double_t GetBField(Double_t x, Double_t y, Double_t z){//Simple estimate
-  FieldMan & mfield = FieldMan::GetInstance();
-  mfield.SetFileName("/mnt/spirit/analysis/barneyj/Bmap.bin");
-  mfield.Initialize(0.5);
   Double_t By=0.;
-  TVector3 v1(0,0,0);
+  TVector3 v1(x,y,z);
   TVector3 vec =mfield.GetField(v1);
-  //By=vec(2);
+  By=vec(2);
   return By;
 }
 Double_t *Step(Double_t sx, Double_t sy, Double_t sBrho, Double_t sa, Double_t sb){
