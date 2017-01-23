@@ -3,10 +3,6 @@
 //macro to asses BDC information. Starting point.
 
 //initialize magnetic field
-FieldMan & mfield = FieldMan::GetInstance();
-mfield.SetFileName("/mnt/spirit/analysis/barneyj/Bmap.bin");
-mfield.Initialize(0.5);
-
 //FieldMan & mfield = FieldMan::GetInstance();
 //mfield.SetFileName("/mnt/spirit/analysis/barneyj/Bmap.bin");
 //mfield.Initialize(0.5);
@@ -31,23 +27,30 @@ Double_t *MagStep(Double_t Mdz,Double_t MBrho,Double_t MB,Double_t Ma){
   }
   return Arr;
 }
-Double_t GetBField(Double_t x, Double_t y, Double_t z){//Simple estimate
+/*Double_t GetBField(Double_t x, Double_t y, Double_t z){//Simple estimate
   Double_t By=0.;
   TVector3 v1(x,y,z);
   TVector3 vec =mfield.GetField(v1);
   By=vec(2);
   return By;
-}
+  }*/
 Double_t *Step(Double_t sx, Double_t sy, Double_t sBrho, Double_t sa, Double_t sb){
   //start at BDC2, project up to the target
   //simple version, for testing only
+  FieldMan & mfield = FieldMan::GetInstance();
+  mfield.SetFileName("/mnt/spirit/analysis/barneyj/Bmap.bin");
+  mfield.Initialize(0.5);
+  TVector3 v1(sx,sy,sz);
+
   Double_t static pos[5];
   Double_t dz=10.;
   Double_t sz=BDC2_z;
   Double_t B;
   sy=sy+(dist_BDC1_TGT-dist_BDCs)*std::tan(sb/1000.);
   while(sz<TGT_z){
-    B=GetBField(sx,sy,sz);
+    v1.SetXYZ(sx,sy,sz);
+    TVector3 vec =mfield.GetField(v1);
+    B=vec(2);
     sx=sx+MagStep(dz,sBrho,B,sa)[0];
     sa=MagStep(dz,sBrho,B,sa)[1];
     sz=sz+dz;
