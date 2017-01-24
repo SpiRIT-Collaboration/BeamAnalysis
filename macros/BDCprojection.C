@@ -405,7 +405,7 @@ void BDCprojection(Int_t runNo = 3202, Int_t neve_max=30000000)
   htgt2yb0_5T -> Draw("colz");
 
   cvs3 -> cd(1);
-  hAcxy0_5T -> Draw("colz");
+  hACxy0_5T -> Draw("colz");
 
   cvs3 -> cd(2);
   hACxa0_5T -> Draw("colz");
