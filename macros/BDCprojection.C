@@ -10,6 +10,7 @@
 Double_t BDC1_z=-3160.;//mm, center of BDC1 z in magnet frame
 Double_t BDC2_z=-2160.;//mm, center of BDC2 z in magnet frame
 Double_t TGT_z=-593.1;//mm, desired projection plane in magnet frame
+Double_t AC_z=-820.;//mm, desired projection plane in magnet frame
 Double_t dist_BDCs = BDC2_z-BDC1_z; //mm
 Double_t dist_BDC1_TGT = TGT_z-BDC1_z; //mm
 Double_t dz=10.;
@@ -17,11 +18,11 @@ Double_t dz=10.;
 
 Double_t *MagStep(Double_t Mdz,Double_t MBrho,Double_t MB,Double_t Ma){
   //only for positive charge in +y magnetic field
-  Double_t static Arr[2];//output:dx, a2
+  Double_t static Arr[2];//output:dx, da in mm, mrad
   if(abs(MB)>0.){
     Double_t Mrho=MBrho/MB*1000.;
-    Arr[0]=(Mrho-std::sqrt(Mrho*Mrho-Mdz*Mdz)-Mdz*std::tan(Ma/1000.))/2;//dx
-    Arr[1]=(std::asin(Mdz/Mrho)*1000.)/2;//da
+    Arr[0]=(Mrho-std::sqrt(Mrho*Mrho-Mdz*Mdz)-Mdz*std::tan(Ma/1000.))/2;//dx, mm
+    Arr[1]=(std::asin(Mdz/Mrho)*1000.)/2;//da, mrad
   }
   else{
     Arr[0]=std::tan(Ma/1000)*Mdz;
@@ -116,6 +117,9 @@ void BDCprojection(Int_t runNo = 3202, Int_t neve_max=30000000)
   TH1* htgt2xa0_5T = new TH2D("htgt2xa0T_5", "TGT XA; x (mm); x' (mrad)",200,-100,100, 200, 0, 200); // angle: mrad
   TH1* htgt2yb0_5T = new TH2D("htgt2yb0T_5", "TGT YB; y (mm); y' (mrad)",200,-100,100, 200, -100, 100); // angle: mrad
 
+  TH1* hACxy0_5T = new TH2D("hACxy0_5T", "TGT XY; x (mm); y (mm)",200,-100,100, 200,-100,100); // mm
+  TH1* hACxa0_5T = new TH2D("hACxa0T_5", "TGT XA; x (mm); x' (mrad)",200,-100,100, 200, 0, 200); // angle: mrad
+  TH1* hACyb0_5T = new TH2D("hACyb0T_5", "TGT YB; y (mm); y' (mrad)",200,-100,100, 200, -100, 100); // angle: mrad
 
   TArtStoreManager *sman = TArtStoreManager::Instance();
 
@@ -125,7 +129,8 @@ void BDCprojection(Int_t runNo = 3202, Int_t neve_max=30000000)
   auto cvs2 = new TCanvas("cvs2", "Magnetic field projection", 1200, 500);
   cvs2 -> Divide(3, 1);
 
-
+  auto cvs3 = new TCanvas("cvs3", "AC field projection", 1200, 500);
+  cvs3 -> Divide(3, 1);
 
   int neve = 0;
   bdc_info -> Branch("neve",&neve);
@@ -144,6 +149,11 @@ void BDCprojection(Int_t runNo = 3202, Int_t neve_max=30000000)
   Double_t TGT_px_0_5T;//MeV/c
   Double_t TGT_py_0_5T;//MeV/c
   Double_t TGT_pz_0_5T;//MeV/c
+
+  Double_t AC_x_0_5T; //mm
+  Double_t AC_y_0_5T; //mm
+  Double_t AC_a_0_5T; //mrad
+  Double_t AC_b_0_5T; //mrad
 
   TGT_lin -> Branch("TGT_x_0T",&TGT_x_0T,"TGT_x_0T/D");
   TGT_lin -> Branch("TGT_y_0T",&TGT_y_0T,"TGT_y_0T/D");
@@ -298,12 +308,16 @@ void BDCprojection(Int_t runNo = 3202, Int_t neve_max=30000000)
     TGT_py_0_5T=-9999;//MeV/c
     TGT_pz_0_5T=-9999;//MeV/c
 
+    AC_x_0_5T=-9999; //mm
+    AC_y_0_5T=-9999; //mm
+    AC_a_0_5T=-999; //mrad
+    AC_b_0_5T=-999; //mrad
 
     //produce linear projection
     if(bdc1trks && bdc2trks){
 
-      if( bdc1trx>-1000 && bdc1try>-1000 && bdc2trx>-1000 && bdc2try>-1000){
-	TGT_x_0T=( bdc2trx-bdc1trx )/dist_BDCs*dist_BDC1_TGT + bdc1trx; //mm
+    if( bdc1trx>-1000 && bdc1try>-1000 && bdc2trx>-1000 && bdc2try>-1000){
+	  TGT_x_0T=( bdc2trx-bdc1trx )/dist_BDCs*dist_BDC1_TGT + bdc1trx; //mm
   	TGT_y_0T=( bdc2try-bdc1try )/dist_BDCs*dist_BDC1_TGT + bdc1try; //mm
   	TGT_a_0T=atan(( bdc2trx-bdc1trx )/dist_BDCs)*1000.; //mrad
   	TGT_b_0T=atan(( bdc2try-bdc1try )/dist_BDCs)*1000.; //mrad
@@ -323,7 +337,18 @@ void BDCprojection(Int_t runNo = 3202, Int_t neve_max=30000000)
     TVector3 v1(x/10.,y/10.,z/10.);
     TVector3 vec=mfield.GetField(v1);
 
-
+    while(z<AC_z){
+      v1.SetXYZ(x/10.,y/10.,z/10.);
+      vec=mfield.GetField(v1);
+      B=vec(2);
+      x=x+MagStep(dz,Brho,B,a)[0];
+      a=a+MagStep(dz,Brho,B,a)[1];
+      z=z+dz;
+    }
+    AC_x_0_5T=x;
+    AC_y_0_5T=y;
+    AC_a_0_5T=a;
+    AC_b_0_5T=b;
     while(z<TGT_z){
       v1.SetXYZ(x/10.,y/10.,z/10.);
       vec=mfield.GetField(v1);
@@ -344,6 +369,9 @@ void BDCprojection(Int_t runNo = 3202, Int_t neve_max=30000000)
     htgt2xy0_5T -> Fill(TGT_x_0_5T,TGT_y_0_5T); // mm
   	htgt2xa0_5T -> Fill(TGT_x_0_5T,TGT_a_0_5T); //mrad
   	htgt2yb0_5T -> Fill(TGT_y_0_5T,TGT_b_0_5T); //mrad
+    hACxy0_5T -> Fill(AC_x_0_5T,AC_y_0_5T); // mm
+  	hACxa0_5T -> Fill(AC_x_0_5T,AC_a_0_5T); //mrad
+  	hACyb0_5T -> Fill(AC_y_0_5T,AC_b_0_5T); //mrad
       }
 
     }
@@ -375,6 +403,15 @@ void BDCprojection(Int_t runNo = 3202, Int_t neve_max=30000000)
 
   cvs2 -> cd(3);
   htgt2yb0_5T -> Draw("colz");
+
+  cvs3 -> cd(1);
+  hAcxy0_5T -> Draw("colz");
+
+  cvs3 -> cd(2);
+  hACxa0_5T -> Draw("colz");
+
+  cvs3 -> cd(3);
+  hACyb0_5T -> Draw("colz");
 
 
   fout->cd();
