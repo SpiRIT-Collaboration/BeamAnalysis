@@ -12,7 +12,6 @@ Double_t BDC2_z=-2160.;//mm, center of BDC2 z in magnet frame
 Double_t TGT_z=-593.1;//mm, desired projection plane in magnet frame
 Double_t dist_BDCs = BDC2_z-BDC1_z; //mm
 Double_t dist_BDC1_TGT = TGT_z-BDC1_z; //mm
-Double_t pi = 3.14159;
 Double_t dz=10.;
 
 
@@ -21,8 +20,8 @@ Double_t *MagStep(Double_t Mdz,Double_t MBrho,Double_t MB,Double_t Ma){
   Double_t static Arr[2];//output:dx, a2
   if(abs(MB)>0.){
     Double_t Mrho=MBrho/MB*1000.;
-    Arr[0]=Mrho-std::sqrt(Mrho*Mrho-Mdz*Mdz)-Mdz*std::tan(Ma/1000.);//dx
-    Arr[1]=std::asin(Mdz/Mrho)*1000.;//da
+    Arr[0]=(Mrho-std::sqrt(Mrho*Mrho-Mdz*Mdz)-Mdz*std::tan(Ma/1000.))/2;//dx
+    Arr[1]=(std::asin(Mdz/Mrho)*1000.)/2;//da
   }
   else{
     Arr[0]=std::tan(Ma/1000)*Mdz;
