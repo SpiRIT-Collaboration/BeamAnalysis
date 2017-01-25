@@ -45,7 +45,7 @@ void BDCest(Int_t runNo = 3202, Int_t neve_max=30000000)
   float xx[300],yy[300],zz[300],Bxx[300],Byy[300],Bzz[300];
   int ii=0;
   while(ii<=300){
-	  in >>;
+	  in >>xx[ii]>>yy[ii]>>zz[ii]>>Bxx[ii]>>Byy[ii]>>Bzz[ii];
     ii++;
     if (!Bfield.good()) break;
   }
