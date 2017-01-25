@@ -23,7 +23,7 @@ Double_t *MagStep(Double_t Mdz,Double_t MBrho,Double_t MB,Double_t Ma){
     Double_t Mrho=MBrho/MB*1000.;//mm
     Ma=Ma+(std::asin(Mdz/Mrho)*1000.);//da, mrad
   }
-  Arr[0]=Mdz*std::tan(Ma/1000.);//dx, mm - this is a linear approximation
+  Arr[0]=-Mdz*std::tan(Ma/1000.);//dx, mm - this is a linear approximation
   Arr[1]=Ma;
   return Arr;
 }
