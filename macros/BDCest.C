@@ -333,8 +333,8 @@ void BDCest(Int_t runNo = 3202, Int_t neve_max=30000000)
 	z=BDC2_z;
 	a=TGT_a_0T;
 	b=TGT_b_0T;
-	TVector3 v1(x/10.,y/10.,z/10.);
-	TVector3 vec=mfield.GetField(v1);
+	//TVector3 v1(x/10.,y/10.,z/10.);
+	//TVector3 vec=mfield.GetField(v1);
 
 	while(z<AC_z){
 	  //v1.SetXYZ(x/10.,y/10.,z/10.);
