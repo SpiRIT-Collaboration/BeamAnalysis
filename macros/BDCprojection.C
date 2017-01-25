@@ -43,7 +43,7 @@ void BDCprojection(Int_t runNo = 3202, Int_t neve_max=30000000)
   samurai_prm->LoadParameter("db/SAMURAIBDC1.xml");
   samurai_prm->LoadParameter("db/SAMURAIBDC2.xml");
 
-  TArtEventStore *estore = new TArtEventStore()
+  TArtEventStore *estore = new TArtEventStore();
   //ridf file
   TString ridffilename = Form("ridf/SMDAQ%04d.ridf", runNo);
   estore->Open(ridffilename.Data());// for offline analysis
