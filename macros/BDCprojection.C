@@ -23,7 +23,6 @@ Double_t *MagStep(Double_t Mdz,Double_t MBrho,Double_t MB,Double_t Ma){
     Double_t Mrho=MBrho/MB*1000.;//mm
     Ma=(std::asin(Mdz/Mrho)*1000.);//da, mrad
   }
-  
   Arr[0]=Mdz*std::tan(Ma/1000.);//dx, mm - this is a linear approximation
   Arr[1]=Ma;
   return Arr;
@@ -48,7 +47,7 @@ void BDCprojection(Int_t runNo = 3202, Int_t neve_max=30000000)
   //ridf file
   TString ridffilename = Form("ridf/SMDAQ%04d.ridf", runNo);
   estore->Open(ridffilename.Data());// for offline analysis
-//  estore->Open(0);// for online analysis
+  //  estore->Open(0);// for online analysis
   //drift chamber tpf file (soft linked)
   TFile *bdcin = new TFile("./dctpf/dc_tpf.root","READ");
 
@@ -68,14 +67,14 @@ void BDCprojection(Int_t runNo = 3202, Int_t neve_max=30000000)
     TH2* hist = NULL;
 
     for(int i=0;i<8;i++){
-//      hist = (TH1D*)bdcin->Get(Form("hbdc1tdc%d",i));
+      //      hist = (TH1D*)bdcin->Get(Form("hbdc1tdc%d",i));
       hist = (TH2F*)bdcin->Get(Form("bdc1_tdc_l%02d",i));
       calibbdc1tr->SetTDCDistribution(hist->ProjectionX(),i);
       delete hist; hist = NULL;
     }
 
     for(int i=0;i<8;i++){
-//      sprintf(myname,"hbdc2tdc%d",i);
+      //      sprintf(myname,"hbdc2tdc%d",i);
       sprintf(myname,"bdc2_tdc_l%02d",i);
       hist = (TH2F*)bdcin->Get(myname);
       calibbdc2tr->SetTDCDistribution(hist->ProjectionX(),i);
