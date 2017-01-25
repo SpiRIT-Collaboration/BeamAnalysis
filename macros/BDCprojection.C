@@ -293,7 +293,7 @@ void BDCprojection(Int_t runNo = 3202, Int_t neve_max=30000000)
     TGT_y_0T=-9999; //mm
     TGT_a_0T=-999; //mrad
     TGT_b_0T=-999; //mrad
-    TGT_px_0=-9999;//MeV/c
+    TGT_px_0T=-9999;//MeV/c
     TGT_py_0T=-9999;//MeV/c
     TGT_pz_0T=-9999;//MeV/c
     TGT_x_0_5T=-9999; //mm
