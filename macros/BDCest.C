@@ -28,7 +28,7 @@ Double_t *MagStep(Double_t Mdz,Double_t MBrho,Double_t MB,Double_t Ma){
     Double_t Mrho=MBrho/MB*1000.;//mm
     Double_t Mdzp=Mdz+Mrho*std::sin(Ma/1000.);
     Mya=(Ma+(std::asin(Mdz/Mrho)*1000.));//da, mrad
-    Arr[0]=std::sqrt(Mrho*Mrho-Mdzp*Mdzp)-Mrho*std::cos(Ma/1000.);//dx, mm - this is a detailed iteration
+    Arr[0]=-(Mrho-std::sqrt(Mrho*Mrho-Mdzp*Mdzp))+Mrho*(1-std::cos(Ma/1000.));//std::sqrt(Mrho*Mrho-Mdzp*Mdzp)-Mrho*std::cos(Ma/1000.);//dx, mm - this is a detailed iteration
   }
   Arr[1]=Mya;
   return Arr;
@@ -42,7 +42,7 @@ void BDCest(Int_t runNo = 3202, Int_t neve_max=30000000)
   //Output file and Trees to write out
   ifstream Bfield;
   Bfield.open("../ReducedBMap.txt");
-  float xx[300],yy[300],zz[300],Bxx[300],Byy[300],Bzz[300];
+  Double_t xx[300],yy[300],zz[300],Bxx[300],Byy[300],Bzz[300];
   int ii=0;
   while(ii<=300){
 	  Bfield >>xx[ii]>>yy[ii]>>zz[ii]>>Bxx[ii]>>Byy[ii]>>Bzz[ii];
