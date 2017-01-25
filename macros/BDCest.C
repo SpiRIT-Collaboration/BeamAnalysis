@@ -15,7 +15,7 @@ Double_t dz=1.;
 
 Double_t GetB(Double_t myz){
   Double_t myB=0.;
-  if( myz>-2000. && myz< -1180. ) myB=0.5/820.*(myz+2000.);
+  if( myz>-1750. && myz< -1180. ) myB=0.5/320.*(myz+1750.);
   if( myz>-1180. ) myB=0.5;
   return myB;
 }
@@ -40,6 +40,16 @@ void BDCest(Int_t runNo = 3202, Int_t neve_max=30000000)
   //mfield.SetFileName("/mnt/spirit/analysis/barneyj/Bmap.bin");
   //mfield.Initialize(0.5);
   //Output file and Trees to write out
+  ifstream Bfield;
+  Bfield.open("../ReducedBMap.txt");
+  float xx[300],yy[300],zz[300],Bxx[300],Byy[300],Bzz[300];
+  int ii=0;
+  while(ii<=300){
+	  in >>;
+    ii++;
+    if (!Bfield.good()) break;
+  }
+  Bfield.close();
   TFile *fout = new TFile(Form("./output/BDC/BDCout.%i.root",runNo),"recreate");
   auto TGT_lin = new TTree("TGT_lin","TGT_lin");
   auto TGT_mag = new TTree("TGT_mag","TGT_mag");
@@ -342,7 +352,8 @@ void BDCest(Int_t runNo = 3202, Int_t neve_max=30000000)
 	  //v1.SetXYZ(x/10.,y/10.,z/10.);
 	  //vec=mfield.GetField(v1);
 	  //B=vec(2);
-    B=GetB(z);
+    //B=GetB(z);
+    B=Byy[(int)(std::abs(z)/10.+0.5)];
 	  x=x+MagStep(dz,Brho,B,a)[0];
 	  a=MagStep(dz,Brho,B,a)[1];
 	  z=z+dz;
@@ -355,7 +366,7 @@ void BDCest(Int_t runNo = 3202, Int_t neve_max=30000000)
 	  //v1.SetXYZ(x/10.,y/10.,z/10.);
 	  //vec=mfield.GetField(v1);
     //B=vec(2);
-    B=GetB(z);
+    //B=GetB(z);
 	  x=x+MagStep(dz,Brho,B,a)[0];
 	  a=MagStep(dz,Brho,B,a)[1];
 	  z=z+dz;
