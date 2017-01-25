@@ -23,11 +23,13 @@ Double_t *MagStep(Double_t Mdz,Double_t MBrho,Double_t MB,Double_t Ma){
   //only for positive charge in +y magnetic field
   Double_t static Arr[2];//output:dx, da in mm, mrad
   Double_t Mya=Ma;
+  Arr[0]=-Mdz*std::tan(Mya/1000.);//dx, mm - this is a linear approximation
   if(abs(MB)>0.){
     Double_t Mrho=MBrho/MB*1000.;//mm
+    Double_t Mdzp=Mdz+Mrho*std::sin(Ma/1000.);
     Mya=(Ma+(std::asin(Mdz/Mrho)*1000.));//da, mrad
+    Arr[0]=std::sqrt(Mrho*Mrho-Mdzp*Mdzp)+Mrho*std::cos(Ma/1000.);//dx, mm - this is a detailed iteration
   }
-  Arr[0]=-Mdz*std::tan(Mya/1000.);//dx, mm - this is a linear approximation
   Arr[1]=Mya;
   return Arr;
 }
