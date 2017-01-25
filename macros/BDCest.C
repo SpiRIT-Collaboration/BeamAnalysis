@@ -337,9 +337,10 @@ void BDCest(Int_t runNo = 3202, Int_t neve_max=30000000)
 	TVector3 vec=mfield.GetField(v1);
 
 	while(z<AC_z){
-	  v1.SetXYZ(x/10.,y/10.,z/10.);
-	  vec=mfield.GetField(v1);
-	  B=vec(2);
+	  //v1.SetXYZ(x/10.,y/10.,z/10.);
+	  //vec=mfield.GetField(v1);
+	  //B=vec(2);
+    B=GetB(z);
 	  x=x+MagStep(dz,Brho,B,a)[0];
 	  a=MagStep(dz,Brho,B,a)[1];
 	  z=z+dz;
@@ -352,7 +353,7 @@ void BDCest(Int_t runNo = 3202, Int_t neve_max=30000000)
 	  //v1.SetXYZ(x/10.,y/10.,z/10.);
 	  //vec=mfield.GetField(v1);
     //B=vec(2);
-    B=getB(z);
+    B=GetB(z);
 	  x=x+MagStep(dz,Brho,B,a)[0];
 	  a=MagStep(dz,Brho,B,a)[1];
 	  z=z+dz;
