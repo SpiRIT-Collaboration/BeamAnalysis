@@ -28,7 +28,7 @@ Double_t *MagStep(Double_t Mdz,Double_t MBrho,Double_t MB,Double_t Ma){
     Double_t Mrho=MBrho/MB*1000.;//mm
     Double_t Mdzp=Mdz+Mrho*std::sin(Ma/1000.);
     Mya=(Ma+(std::asin(Mdz/Mrho)*1000.));//da, mrad
-    Arr[0]=+std::sqrt(Mrho*Mrho-Mdzp*Mdzp)-Mrho*std::cos(Ma/1000.);//dx, mm - this is a detailed iteration
+    Arr[0]=std::sqrt(Mrho*Mrho-Mdzp*Mdzp)-Mrho*std::cos(Ma/1000.);//dx, mm - this is a detailed iteration
   }
   Arr[1]=Mya;
   return Arr;
@@ -367,6 +367,7 @@ void BDCest(Int_t runNo = 3202, Int_t neve_max=30000000)
 	  //vec=mfield.GetField(v1);
     //B=vec(2);
     //B=GetB(z);
+    B=Byy[(int)(std::abs(z)/10.+0.5)];
 	  x=x+MagStep(dz,Brho,B,a)[0];
 	  a=MagStep(dz,Brho,B,a)[1];
 	  z=z+dz;
