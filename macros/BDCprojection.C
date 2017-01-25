@@ -21,7 +21,7 @@ Double_t *MagStep(Double_t Mdz,Double_t MBrho,Double_t MB,Double_t Ma){
   Double_t static Arr[2];//output:dx, da in mm, mrad
   if(abs(MB)>0.){
     Double_t Mrho=MBrho/MB*1000.;//mm
-    Ma=(std::asin(Mdz/Mrho)*1000.);//da, mrad
+    Ma=Ma+(std::asin(Mdz/Mrho)*1000.);//da, mrad
   }
   Arr[0]=Mdz*std::tan(Ma/1000.);//dx, mm - this is a linear approximation
   Arr[1]=Ma;
@@ -311,8 +311,8 @@ void BDCprojection(Int_t runNo = 3202, Int_t neve_max=30000000)
     //produce linear projection
     if(bdc1trks && bdc2trks){
 
-    if( bdc1trx>-1000 && bdc1try>-1000 && bdc2trx>-1000 && bdc2try>-1000){
-	  TGT_x_0T=( bdc2trx-bdc1trx )/dist_BDCs*dist_BDC1_TGT + bdc1trx; //mm
+      if( bdc1trx>-1000 && bdc1try>-1000 && bdc2trx>-1000 && bdc2try>-1000){
+	TGT_x_0T=( bdc2trx-bdc1trx )/dist_BDCs*dist_BDC1_TGT + bdc1trx; //mm
   	TGT_y_0T=( bdc2try-bdc1try )/dist_BDCs*dist_BDC1_TGT + bdc1try; //mm
   	TGT_a_0T=atan(( bdc2trx-bdc1trx )/dist_BDCs)*1000.; //mrad
   	TGT_b_0T=atan(( bdc2try-bdc1try )/dist_BDCs)*1000.; //mrad
@@ -320,55 +320,55 @@ void BDCprojection(Int_t runNo = 3202, Int_t neve_max=30000000)
   	htgt2xa0T -> Fill(TGT_x_0T,TGT_a_0T); //mrad
   	htgt2yb0T -> Fill(TGT_y_0T,TGT_b_0T); //mrad
   	//magnetic field inclusion
-
-    Double_t x,y,z,a,b;
-    Double_t B;
-    Double_t Brho=7.;//this is to be determined event by event in coming versions
-    x=bdc2trx;
-    y=bdc2try+(dist_BDC1_TGT-dist_BDCs)*std::tan(TGT_b_0T/1000.);
-    z=BDC2_z;
-    a=TGT_a_0T;
-    b=TGT_b_0T;
-    TVector3 v1(x/10.,y/10.,z/10.);
-    TVector3 vec=mfield.GetField(v1);
-
-    while(z<AC_z){
-      v1.SetXYZ(x/10.,y/10.,z/10.);
-      vec=mfield.GetField(v1);
-      B=vec(2);
-      x=x+MagStep(dz,Brho,B,a)[0];
-      a=MagStep(dz,Brho,B,a)[1];
-      z=z+dz;
-    }
-    AC_x_0_5T=x;
-    AC_y_0_5T=y;
-    AC_a_0_5T=a;
-    AC_b_0_5T=b;
-    while(z<TGT_z){
-      v1.SetXYZ(x/10.,y/10.,z/10.);
-      vec=mfield.GetField(v1);
-      B=vec(2);
-      x=x+MagStep(dz,Brho,B,a)[0];
-      a=a+MagStep(dz,Brho,B,a)[1];
-      z=z+dz;
-    }
-
-    TGT_x_0_5T=x;
-    TGT_y_0_5T=y;
-    TGT_a_0_5T=a;
-    TGT_b_0_5T=b;
-
-    if( abs(TGT_x_0_5T)>10000) TGT_x_0_5T=-9999;
-    htgt2xy0_5T -> Fill(TGT_x_0_5T,TGT_y_0_5T); // mm
-  	htgt2xa0_5T -> Fill(TGT_x_0_5T,TGT_a_0_5T); //mrad
-  	htgt2yb0_5T -> Fill(TGT_y_0_5T,TGT_b_0_5T); //mrad
-    hACxy0_5T -> Fill(AC_x_0_5T,AC_y_0_5T); // mm
-  	hACxa0_5T -> Fill(AC_x_0_5T,AC_a_0_5T); //mrad
-  	hACyb0_5T -> Fill(AC_y_0_5T,AC_b_0_5T); //mrad
+	
+	Double_t x,y,z,a,b;
+	Double_t B;
+	Double_t Brho=7.;//this is to be determined event by event in coming versions
+	x=bdc2trx;
+	y=bdc2try+(dist_BDC1_TGT-dist_BDCs)*std::tan(TGT_b_0T/1000.);
+	z=BDC2_z;
+	a=TGT_a_0T;
+	b=TGT_b_0T;
+	TVector3 v1(x/10.,y/10.,z/10.);
+	TVector3 vec=mfield.GetField(v1);
+	
+	while(z<AC_z){
+	  v1.SetXYZ(x/10.,y/10.,z/10.);
+	  vec=mfield.GetField(v1);
+	  B=vec(2);
+	  x=x+MagStep(dz,Brho,B,a)[0];
+	  a=MagStep(dz,Brho,B,a)[1];
+	  z=z+dz;
+	}
+	AC_x_0_5T=x;
+	AC_y_0_5T=y;
+	AC_a_0_5T=a;
+	AC_b_0_5T=b;
+	while(z<TGT_z){
+	  v1.SetXYZ(x/10.,y/10.,z/10.);
+	  vec=mfield.GetField(v1);
+	  B=vec(2);
+	  x=x+MagStep(dz,Brho,B,a)[0];
+	  a=MagStep(dz,Brho,B,a)[1];
+	  z=z+dz;
+	}
+	
+	TGT_x_0_5T=x;
+	TGT_y_0_5T=y;
+	TGT_a_0_5T=a;
+	TGT_b_0_5T=b;
+	
+	if( abs(TGT_x_0_5T)>10000) TGT_x_0_5T=-9999;
+	htgt2xy0_5T -> Fill(TGT_x_0_5T,TGT_y_0_5T); // mm
+	htgt2xa0_5T -> Fill(TGT_x_0_5T,TGT_a_0_5T); //mrad
+	htgt2yb0_5T -> Fill(TGT_y_0_5T,TGT_b_0_5T); //mrad
+	hACxy0_5T -> Fill(AC_x_0_5T,AC_y_0_5T); // mm
+	hACxa0_5T -> Fill(AC_x_0_5T,AC_a_0_5T); //mrad
+	hACyb0_5T -> Fill(AC_y_0_5T,AC_b_0_5T); //mrad
       }
-
+      
     }
-
+    
     TGT_lin -> Fill();
     TGT_mag -> Fill();
     bdc_info -> Fill();
