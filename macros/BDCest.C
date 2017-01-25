@@ -1,5 +1,3 @@
-#include "FieldMan.hh"
-
 //macro to asses BDC information. Starting point.
 
 //initialize magnetic field
@@ -15,7 +13,7 @@ Double_t dist_BDCs = BDC2_z-BDC1_z; //mm
 Double_t dist_BDC1_TGT = TGT_z-BDC1_z; //mm
 Double_t dz=1.;
 
-Double_t GetB(myz){
+Double_t GetB(Double_t myz){
   Double_t myB=0.;
   if( z>-1910 && z< -1180. ) myB=0.308*730./(myz+1910);
   if( z>-1180. ) myB=0.5;
@@ -29,7 +27,7 @@ Double_t *MagStep(Double_t Mdz,Double_t MBrho,Double_t MB,Double_t Ma){
     Double_t Mrho=MBrho/MB*1000.;//mm
     Mya=(Ma+(std::asin(Mdz/Mrho)*1000.));//da, mrad
   }
-  Arr[0]=-Mdz*std::tan(Mya/1000.)/4.;//dx, mm - this is a linear approximation
+  Arr[0]=-Mdz*std::tan(Mya/1000.);//dx, mm - this is a linear approximation
   Arr[1]=Mya;
   return Arr;
 }
