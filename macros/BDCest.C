@@ -15,7 +15,7 @@ Double_t dz=1.;
 
 Double_t GetB(Double_t myz){
   Double_t myB=0.;
-  if( myz>-1910 && myz< -1180. ) myB=0.5/730*(myz+1910);
+  if( myz>-2000. && myz< -1180. ) myB=0.5/820.*(myz+2000.);
   if( myz>-1180. ) myB=0.5;
   return myB;
 }
