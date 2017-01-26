@@ -25,13 +25,12 @@ Double_t *MagStep(Double_t Mdz,Double_t MBrho,Double_t MB,Double_t Ma){
     Double_t Mrho=MBrho/MB*1000.;//mm
     Double_t Mdzp=Mdz+Mrho*std::sin(Ma/1000.);
     Mya=(Ma+(std::asin(Mdz/Mrho)*1000.));//da, mrad
-    if(a>=0.){
+    if(Ma>=0.){
       Arr[0]=-(Mrho-std::sqrt(Mrho*Mrho-Mdzp*Mdzp))+Mrho*(1-std::cos(Ma/1000.));//std::sqrt(Mrho*Mrho-Mdzp*Mdzp)-Mrho*std::cos(Ma/1000.);//dx, mm - this is a detailed iteration
     }
-    if(a<0.){
+    if(Ma<0.){
       Arr[0]=-(-(Mrho-std::sqrt(Mrho*Mrho-Mdzp*Mdzp))+Mrho*(1-std::cos(Ma/1000.)));//std::sqrt(Mrho*Mrho-Mdzp*Mdzp)-Mrho*std::cos(Ma/1000.);//dx, mm - this is a detailed iteration
     }
-
   }
   Arr[1]=Mya;
   return Arr;
