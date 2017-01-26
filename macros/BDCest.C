@@ -42,9 +42,9 @@ void BDCest(Int_t runNo = 3202, Int_t neve_max=30000000)
   //Output file and Trees to write out
   ifstream Bfield;
   Bfield.open("../ReducedBMap.txt");
-  Double_t xx[90000],yy[90000],zz[90000],Bxx[90000],Byy[90000],Bzz[90000];
+  Double_t xx[300],yy[300],zz[300],Bxx[300],Byy[300],Bzz[300];
   int ii=0;
-  while(ii<=90000){
+  while(ii<=300){
 	  Bfield >>xx[ii]>>yy[ii]>>zz[ii]>>Bxx[ii]>>Byy[ii]>>Bzz[ii];
     ii++;
     if (!Bfield.good()) break;
@@ -358,8 +358,8 @@ void BDCest(Int_t runNo = 3202, Int_t neve_max=30000000)
 	  //vec=mfield.GetField(v1);
 	  //B=vec(2);
     //B=GetB(z);
-    B=Byy[(int)(std::abs(z)/10.+300.*std::abs(x)/10.+0.5)];
-    //B=Byy[(int)(std::sqrt(z*z+x*x)/10.+0.5)];
+    //B=Byy[(int)(std::abs(z)/10.+300.*std::abs(x)/10.+0.5)];
+    B=Byy[(int)(std::sqrt(z*z+x*x)/10.+0.5)];
 	  x=x+MagStep(dz,Brho,B,a)[0];
 	  a=MagStep(dz,Brho,B,a)[1];
 	  z=z+dz;
@@ -373,8 +373,8 @@ void BDCest(Int_t runNo = 3202, Int_t neve_max=30000000)
 	  //vec=mfield.GetField(v1);
     //B=vec(2);
     //B=GetB(z);
-    B=Byy[(int)(std::abs(z)/10.+300.*std::abs(x)/10.+0.5)];
-    //B=Byy[(int)(std::sqrt(z*z+x*x)/10.+0.5)];
+    //B=Byy[(int)(std::abs(z)/10.+300.*std::abs(x)/10.+0.5)];
+    B=Byy[(int)(std::sqrt(z*z+x*x)/10.+0.5)];
 	  x=x+MagStep(dz,Brho,B,a)[0];
 	  a=MagStep(dz,Brho,B,a)[1];
 	  z=z+dz;
