@@ -5,8 +5,10 @@
 //mfield.SetFileName("/mnt/spirit/analysis/barneyj/Bmap.bin");
 //mfield.Initialize(0.5);
 //parameters
-Double_t BDC1_z=-3160.;//mm, center of BDC1 z in magnet frame
-Double_t BDC2_z=-2160.;//mm, center of BDC2 z in magnet frame
+Double_t BDC1_z=-3159.28;//mm, center of BDC1 z in magnet frame
+Double_t BDC2_z=-2158.73;//mm, center of BDC2 z in magnet frame
+Double_t BDC1_x=-0.563;//mm, center of BDC1 x in magnet frame
+Double_t BDC2_x=0.436;//mm, center of BDC2 x in magnet frame
 Double_t TGT_z=-593.1;//mm, desired projection plane in magnet frame
 Double_t AC_z=-820.;//mm, desired projection plane in magnet frame
 Double_t dist_BDCs = BDC2_z-BDC1_z; //mm
@@ -257,7 +259,7 @@ void BDCest(Int_t runNo = 3202, Int_t neve_max=30000000)
 	}
       }
 
-      bdc1trx = posx; bdc1try = posy;
+      bdc1trx = posx+BDC1_z; bdc1try = posy;
       bdc1trax = angx*1000.; bdc1tray = angy*1000.;
 
       hbdc1xy->Fill(posx,posy);
@@ -301,7 +303,7 @@ void BDCest(Int_t runNo = 3202, Int_t neve_max=30000000)
 	}
       }
 
-      bdc2trx = posx; bdc2try = posy;
+      bdc2trx = posx+BDC1_z; bdc2try = posy;
       bdc2trax = angx*1000.; bdc2tray = angy*1000.;
 
       hbdc2xy->Fill(posx,posy);
