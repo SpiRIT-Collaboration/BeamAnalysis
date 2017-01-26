@@ -358,7 +358,7 @@ void BDCest(Int_t runNo = 3202, Int_t neve_max=30000000)
 	  //vec=mfield.GetField(v1);
 	  //B=vec(2);
     //B=GetB(z);
-    B=Byy[(int)(std::abs(z)/10.*std::abs(x)/10.+0.5)];
+    B=Byy[(int)(std::abs(z)/10.+300.*std::abs(x)/10.+0.5)];
 	  x=x+MagStep(dz,Brho,B,a)[0];
 	  a=MagStep(dz,Brho,B,a)[1];
 	  z=z+dz;
@@ -372,7 +372,7 @@ void BDCest(Int_t runNo = 3202, Int_t neve_max=30000000)
 	  //vec=mfield.GetField(v1);
     //B=vec(2);
     //B=GetB(z);
-    B=Byy[(int)(std::abs(z)/10.*std::abs(x)/10.+0.5)];
+    B=Byy[(int)(std::abs(z)/10.+300.*std::abs(x)/10.+0.5)];
 	  x=x+MagStep(dz,Brho,B,a)[0];
 	  a=MagStep(dz,Brho,B,a)[1];
 	  z=z+dz;
