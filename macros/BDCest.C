@@ -25,7 +25,13 @@ Double_t *MagStep(Double_t Mdz,Double_t MBrho,Double_t MB,Double_t Ma){
     Double_t Mrho=MBrho/MB*1000.;//mm
     Double_t Mdzp=Mdz+Mrho*std::sin(Ma/1000.);
     Mya=(Ma+(std::asin(Mdz/Mrho)*1000.));//da, mrad
-    Arr[0]=-(Mrho-std::sqrt(Mrho*Mrho-Mdzp*Mdzp))+Mrho*(1-std::cos(Ma/1000.));//std::sqrt(Mrho*Mrho-Mdzp*Mdzp)-Mrho*std::cos(Ma/1000.);//dx, mm - this is a detailed iteration
+    if(a>=0.){
+      Arr[0]=-(Mrho-std::sqrt(Mrho*Mrho-Mdzp*Mdzp))+Mrho*(1-std::cos(Ma/1000.));//std::sqrt(Mrho*Mrho-Mdzp*Mdzp)-Mrho*std::cos(Ma/1000.);//dx, mm - this is a detailed iteration
+    }
+    if(a<0.){
+      Arr[0]=-(-(Mrho-std::sqrt(Mrho*Mrho-Mdzp*Mdzp))+Mrho*(1-std::cos(Ma/1000.)));//std::sqrt(Mrho*Mrho-Mdzp*Mdzp)-Mrho*std::cos(Ma/1000.);//dx, mm - this is a detailed iteration
+    }
+
   }
   Arr[1]=Mya;
   return Arr;
@@ -133,7 +139,7 @@ void BDCest(Int_t runNo = 3202, Int_t neve_max=30000000)
   TH1* hXBDCvXAC = new TH2D("hXBDCvXAC", "BDC X v AC X; X AC (mm); X bdc (mm)",200,-100,100, 200, -100, 100);
 
   TArtStoreManager *sman = TArtStoreManager::Instance();
-  
+
   auto cvs = new TCanvas("cvs", "linear projection", 1200, 500);
   cvs -> Divide(3, 1);
 
