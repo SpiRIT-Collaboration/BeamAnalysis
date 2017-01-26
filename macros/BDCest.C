@@ -259,7 +259,7 @@ void BDCest(Int_t runNo = 3202, Int_t neve_max=30000000)
 	}
       }
 
-      bdc1trx = posx+BDC1_z; bdc1try = posy;
+      bdc1trx = posx+BDC1_x; bdc1try = posy;
       bdc1trax = angx*1000.; bdc1tray = angy*1000.;
 
       hbdc1xy->Fill(posx,posy);
@@ -303,7 +303,7 @@ void BDCest(Int_t runNo = 3202, Int_t neve_max=30000000)
 	}
       }
 
-      bdc2trx = posx+BDC1_z; bdc2try = posy;
+      bdc2trx = posx+BDC2_x; bdc2try = posy;
       bdc2trax = angx*1000.; bdc2tray = angy*1000.;
 
       hbdc2xy->Fill(posx,posy);
