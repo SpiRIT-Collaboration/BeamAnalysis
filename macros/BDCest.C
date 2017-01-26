@@ -133,7 +133,7 @@ void BDCest(Int_t runNo = 3202, Int_t neve_max=30000000)
   TH1* hXBDCvXAC = new TH2D("hXBDCvXAC", "BDC X v AC X; X AC (mm); X bdc (mm)",200,-100,100, 200, -100, 100);
 
   TArtStoreManager *sman = TArtStoreManager::Instance();
-  if(DrawStuff){
+  
   auto cvs = new TCanvas("cvs", "linear projection", 1200, 500);
   cvs -> Divide(3, 1);
 
@@ -146,7 +146,7 @@ void BDCest(Int_t runNo = 3202, Int_t neve_max=30000000)
   auto cvs4 = new TCanvas("cvs4", "X correlation", 800, 800);
 
   auto cvs5 = new TCanvas("cvs5", "X correlation", 800, 800);
-}
+
 
   int neve = 0;
   bdc_info -> Branch("neve",&neve);
@@ -403,7 +403,7 @@ void BDCest(Int_t runNo = 3202, Int_t neve_max=30000000)
 
 
   }//end of event loop
-if(DrawStuff){
+
   cvs -> cd(1);
   htgt2xy0T -> Draw("colz");
 
@@ -436,7 +436,7 @@ if(DrawStuff){
 
   cvs5->cd();
   hXBDCvXAC->Draw("colz");
-}
+
   fout->cd();
   TGT_lin->Write();
   TGT_mag->Write();
