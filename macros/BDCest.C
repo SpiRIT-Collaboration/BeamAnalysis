@@ -133,6 +133,7 @@ void BDCest(Int_t runNo = 3202, Int_t neve_max=30000000)
   TH1* hACyb0_5T = new TH2D("hACyb0T_5", "TGT YB; y (mm); y' (mrad)",200,-100,100, 200, -100, 100); // angle: mrad
 
   TH1* hXvXb = new TH2D("hXvXB", "BDC X v TGT X; X tgt (mm); X bdc (mm)",200,-100,100, 200, -100, 100);
+  TH1* hXBDCvXAC = new TH2D("hXBDCvXAC", "BDC X v AC X; X AC (mm); X bdc (mm)",200,-100,100, 200, -100, 100);
 
   TArtStoreManager *sman = TArtStoreManager::Instance();
 
@@ -146,6 +147,8 @@ void BDCest(Int_t runNo = 3202, Int_t neve_max=30000000)
   cvs3 -> Divide(3, 1);
 
   auto cvs4 = new TCanvas("cvs4", "X correlation", 800, 800);
+
+  auto cvs5 = new TCanvas("cvs5", "X correlation", 800, 800);
 
 
   int neve = 0;
@@ -393,6 +396,7 @@ void BDCest(Int_t runNo = 3202, Int_t neve_max=30000000)
 	hACxa0_5T -> Fill(AC_x_0_5T,AC_a_0_5T); //mrad
 	hACyb0_5T -> Fill(AC_y_0_5T,AC_b_0_5T); //mrad
   hXvXb->Fill(TGT_x_0_5T,bdc2trx);
+  hXBDCvXAC->Fill(AC_x_0_5T,bdc2trx);
       }
 
     }
@@ -436,6 +440,9 @@ void BDCest(Int_t runNo = 3202, Int_t neve_max=30000000)
 
   cvs4->cd();
   hXvXb->Draw("colz");
+
+  cvs5->cd();
+  hXBDCvXAC->Draw("colz");
 
   fout->cd();
   TGT_lin->Write();
