@@ -14,13 +14,8 @@ Double_t AC_z=-820.;//mm, desired projection plane in magnet frame
 Double_t dist_BDCs = BDC2_z-BDC1_z; //mm
 Double_t dist_BDC1_TGT = TGT_z-BDC1_z; //mm
 Double_t dz=1.;
+bool DrawStuff=false;
 
-Double_t GetB(Double_t myz){
-  Double_t myB=0.;
-  if( myz>-1750. && myz< -1180. ) myB=0.5/320.*(myz+1750.);
-  if( myz>-1180. ) myB=0.5;
-  return myB;
-}
 Double_t *MagStep(Double_t Mdz,Double_t MBrho,Double_t MB,Double_t Ma){
   //only for positive charge in +y magnetic field
   Double_t static Arr[2];//output:dx, da in mm, mrad
@@ -138,7 +133,7 @@ void BDCest(Int_t runNo = 3202, Int_t neve_max=30000000)
   TH1* hXBDCvXAC = new TH2D("hXBDCvXAC", "BDC X v AC X; X AC (mm); X bdc (mm)",200,-100,100, 200, -100, 100);
 
   TArtStoreManager *sman = TArtStoreManager::Instance();
-
+  if(DrawStuff){
   auto cvs = new TCanvas("cvs", "linear projection", 1200, 500);
   cvs -> Divide(3, 1);
 
@@ -151,7 +146,7 @@ void BDCest(Int_t runNo = 3202, Int_t neve_max=30000000)
   auto cvs4 = new TCanvas("cvs4", "X correlation", 800, 800);
 
   auto cvs5 = new TCanvas("cvs5", "X correlation", 800, 800);
-
+}
 
   int neve = 0;
   bdc_info -> Branch("neve",&neve);
@@ -362,8 +357,6 @@ void BDCest(Int_t runNo = 3202, Int_t neve_max=30000000)
 	  //v1.SetXYZ(x/10.,y/10.,z/10.);
 	  //vec=mfield.GetField(v1);
 	  //B=vec(2);
-    //B=GetB(z);
-    //B=Byy[(int)(std::abs(z)/10.+300.*std::abs(x)/10.+0.5)];
     B=Byy[(int)(std::sqrt(z*z+x*x)/10.+0.5)];
 	  x=x+MagStep(dz,Brho,B,a)[0];
 	  a=MagStep(dz,Brho,B,a)[1];
@@ -377,8 +370,6 @@ void BDCest(Int_t runNo = 3202, Int_t neve_max=30000000)
 	  //v1.SetXYZ(x/10.,y/10.,z/10.);
 	  //vec=mfield.GetField(v1);
     //B=vec(2);
-    //B=GetB(z);
-    //B=Byy[(int)(std::abs(z)/10.+300.*std::abs(x)/10.+0.5)];
     B=Byy[(int)(std::sqrt(z*z+x*x)/10.+0.5)];
 	  x=x+MagStep(dz,Brho,B,a)[0];
 	  a=MagStep(dz,Brho,B,a)[1];
@@ -412,7 +403,7 @@ void BDCest(Int_t runNo = 3202, Int_t neve_max=30000000)
 
 
   }//end of event loop
-
+if(DrawStuff){
   cvs -> cd(1);
   htgt2xy0T -> Draw("colz");
 
@@ -445,7 +436,7 @@ void BDCest(Int_t runNo = 3202, Int_t neve_max=30000000)
 
   cvs5->cd();
   hXBDCvXAC->Draw("colz");
-
+}
   fout->cd();
   TGT_lin->Write();
   TGT_mag->Write();
