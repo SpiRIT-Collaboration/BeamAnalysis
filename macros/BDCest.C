@@ -132,6 +132,8 @@ void BDCest(Int_t runNo = 3202, Int_t neve_max=30000000)
   TH1* hACxa0_5T = new TH2D("hACxa0T_5", "TGT XA; x (mm); x' (mrad)",200,-100,100, 200, 0, 200); // angle: mrad
   TH1* hACyb0_5T = new TH2D("hACyb0T_5", "TGT YB; y (mm); y' (mrad)",200,-100,100, 200, -100, 100); // angle: mrad
 
+  TH1* hXvXb = new TH2D("hXvXB", "BDC X v TGT X; X tgt (mm); X bdc (mm)",200,-100,100, 200, -100, 100);
+
   TArtStoreManager *sman = TArtStoreManager::Instance();
 
   auto cvs = new TCanvas("cvs", "linear projection", 1200, 500);
@@ -142,6 +144,9 @@ void BDCest(Int_t runNo = 3202, Int_t neve_max=30000000)
 
   auto cvs3 = new TCanvas("cvs3", "AC field projection", 1200, 500);
   cvs3 -> Divide(3, 1);
+
+  auto cvs4 = new TCanvas("cvs4", "X correlation", 800, 800);
+
 
   int neve = 0;
   bdc_info -> Branch("neve",&neve);
@@ -385,6 +390,7 @@ void BDCest(Int_t runNo = 3202, Int_t neve_max=30000000)
 	hACxy0_5T -> Fill(AC_x_0_5T,AC_y_0_5T); // mm
 	hACxa0_5T -> Fill(AC_x_0_5T,AC_a_0_5T); //mrad
 	hACyb0_5T -> Fill(AC_y_0_5T,AC_b_0_5T); //mrad
+  hXvXb->Fill(TGT_x_0_5T,bdc2trx);
       }
 
     }
