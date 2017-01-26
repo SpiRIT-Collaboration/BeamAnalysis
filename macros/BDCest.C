@@ -11,7 +11,7 @@ Double_t TGT_z=-593.1;//mm, desired projection plane in magnet frame
 Double_t AC_z=-820.;//mm, desired projection plane in magnet frame
 Double_t dist_BDCs = BDC2_z-BDC1_z; //mm
 Double_t dist_BDC1_TGT = TGT_z-BDC1_z; //mm
-Double_t dz=1.;
+Double_t dz=10.;
 
 Double_t GetB(Double_t myz){
   Double_t myB=0.;
@@ -34,7 +34,7 @@ Double_t *MagStep(Double_t Mdz,Double_t MBrho,Double_t MB,Double_t Ma){
   return Arr;
 }
 
-void BDCest(Int_t runNo = 3202, Int_t neve_max=30000000)
+void BDCest(Int_t runNo = 3202, Int_t neve_max=3000)
 {
   //FieldMan & mfield = FieldMan::GetInstance();
   //mfield.SetFileName("/mnt/spirit/analysis/barneyj/Bmap.bin");
@@ -347,13 +347,16 @@ void BDCest(Int_t runNo = 3202, Int_t neve_max=30000000)
 	b=TGT_b_0T;
 	//TVector3 v1(x/10.,y/10.,z/10.);
 	//TVector3 vec=mfield.GetField(v1);
-
-	while(z<AC_z){
+	//z=-500.;
+	z=0;
+	x=0;
+	a=0;
+	while(z<1000./*AC_z*/){
 	  //v1.SetXYZ(x/10.,y/10.,z/10.);
 	  //vec=mfield.GetField(v1);
 	  //B=vec(2);
-    //B=GetB(z);
-    B=Byy[(int)(std::abs(z)/10.+0.5)];
+	  //B=GetB(z);
+	  B=0.5;//Byy[(int)(std::abs(z)/10.+0.5)];
 	  x=x+MagStep(dz,Brho,B,a)[0];
 	  a=MagStep(dz,Brho,B,a)[1];
 	  z=z+dz;
@@ -365,9 +368,9 @@ void BDCest(Int_t runNo = 3202, Int_t neve_max=30000000)
 	while(z<TGT_z){
 	  //v1.SetXYZ(x/10.,y/10.,z/10.);
 	  //vec=mfield.GetField(v1);
-    //B=vec(2);
-    //B=GetB(z);
-    B=Byy[(int)(std::abs(z)/10.+0.5)];
+	  //B=vec(2);
+	  //B=GetB(z);
+	  B=Byy[(int)(std::abs(z)/10.+0.5)];
 	  x=x+MagStep(dz,Brho,B,a)[0];
 	  a=MagStep(dz,Brho,B,a)[1];
 	  z=z+dz;
