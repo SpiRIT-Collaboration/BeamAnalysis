@@ -116,7 +116,7 @@ void BDCest(Int_t runNo = 3202, Int_t neve_max=30000000)
   TH1* hbdc2xa = new TH2D("hbdc2xa", "BDC2 XA",400,-100,100, 400,-100,100); // angle: mrad
   TH1* hbdc2yb = new TH2D("hbdc2yb", "BDC2 YB",400,-100,100, 400,-100,100); // angle: mrad
 
-  TH1* htgt2xy0T = new TH2D("htgt2xy0T", "TGT XY; x (mm); y (mm)",200,-100,100, 200,-100,100); // mm
+  TH1* htgt2xy0T = new TH2D("htgt2xy0T", "TGT XY; x (mm); y (mm)",12000,-60,60, 12000,-60,60); // mm
   TH1* htgt2xa0T = new TH2D("htgt2xa0T", "TGT XA; x (mm); x' (mrad)",200,-100,100, 200, -100, 100); // angle: mrad
   TH1* htgt2yb0T = new TH2D("htgt2yb0T", "TGT YB; y (mm); y' (mrad)",200,-100,100, 200, -100, 100); // angle: mrad
 
@@ -348,15 +348,17 @@ void BDCest(Int_t runNo = 3202, Int_t neve_max=30000000)
 	y=bdc2try+(dist_BDC1_TGT-dist_BDCs)*std::tan(TGT_b_0T/1000.);
 	z=BDC2_z;
 	a=TGT_a_0T;
+	//a=bdc2trax;
 	b=TGT_b_0T;
+	//b=bdc2tray;
 	//TVector3 v1(x/10.,y/10.,z/10.);
 	//TVector3 vec=mfield.GetField(v1);
-
+	if(true){
 	while(z<AC_z){
 	  //v1.SetXYZ(x/10.,y/10.,z/10.);
 	  //vec=mfield.GetField(v1);
 	  //B=vec(2);
-    B=Byy[(int)(std::sqrt(z*z+x*x)/10.+0.5)];
+	  B=Byy[(int)(std::sqrt(z*z+x*x)/10.+0.5)];
 	  x=x+MagStep(dz,Brho,B,a)[0];
 	  a=MagStep(dz,Brho,B,a)[1];
 	  z=z+dz;
@@ -381,16 +383,18 @@ void BDCest(Int_t runNo = 3202, Int_t neve_max=30000000)
 	TGT_b_0_5T=b;
 
 	if( abs(TGT_x_0_5T)>10000) TGT_x_0_5T=-9999;
+	if(true){//provide filters for what to add to plot
 	htgt2xy0_5T -> Fill(TGT_x_0_5T,TGT_y_0_5T); // mm
 	htgt2xa0_5T -> Fill(TGT_x_0_5T,TGT_a_0_5T); //mrad
 	htgt2yb0_5T -> Fill(TGT_y_0_5T,TGT_b_0_5T); //mrad
 	hACxy0_5T -> Fill(AC_x_0_5T,AC_y_0_5T); // mm
 	hACxa0_5T -> Fill(AC_x_0_5T,AC_a_0_5T); //mrad
 	hACyb0_5T -> Fill(AC_y_0_5T,AC_b_0_5T); //mrad
-  hXvXb->Fill(TGT_x_0_5T,bdc2trx);
-  hXBDCvXAC->Fill(AC_x_0_5T,bdc2trx);
+	hXvXb->Fill(TGT_x_0_5T,bdc2trx);
+	hXBDCvXAC->Fill(AC_x_0_5T,bdc2trx);
+	}
+	}
       }
-
     }
 
     TGT_lin -> Fill();
@@ -404,7 +408,7 @@ void BDCest(Int_t runNo = 3202, Int_t neve_max=30000000)
   }//end of event loop
 
   cvs -> cd(1);
-  htgt2xy0T -> Draw("colz");
+  htgt2xy0T -> Draw();
 
   cvs -> cd(2);
   htgt2xa0T -> Draw("colz");
