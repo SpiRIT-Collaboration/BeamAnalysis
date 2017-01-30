@@ -7,10 +7,14 @@ Double_t BDC1_x=-0.563;//mm, center of BDC1 x in magnet frame
 Double_t BDC2_x=0.436;//mm, center of BDC2 x in magnet frame
 Double_t TGT_z=-593.1;//mm, desired projection plane in magnet frame
 Double_t AC_z=-820.;//mm, desired projection plane in magnet frame
-Double_t AC_left=-3.;//side of AC
-Double_t AC_right=26.;//side of AC
+Double_t AC_left=-3.;//BL side of AC
+Double_t AC_right=26.;//BR side of AC
 Double_t AC_up=19.;//side of AC
 Double_t AC_down=-19.;//side of AC
+Double_t TGT_left=-15.;//side of TGT
+Double_t TGT_right=15.;//side of TGT
+Double_t TGT_up=20.;//side of TGT
+Double_t TGT_down=-20.;//side of TGT
 Double_t dist_BDCs = BDC2_z-BDC1_z; //mm
 Double_t dist_BDC1_TGT = TGT_z-BDC1_z; //mm
 Double_t dz=1.;
@@ -409,6 +413,12 @@ TLine *AC_up_line=new TLine(AC_left,AC_up,AC_right,AC_up);
 TLine *AC_down_line=new TLine(AC_left,AC_down,AC_right,AC_down);
 TLine *AC_left_line=new TLine(AC_left,AC_down,AC_left,AC_up);
 TLine *AC_right_line=new TLine(AC_right,AC_down,AC_right,AC_up);
+
+TLine *TGT_up_line=new TLine(TGT_left,TGT_up,TGT_right,TGT_up);
+TLine *TGT_down_line=new TLine(TGT_left,TGT_down,TGT_right,TGT_down);
+TLine *TGT_left_line=new TLine(TGT_left,TGT_down,TGT_left,TGT_up);
+TLine *TGT_right_line=new TLine(TGT_right,TGT_down,TGT_right,TGT_up);
+
   cvs -> cd(1);
   htgt2xy0T -> Draw();
 
@@ -420,10 +430,11 @@ TLine *AC_right_line=new TLine(AC_right,AC_down,AC_right,AC_up);
 
   cvs2 -> cd(1);
   htgt2xy0_5T -> Draw("colz");
-AC_up_line->Draw("same");
-AC_down_line->Draw("same");
-AC_left_line->Draw("same");
-AC_right_line->Draw("same");
+  TGT_up_line->Draw("same");
+  TGT_down_line->Draw("same");
+  TGT_left_line->Draw("same");
+  TGT_right_line->Draw("same");
+
   cvs2 -> cd(2);
   htgt2xa0_5T -> Draw("colz");
 
@@ -432,6 +443,10 @@ AC_right_line->Draw("same");
 
   cvs3 -> cd(1);
   hACxy0_5T -> Draw("colz");
+  AC_up_line->Draw("same");
+  AC_down_line->Draw("same");
+  AC_left_line->Draw("same");
+  AC_right_line->Draw("same");
 
   cvs3 -> cd(2);
   hACxa0_5T -> Draw("colz");
