@@ -413,11 +413,20 @@ TLine *AC_up_line=new TLine(AC_left,AC_up,AC_right,AC_up);
 TLine *AC_down_line=new TLine(AC_left,AC_down,AC_right,AC_down);
 TLine *AC_left_line=new TLine(AC_left,AC_down,AC_left,AC_up);
 TLine *AC_right_line=new TLine(AC_right,AC_down,AC_right,AC_up);
+AC_up_line->SetLineColor(6);
+AC_down_line->SetLineColor(6);
+AC_left_line->SetLineColor(6);
+AC_right_line->SetLineColor(6);
+
 
 TLine *TGT_up_line=new TLine(TGT_left,TGT_up,TGT_right,TGT_up);
 TLine *TGT_down_line=new TLine(TGT_left,TGT_down,TGT_right,TGT_down);
 TLine *TGT_left_line=new TLine(TGT_left,TGT_down,TGT_left,TGT_up);
 TLine *TGT_right_line=new TLine(TGT_right,TGT_down,TGT_right,TGT_up);
+TGT_up_line->SetLineColor(6);
+TGT_down_line->SetLineColor(6);
+TGT_left_line->SetLineColor(6);
+TGT_right_line->SetLineColor(6);
 
   cvs -> cd(1);
   htgt2xy0T -> Draw();
