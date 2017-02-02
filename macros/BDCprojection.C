@@ -15,7 +15,7 @@ Double_t GetP(Double_t mQ, Double_t mAoQ, Double_t mBeta){
   Double_t momentum;
   Double_t rest_mass=mQ*mAoQ*931.494;//approximate mass by number of nucleons, in MeV/nucleon
   //could look up mass exactly using a table
-  momentum=rest_mass*mBeta/std::sqrt(1-mBeta*mBeta);
+  momentum=rest_mass*mBeta/std::sqrt(std::abs(1-mBeta*mBeta));
   return momentum;
 }
 
@@ -375,7 +375,7 @@ void BDCprojection(Int_t runNo = 3202, Int_t neve_max=30000000)
 	a=TGT_a_0T;
 	b=TGT_b_0T;
   p=GetP(beam->z,beam->aoq,beta);//in MeV/c
-  Brho=3335.6*p/(beam->z);//in Tm
+  Brho=3.3356*p/(beam->z)/1000.;//in Tm
 
 	while(z<AC_z){
 	  B=Byy[(int)(std::sqrt(z*z+x*x)/10.+0.5)];//pull magnetic field from the previously created map
