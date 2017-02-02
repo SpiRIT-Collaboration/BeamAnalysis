@@ -2,13 +2,11 @@
 
 //macro to asses BDC information. Starting point.
 
-//initialize magnetic field
-//FieldMan & mfield = FieldMan::GetInstance();
-//mfield.SetFileName("/mnt/spirit/analysis/barneyj/Bmap.bin");
-//mfield.Initialize(0.5);
 //parameters
 Double_t BDC1_z=-3160.;//mm, center of BDC1 z in magnet frame
 Double_t BDC2_z=-2160.;//mm, center of BDC2 z in magnet frame
+Double_t BDC1_x=-0.72;//563;//mm, center of BDC1 x in magnet frame
+Double_t BDC2_x=-0.52;//436;//mm, center of BDC2 x in magnet frame
 Double_t TGT_z=-593.1;//mm, desired projection plane in magnet frame
 Double_t AC_z=-820.;//mm, desired projection plane in magnet frame
 Double_t dist_BDCs = BDC2_z-BDC1_z; //mm
@@ -20,20 +18,48 @@ Double_t *MagStep(Double_t Mdz,Double_t MBrho,Double_t MB,Double_t Ma){
   //only for positive charge in +y magnetic field
   Double_t static Arr[2];//output:dx, da in mm, mrad
   Double_t Mya=Ma;
+  Arr[0]=-Mdz*std::tan(Mya/1000.);//dx, mm - this is a linear approximation
   if(abs(MB)>0.){
     Double_t Mrho=MBrho/MB*1000.;//mm
     Mya=(Ma+(std::asin(Mdz/Mrho)*1000.));//da, mrad
+    Arr[0]=Mrho*(std::cos(Mya/1000.)-std::cos(Ma/1000.));//This is the dx for the step in the given magnetic field
   }
-  Arr[0]=-Mdz*std::tan(Mya/1000.)/4.;//dx, mm - this is a linear approximation
   Arr[1]=Mya;
   return Arr;
 }
 
 void BDCprojection(Int_t runNo = 3202, Int_t neve_max=30000000)
 {
-  FieldMan & mfield = FieldMan::GetInstance();
-  mfield.SetFileName("/mnt/spirit/analysis/barneyj/Bmap.bin");
-  mfield.Initialize(0.5);
+  //parameters
+  Double_t Enc_x_Offset=2.;//offset of enclosure
+  Double_t FC_x_Offset = 3.5;//offset of field cage
+  Double_t AC_left=-3.;//BL side of AC
+  Double_t AC_right=26.;//BR side of AC
+  Double_t AC_up=19.;//side of AC
+  Double_t AC_down=-19.;//side of AC
+  Double_t TGT_left=-15.;//side of TGT
+  Double_t TGT_right=15.;//side of TGT
+  Double_t TGT_up=20.;//side of TGT
+  Double_t TGT_down=-20.;//side of TGT
+
+  //Apply offsets to parameters
+  AC_left=AC_left+Enc_x_Offset;
+  AC_right=AC_right+Enc_x_Offset;
+  TGT_left=TGT_left+FC_x_Offset;
+  TGT_right=TGT_right+FC_x_Offset;
+
+  //create magnetic field map
+  ifstream Bfield;
+    Bfield.open("../ReducedBMap.txt");
+    Double_t xx[300],yy[300],zz[300],Bxx[300],Byy[300],Bzz[300];
+    int ii=0;
+    while(ii<=300){
+            Bfield >>xx[ii]>>yy[ii]>>zz[ii]>>Bxx[ii]>>Byy[ii]>>Bzz[ii];
+      ii++;
+      if (!Bfield.good()) break;
+    }
+    Bfield.close();
+
   //Output file and Trees to write out
   TFile *fout = new TFile(Form("./output/BDC/BDCout.%i.root",runNo),"recreate");
   auto TGT_lin = new TTree("TGT_lin","TGT_lin");
@@ -174,9 +200,9 @@ void BDCprojection(Int_t runNo = 3202, Int_t neve_max=30000000)
   Double_t bdc2trx;
   Double_t bdc2try;
   bdc_info -> Branch("bdc1trx",&bdc1trx,"bdc1trx/D");
-  bdc_info -> Branch("bdc1try",&bdc1trx,"bdc1try/D");
-  bdc_info -> Branch("bdc2trx",&bdc1trx,"bdc2trx/D");
-  bdc_info -> Branch("bdc2try",&bdc1trx,"bdc2try/D");
+  bdc_info -> Branch("bdc1try",&bdc1try,"bdc1try/D");
+  bdc_info -> Branch("bdc2trx",&bdc2trx,"bdc2trx/D");
+  bdc_info -> Branch("bdc2try",&bdc2try,"bdc2try/D");
 
   while(estore->GetNextEvent() && neve<neve_max){
     if (neve%100==0){
@@ -313,9 +339,9 @@ void BDCprojection(Int_t runNo = 3202, Int_t neve_max=30000000)
     if(bdc1trks && bdc2trks){
 
       if( bdc1trx>-1000 && bdc1try>-1000 && bdc2trx>-1000 && bdc2try>-1000){
-	TGT_x_0T=( bdc2trx-bdc1trx )/dist_BDCs*dist_BDC1_TGT + bdc1trx; //mm
-  	TGT_y_0T=( bdc2try-bdc1try )/dist_BDCs*dist_BDC1_TGT + bdc1try; //mm
-  	TGT_a_0T=atan(( bdc2trx-bdc1trx )/dist_BDCs)*1000.; //mrad
+        TGT_x_0T=( bdc2trx-bdc1trx )/dist_BDCs*dist_BDC1_TGT + bdc1trx; //mm
+  	    TGT_y_0T=( bdc2try-bdc1try )/dist_BDCs*dist_BDC1_TGT + bdc1try; //mm
+  	    TGT_a_0T=atan(( bdc2trx-bdc1trx )/dist_BDCs)*1000.; //mrad
   	TGT_b_0T=atan(( bdc2try-bdc1try )/dist_BDCs)*1000.; //mrad
   	htgt2xy0T -> Fill(TGT_x_0T,TGT_y_0T); // mm
   	htgt2xa0T -> Fill(TGT_x_0T,TGT_a_0T); //mrad
@@ -334,11 +360,9 @@ void BDCprojection(Int_t runNo = 3202, Int_t neve_max=30000000)
 	TVector3 vec=mfield.GetField(v1);
 
 	while(z<AC_z){
-	  v1.SetXYZ(x/10.,y/10.,z/10.);
-	  vec=mfield.GetField(v1);
-	  B=vec(2);
-	  x=x+MagStep(dz,Brho,B,a)[0];
-	  a=MagStep(dz,Brho,B,a)[1];
+    B=Byy[(int)(std::sqrt(z*z+x*x)/10.+0.5)];//pull magnetic field from the previously created map
+	  x=x+MagStep(dz,Brho,B,a)[0];//add dx over this step of dz
+	  a=MagStep(dz,Brho,B,a)[1];//recalculate angle a after this step of dz
 	  z=z+dz;
 	}
 	AC_x_0_5T=x;
@@ -346,9 +370,7 @@ void BDCprojection(Int_t runNo = 3202, Int_t neve_max=30000000)
 	AC_a_0_5T=a;
 	AC_b_0_5T=b;
 	while(z<TGT_z){
-	  v1.SetXYZ(x/10.,y/10.,z/10.);
-	  vec=mfield.GetField(v1);
-	  B=vec(2);
+    B=Byy[(int)(std::sqrt(z*z+x*x)/10.+0.5)];//pull magnetic field from the previously created map
 	  x=x+MagStep(dz,Brho,B,a)[0];
 	  a=MagStep(dz,Brho,B,a)[1];
 	  z=z+dz;
@@ -379,6 +401,34 @@ void BDCprojection(Int_t runNo = 3202, Int_t neve_max=30000000)
 
 
   }//end of event loop
+/////////////////create lines to draw target and AC profile/////////////////////////
+  TLine *AC_up_line=new TLine(AC_left,AC_up,AC_right,AC_up);
+  TLine *AC_down_line=new TLine(AC_left,AC_down,AC_right,AC_down);
+  TLine *AC_left_line=new TLine(AC_left,AC_down,AC_left,AC_up);
+  TLine *AC_right_line=new TLine(AC_right,AC_down,AC_right,AC_up);
+
+  AC_up_line->SetLineColor(6);
+  AC_down_line->SetLineColor(6);
+  AC_left_line->SetLineColor(6);
+  AC_right_line->SetLineColor(6);
+  AC_up_line->SetLineWidth(2);
+  AC_down_line->SetLineWidth(2);
+  AC_left_line->SetLineWidth(2);
+  AC_right_line->SetLineWidth(2);
+
+  TLine *TGT_up_line=new TLine(TGT_left,TGT_up,TGT_right,TGT_up);
+  TLine *TGT_down_line=new TLine(TGT_left,TGT_down,TGT_right,TGT_down);
+  TLine *TGT_left_line=new TLine(TGT_left,TGT_down,TGT_left,TGT_up);
+  TLine *TGT_right_line=new TLine(TGT_right,TGT_down,TGT_right,TGT_up);
+  TGT_up_line->SetLineColor(6);
+  TGT_down_line->SetLineColor(6);
+  TGT_left_line->SetLineColor(6);
+  TGT_right_line->SetLineColor(6);
+  TGT_up_line->SetLineWidth(2);
+  TGT_down_line->SetLineWidth(2);
+  TGT_left_line->SetLineWidth(2);
+  TGT_right_line->SetLineWidth(2);
+
 
   cvs -> cd(1);
   htgt2xy0T -> Draw("colz");
@@ -391,6 +441,10 @@ void BDCprojection(Int_t runNo = 3202, Int_t neve_max=30000000)
 
   cvs2 -> cd(1);
   htgt2xy0_5T -> Draw("colz");
+  TGT_up_line->Draw("same");
+  TGT_down_line->Draw("same");
+  TGT_left_line->Draw("same");
+  TGT_right_line->Draw("same");
 
   cvs2 -> cd(2);
   htgt2xa0_5T -> Draw("colz");
@@ -400,6 +454,11 @@ void BDCprojection(Int_t runNo = 3202, Int_t neve_max=30000000)
 
   cvs3 -> cd(1);
   hACxy0_5T -> Draw("colz");
+  AC_up_line->Draw("same");
+  AC_down_line->Draw("same");
+  AC_left_line->Draw("same");
+  AC_right_line->Draw("same");
+
 
   cvs3 -> cd(2);
   hACxa0_5T -> Draw("colz");
