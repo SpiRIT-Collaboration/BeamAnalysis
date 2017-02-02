@@ -1,22 +1,27 @@
-#include "FieldMan.hh"
-
 //macro to asses BDC information. Starting point.
 
 //parameters
 Double_t BDC1_z=-3160.;//mm, center of BDC1 z in magnet frame
 Double_t BDC2_z=-2160.;//mm, center of BDC2 z in magnet frame
-Double_t BDC1_x=-0.72;//563;//mm, center of BDC1 x in magnet frame
-Double_t BDC2_x=-0.52;//436;//mm, center of BDC2 x in magnet frame
+Double_t BDC1_x=-0.72;//-0.563;//mm, center of BDC1 x in magnet frame
+Double_t BDC2_x=-0.52;//0.436;//mm, center of BDC2 x in magnet frame
 Double_t TGT_z=-593.1;//mm, desired projection plane in magnet frame
 Double_t AC_z=-820.;//mm, desired projection plane in magnet frame
 Double_t dist_BDCs = BDC2_z-BDC1_z; //mm
 Double_t dist_BDC1_TGT = TGT_z-BDC1_z; //mm
-Double_t dz=1.;
+Double_t dz=1.;//step forward in mm
 
+Double_t GetP(Double_t mQ, Double_t mAoQ, Double_t mBeta){
+  Double_t momentum;
+  Double_t rest_mass=mQ*mAoQ*931.494;//approximate mass by number of nucleons, in MeV/nucleon
+  //could look up mass exactly using a table
+  momentum=rest_mass*mBeta/std::sqrt(1-mBeta*mBeta);
+  return momentum;
+}
 
 Double_t *MagStep(Double_t Mdz,Double_t MBrho,Double_t MB,Double_t Ma){
   //only for positive charge in +y magnetic field
-  Double_t static Arr[2];//output:dx, da in mm, mrad
+  Double_t static Arr[2];//output:dx, a in mm, mrad
   Double_t Mya=Ma;
   Arr[0]=-Mdz*std::tan(Mya/1000.);//dx, mm - this is a linear approximation
   if(abs(MB)>0.){
@@ -31,8 +36,8 @@ Double_t *MagStep(Double_t Mdz,Double_t MBrho,Double_t MB,Double_t Ma){
 void BDCprojection(Int_t runNo = 3202, Int_t neve_max=30000000)
 {
   //parameters
-  Double_t Enc_x_Offset=2.;//offset of enclosure
-  Double_t FC_x_Offset = 3.5;//offset of field cage
+  Double_t Enc_x_Offset=2.;//offset of enclosure, x axis, in mm
+  Double_t FC_x_Offset = 3.5;//offset of field cage, x axis, in mm
   Double_t AC_left=-3.;//BL side of AC
   Double_t AC_right=26.;//BR side of AC
   Double_t AC_up=19.;//side of AC
@@ -50,15 +55,20 @@ void BDCprojection(Int_t runNo = 3202, Int_t neve_max=30000000)
 
   //create magnetic field map
   ifstream Bfield;
-    Bfield.open("../ReducedBMap.txt");
-    Double_t xx[300],yy[300],zz[300],Bxx[300],Byy[300],Bzz[300];
-    int ii=0;
-    while(ii<=300){
-            Bfield >>xx[ii]>>yy[ii]>>zz[ii]>>Bxx[ii]>>Byy[ii]>>Bzz[ii];
-      ii++;
-      if (!Bfield.good()) break;
-    }
-    Bfield.close();
+  Bfield.open("../ReducedBMap.txt");
+  Double_t xx[300],yy[300],zz[300],Bxx[300],Byy[300],Bzz[300];
+  int ii=0;
+  while(ii<=300){
+    Bfield >>xx[ii]>>yy[ii]>>zz[ii]>>Bxx[ii]>>Byy[ii]>>Bzz[ii];
+    ii++;
+    if (!Bfield.good()) break;
+  }
+  Bfield.close();
+
+  ///Input ridf.root file to extract beta. If this macro is incorporated into the ridftoroot macro, we should extract beta directly there.
+  BeamBeam *beam = new BeamBeam();
+  beam->fChainBeam->AddFile(Form("data/run%i.ridf.root",runNo),0,"beam");
+  beam->Init();
 
   //Output file and Trees to write out
   TFile *fout = new TFile(Form("./output/BDC/BDCout.%i.root",runNo),"recreate");
@@ -145,15 +155,10 @@ void BDCprojection(Int_t runNo = 3202, Int_t neve_max=30000000)
 
   TArtStoreManager *sman = TArtStoreManager::Instance();
 
-  auto cvs = new TCanvas("cvs", "linear projection", 1200, 500);
-  cvs -> Divide(3, 1);
 
-  auto cvs2 = new TCanvas("cvs2", "Magnetic field projection", 1200, 500);
-  cvs2 -> Divide(3, 1);
-
-  auto cvs3 = new TCanvas("cvs3", "AC field projection", 1200, 500);
-  cvs3 -> Divide(3, 1);
-
+  int InAC=0;
+  int InTGT=0;
+  //Define variables to write out
   int neve = 0;
   bdc_info -> Branch("neve",&neve);
 
@@ -177,6 +182,8 @@ void BDCprojection(Int_t runNo = 3202, Int_t neve_max=30000000)
   Double_t AC_a_0_5T; //mrad
   Double_t AC_b_0_5T; //mrad
 
+  Double_t beta,beta78;
+
   TGT_lin -> Branch("TGT_x_0T",&TGT_x_0T,"TGT_x_0T/D");
   TGT_lin -> Branch("TGT_y_0T",&TGT_y_0T,"TGT_y_0T/D");
   TGT_lin -> Branch("TGT_a_0T",&TGT_a_0T,"TGT_a_0T/D");
@@ -193,12 +200,15 @@ void BDCprojection(Int_t runNo = 3202, Int_t neve_max=30000000)
   TGT_mag -> Branch("TGT_py_0_5T",&TGT_py_0_5T,"TGT_py_0_5T/D");
   TGT_mag -> Branch("TGT_pz_0_5T",&TGT_pz_0_5T,"TGT_pz_0_5T/D");
 
+  TGT_lin -> Branch("beta",&beta,"beta/D");
+  TGT_mag -> Branch("beta",&beta,"beta/D");
+  TGT_lin -> Branch("beta78",&beta78,"beta78/D");//written in two branches for simplicity. should be same across both branches!
+  TGT_mag -> Branch("beta78",&beta78,"beta78/D");//written in two branches for simplicity. should be same across both branches!
+
   Double_t bdc1trax, bdc1tray;
-  Double_t bdc1trx;
-  Double_t bdc1try;
+  Double_t bdc1trx,bdc1try;
   Double_t bdc2trax, bdc2tray;
-  Double_t bdc2trx;
-  Double_t bdc2try;
+  Double_t bdc2trx,bdc2try;
   bdc_info -> Branch("bdc1trx",&bdc1trx,"bdc1trx/D");
   bdc_info -> Branch("bdc1try",&bdc1try,"bdc1try/D");
   bdc_info -> Branch("bdc2trx",&bdc2trx,"bdc2trx/D");
@@ -260,7 +270,7 @@ void BDCprojection(Int_t runNo = 3202, Int_t neve_max=30000000)
 	}
       }
 
-      bdc1trx = posx; bdc1try = posy;
+      bdc1trx = posx+BDC1_x; bdc1try = posy;
       bdc1trax = angx*1000.; bdc1tray = angy*1000.;
 
       hbdc1xy->Fill(posx,posy);
@@ -304,7 +314,7 @@ void BDCprojection(Int_t runNo = 3202, Int_t neve_max=30000000)
 	}
       }
 
-      bdc2trx = posx; bdc2try = posy;
+      bdc2trx = posx+BDC2_x; bdc2try = posy;
       bdc2trax = angx*1000.; bdc2tray = angy*1000.;
 
       hbdc2xy->Fill(posx,posy);
@@ -315,6 +325,8 @@ void BDCprojection(Int_t runNo = 3202, Int_t neve_max=30000000)
 
     //----------------------------------------------------------
     // Target
+
+    //initialize variables
     TGT_x_0T=-9999; //mm
     TGT_y_0T=-9999; //mm
     TGT_a_0T=-999; //mrad
@@ -335,20 +347,26 @@ void BDCprojection(Int_t runNo = 3202, Int_t neve_max=30000000)
     AC_a_0_5T=-999; //mrad
     AC_b_0_5T=-999; //mrad
 
+    beam->fChainBeam->GetEvent(ientry);
+    beta78=beam->BigRIPSBeam_beta[0];
+    beta=beta78*0.973;//manually set normalization
+
     //produce linear projection
     if(bdc1trks && bdc2trks){
-
       if( bdc1trx>-1000 && bdc1try>-1000 && bdc2trx>-1000 && bdc2try>-1000){
+
+
         TGT_x_0T=( bdc2trx-bdc1trx )/dist_BDCs*dist_BDC1_TGT + bdc1trx; //mm
-  	    TGT_y_0T=( bdc2try-bdc1try )/dist_BDCs*dist_BDC1_TGT + bdc1try; //mm
-  	    TGT_a_0T=atan(( bdc2trx-bdc1trx )/dist_BDCs)*1000.; //mrad
-  	TGT_b_0T=atan(( bdc2try-bdc1try )/dist_BDCs)*1000.; //mrad
-  	htgt2xy0T -> Fill(TGT_x_0T,TGT_y_0T); // mm
-  	htgt2xa0T -> Fill(TGT_x_0T,TGT_a_0T); //mrad
-  	htgt2yb0T -> Fill(TGT_y_0T,TGT_b_0T); //mrad
-  	//magnetic field inclusion
+	      TGT_y_0T=( bdc2try-bdc1try )/dist_BDCs*dist_BDC1_TGT + bdc1try; //mm
+	      TGT_a_0T=atan(( bdc2trx-bdc1trx )/dist_BDCs)*1000.; //mrad
+  	    TGT_b_0T=atan(( bdc2try-bdc1try )/dist_BDCs)*1000.; //mrad
+      	htgt2xy0T -> Fill(TGT_x_0T,TGT_y_0T); // mm
+      	htgt2xa0T -> Fill(TGT_x_0T,TGT_a_0T); //mrad
+      	htgt2yb0T -> Fill(TGT_y_0T,TGT_b_0T); //mrad
+  	    //magnetic field inclusion
 
 	Double_t x,y,z,a,b;
+  Double_t px,py,pz,p;
 	Double_t B;
 	Double_t Brho=7.;//this is to be determined event by event in coming versions
 	x=bdc2trx;
@@ -356,10 +374,11 @@ void BDCprojection(Int_t runNo = 3202, Int_t neve_max=30000000)
 	z=BDC2_z;
 	a=TGT_a_0T;
 	b=TGT_b_0T;
-
+  p=GetP(beam->z,beam->aoq,beta);//in MeV/c
+  Brho=3335.6*p/(beam->z);//in Tm
 
 	while(z<AC_z){
-    B=Byy[(int)(std::sqrt(z*z+x*x)/10.+0.5)];//pull magnetic field from the previously created map
+	  B=Byy[(int)(std::sqrt(z*z+x*x)/10.+0.5)];//pull magnetic field from the previously created map
 	  x=x+MagStep(dz,Brho,B,a)[0];//add dx over this step of dz
 	  a=MagStep(dz,Brho,B,a)[1];//recalculate angle a after this step of dz
 	  z=z+dz;
@@ -369,7 +388,7 @@ void BDCprojection(Int_t runNo = 3202, Int_t neve_max=30000000)
 	AC_a_0_5T=a;
 	AC_b_0_5T=b;
 	while(z<TGT_z){
-    B=Byy[(int)(std::sqrt(z*z+x*x)/10.+0.5)];//pull magnetic field from the previously created map
+	  B=Byy[(int)(std::sqrt(z*z+x*x)/10.+0.5)];//pull magnetic field from the previously created map
 	  x=x+MagStep(dz,Brho,B,a)[0];
 	  a=MagStep(dz,Brho,B,a)[1];
 	  z=z+dz;
@@ -401,6 +420,15 @@ void BDCprojection(Int_t runNo = 3202, Int_t neve_max=30000000)
 
   }//end of event loop
 /////////////////create lines to draw target and AC profile/////////////////////////
+  auto cvs = new TCanvas("cvs", "linear projection", 1200, 500);
+  cvs -> Divide(3, 1);
+
+  auto cvs2 = new TCanvas("cvs2", "Magnetic field projection", 1200, 500);
+  cvs2 -> Divide(3, 1);
+
+  auto cvs3 = new TCanvas("cvs3", "AC field projection", 1200, 500);
+  cvs3 -> Divide(3, 1);
+
   TLine *AC_up_line=new TLine(AC_left,AC_up,AC_right,AC_up);
   TLine *AC_down_line=new TLine(AC_left,AC_down,AC_right,AC_down);
   TLine *AC_left_line=new TLine(AC_left,AC_down,AC_left,AC_up);
