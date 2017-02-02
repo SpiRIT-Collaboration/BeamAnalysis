@@ -356,8 +356,7 @@ void BDCprojection(Int_t runNo = 3202, Int_t neve_max=30000000)
 	z=BDC2_z;
 	a=TGT_a_0T;
 	b=TGT_b_0T;
-	TVector3 v1(x/10.,y/10.,z/10.);
-	TVector3 vec=mfield.GetField(v1);
+
 
 	while(z<AC_z){
     B=Byy[(int)(std::sqrt(z*z+x*x)/10.+0.5)];//pull magnetic field from the previously created map
