@@ -347,7 +347,7 @@ void BDCprojection(Int_t runNo = 3202, Int_t neve_max=30000000)
     AC_a_0_5T=-999; //mrad
     AC_b_0_5T=-999; //mrad
 
-    beam->fChainBeam->GetEvent(ientry);
+    beam->fChainBeam->GetEvent(neve);
     beta78=beam->BigRIPSBeam_beta[0];
     beta=beta78*0.973;//manually set normalization
 
