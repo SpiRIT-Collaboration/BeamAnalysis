@@ -352,7 +352,7 @@ void BDCprojection(Int_t runNo = 3202, Int_t neve_max=30000000)
     if(beta78 > 0. && beta78<1.) beta=beta78*0.973;//manually set normalization
 
     //produce linear projection
-    if(bdc1trks && bdc2trks && beam->z >20 && beam->z << 75 && beam->aoq > 0 && beam->aoq<3){
+    if(bdc1trks && bdc2trks && beam->z >20 && beam->z < 75 && beam->aoq > 0 && beam->aoq<3){
       if( bdc1trx>-1000 && bdc1try>-1000 && bdc2trx>-1000 && bdc2try>-1000){
         TGT_x_0T=( bdc2trx-bdc1trx )/dist_BDCs*dist_BDC1_TGT + bdc1trx; //mm
 	TGT_y_0T=( bdc2try-bdc1try )/dist_BDCs*dist_BDC1_TGT + bdc1try; //mm
