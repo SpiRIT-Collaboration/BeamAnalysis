@@ -183,7 +183,7 @@ void BDCprojection(Int_t runNo = 3202, Int_t neve_max=30000000)
   Double_t AC_b_0_5T; //mrad
 
   Double_t beta,beta78;
-
+  
   TGT_lin -> Branch("TGT_x_0T",&TGT_x_0T,"TGT_x_0T/D");
   TGT_lin -> Branch("TGT_y_0T",&TGT_y_0T,"TGT_y_0T/D");
   TGT_lin -> Branch("TGT_a_0T",&TGT_a_0T,"TGT_a_0T/D");
@@ -349,24 +349,22 @@ void BDCprojection(Int_t runNo = 3202, Int_t neve_max=30000000)
 
     beam->fChainBeam->GetEvent(neve);
     beta78=beam->BigRIPSBeam_beta[0];
-    beta=beta78*0.973;//manually set normalization
+    if(beta78 > 0. && beta78<1.) beta=beta78*0.973;//manually set normalization
 
     //produce linear projection
-    if(bdc1trks && bdc2trks){
+    if(bdc1trks && bdc2trks && beam->z >20 && beam->z << 75 && beam->aoq > 0 && beam->aoq<3){
       if( bdc1trx>-1000 && bdc1try>-1000 && bdc2trx>-1000 && bdc2try>-1000){
-
-
         TGT_x_0T=( bdc2trx-bdc1trx )/dist_BDCs*dist_BDC1_TGT + bdc1trx; //mm
-	      TGT_y_0T=( bdc2try-bdc1try )/dist_BDCs*dist_BDC1_TGT + bdc1try; //mm
-	      TGT_a_0T=atan(( bdc2trx-bdc1trx )/dist_BDCs)*1000.; //mrad
-  	    TGT_b_0T=atan(( bdc2try-bdc1try )/dist_BDCs)*1000.; //mrad
+	TGT_y_0T=( bdc2try-bdc1try )/dist_BDCs*dist_BDC1_TGT + bdc1try; //mm
+	TGT_a_0T=atan(( bdc2trx-bdc1trx )/dist_BDCs)*1000.; //mrad
+	TGT_b_0T=atan(( bdc2try-bdc1try )/dist_BDCs)*1000.; //mrad
       	htgt2xy0T -> Fill(TGT_x_0T,TGT_y_0T); // mm
       	htgt2xa0T -> Fill(TGT_x_0T,TGT_a_0T); //mrad
       	htgt2yb0T -> Fill(TGT_y_0T,TGT_b_0T); //mrad
-  	    //magnetic field inclusion
+	//magnetic field inclusion
 
 	Double_t x,y,z,a,b;
-  Double_t px,py,pz,p;
+	Double_t px,py,pz,p;
 	Double_t B;
 	Double_t Brho=7.;//this is to be determined event by event in coming versions
 	x=bdc2trx;
@@ -374,8 +372,8 @@ void BDCprojection(Int_t runNo = 3202, Int_t neve_max=30000000)
 	z=BDC2_z;
 	a=TGT_a_0T;
 	b=TGT_b_0T;
-  p=GetP(beam->z,beam->aoq,beta);//in MeV/c
-  Brho=3.3356*p/(beam->z)/1000.;//in Tm
+	p=GetP(beam->z,beam->aoq,beta);//in MeV/c
+	Brho=3.3356*p/(std::abs(beam->z))/1000.;//in Tm
 
 	while(z<AC_z){
 	  B=Byy[(int)(std::sqrt(z*z+x*x)/10.+0.5)];//pull magnetic field from the previously created map
