@@ -11,9 +11,31 @@ Double_t dist_BDCs = BDC2_z-BDC1_z; //mm
 Double_t dist_BDC1_TGT = TGT_z-BDC1_z; //mm
 Double_t dz=1.;//step forward in mm
 
+
+Double_t Initial_momentum(Double_t myQ, Double_t myAoQ, Double_t myBeta){
+  Double_t myE=0;
+  Double_t myP;
+  Double_t myMass;
+  myMass=myQ*myAoQ*931.494*0.9993774;
+  //initial energy
+  myE=myMass*(1/std::sqrt(1-myBeta*myBeta));
+  //energy loss after F7PPAC+scint
+  myE=myE+0.014541*myQ*myQ*(std::ln(myBeta*myBeta/(1-myBeta*myBeta))/(myBeta*myBeta)-6.06449);
+  myBeta=std::sqrt(1-(myMass/(myE+myMass))*(myMass/(myE+myMass)));
+  //energy loss after SBT
+  myE=myE+0.028674*myQ*myQ*(std::ln(myBeta*myBeta/(1-myBeta*myBeta))/(myBeta*myBeta)-5.21278);
+  myBeta=std::sqrt(1-(myMass/(myE+myMass))*(myMass/(myE+myMass)));
+  //energy loss of BDCs
+  myE=myE+0.038455*myQ*myQ*(std::ln(myBeta*myBeta/(1-myBeta*myBeta))/(myBeta*myBeta)-5.34635);
+  myBeta=std::sqrt(1-(myMass/(myE+myMass))*(myMass/(myE+myMass)));
+  myP=myMass*myBeta/std::sqrt(std::abs(1-myBeta*myBeta));
+  //End up with momentum after the BDCs
+  return myP;
+}
+
 Double_t GetP(Double_t mQ, Double_t mAoQ, Double_t mBeta){
   Double_t momentum;
-  Double_t rest_mass=mQ*mAoQ*931.494;//approximate mass by number of nucleons, in MeV/nucleon
+  Double_t rest_mass=mQ*mAoQ*931.494*0.9993774;//approximate mass by number of nucleons, in MeV/nucleon
   //could look up mass exactly using a table
   momentum=rest_mass*mBeta/std::sqrt(std::abs(1-mBeta*mBeta));
   return momentum;
@@ -183,7 +205,7 @@ void BDCprojection(Int_t runNo = 3202, Int_t neve_max=30000000)
   Double_t AC_b_0_5T; //mrad
 
   Double_t beta,beta78;
-  
+
   TGT_lin -> Branch("TGT_x_0T",&TGT_x_0T,"TGT_x_0T/D");
   TGT_lin -> Branch("TGT_y_0T",&TGT_y_0T,"TGT_y_0T/D");
   TGT_lin -> Branch("TGT_a_0T",&TGT_a_0T,"TGT_a_0T/D");
@@ -346,10 +368,12 @@ void BDCprojection(Int_t runNo = 3202, Int_t neve_max=30000000)
     AC_y_0_5T=-9999; //mm
     AC_a_0_5T=-999; //mrad
     AC_b_0_5T=-999; //mrad
-
+    Double_t px,py,pz,p;
     beam->fChainBeam->GetEvent(neve);
     beta78=beam->BigRIPSBeam_beta[0];
-    if(beta78 > 0. && beta78<1.) beta=beta78*0.973;//manually set normalization
+    //if(beta78 > 0. && beta78<1.) beta=beta78*0.973;//manually set normalization
+
+    if(beta78 > 0. && beta78<1.) p=Initial_momentum(beam->z,beam->aoq, beta78);//in Mev/c
 
     //produce linear projection
     if(bdc1trks && bdc2trks && beam->z >20 && beam->z < 75 && beam->aoq > 0 && beam->aoq<3){
@@ -364,16 +388,17 @@ void BDCprojection(Int_t runNo = 3202, Int_t neve_max=30000000)
 	//magnetic field inclusion
 
 	Double_t x,y,z,a,b;
-	Double_t px,py,pz,p;
+
 	Double_t B;
-	Double_t Brho=7.;//this is to be determined event by event in coming versions
+	Double_t Brho;//this is to be determined event by event in coming versions
+  Brho=3.3356*p/(std::abs(beam->z))/1000.;//in Tm
 	x=bdc2trx;
 	y=bdc2try+(dist_BDC1_TGT-dist_BDCs)*std::tan(TGT_b_0T/1000.);
 	z=BDC2_z;
 	a=TGT_a_0T;
 	b=TGT_b_0T;
-	p=GetP(beam->z,beam->aoq,beta);//in MeV/c
-	Brho=3.3356*p/(std::abs(beam->z))/1000.;//in Tm
+	//p=GetP(beam->z,beam->aoq,beta);//in MeV/c
+
 
 	while(z<AC_z){
 	  B=Byy[(int)(std::sqrt(z*z+x*x)/10.+0.5)];//pull magnetic field from the previously created map
