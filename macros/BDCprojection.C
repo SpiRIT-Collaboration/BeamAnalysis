@@ -20,13 +20,13 @@ Double_t Initial_momentum(Double_t myQ, Double_t myAoQ, Double_t myBeta){
   //initial energy
   myE=myMass*(1/std::sqrt(1-myBeta*myBeta));
   //energy loss after F7PPAC+scint
-  myE=myE+0.014541*myQ*myQ*(std::ln(myBeta*myBeta/(1-myBeta*myBeta))/(myBeta*myBeta)-6.06449);
+  myE=myE+0.014541*myQ*myQ*(std::log(myBeta*myBeta/(1-myBeta*myBeta))/(myBeta*myBeta)-6.06449);
   myBeta=std::sqrt(1-(myMass/(myE+myMass))*(myMass/(myE+myMass)));
   //energy loss after SBT
-  myE=myE+0.028674*myQ*myQ*(std::ln(myBeta*myBeta/(1-myBeta*myBeta))/(myBeta*myBeta)-5.21278);
+  myE=myE+0.028674*myQ*myQ*(std::log(myBeta*myBeta/(1-myBeta*myBeta))/(myBeta*myBeta)-5.21278);
   myBeta=std::sqrt(1-(myMass/(myE+myMass))*(myMass/(myE+myMass)));
   //energy loss of BDCs
-  myE=myE+0.038455*myQ*myQ*(std::ln(myBeta*myBeta/(1-myBeta*myBeta))/(myBeta*myBeta)-5.34635);
+  myE=myE+0.038455*myQ*myQ*(std::ogn(myBeta*myBeta/(1-myBeta*myBeta))/(myBeta*myBeta)-5.34635);
   myBeta=std::sqrt(1-(myMass/(myE+myMass))*(myMass/(myE+myMass)));
   myP=myMass*myBeta/std::sqrt(std::abs(1-myBeta*myBeta));
   //End up with momentum after the BDCs
