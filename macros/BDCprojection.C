@@ -11,25 +11,33 @@ Double_t dist_BDCs = BDC2_z-BDC1_z; //mm
 Double_t dist_BDC1_TGT = TGT_z-BDC1_z; //mm
 Double_t dz=1.;//step forward in mm
 
+TH1* hBeta = new TH1D("hBeta", "x(mm); beta",200,.5,1); // angle: mrad
+
 
 Double_t Initial_momentum(Double_t myQ, Double_t myAoQ, Double_t myBeta){
   Double_t myE=0;
   Double_t myP;
   Double_t myMass;
+  //hBeta->Fill(myBeta);
   myMass=myQ*myAoQ*931.494*0.9993774;
   //initial energy
   myE=myMass*(1/std::sqrt(1-myBeta*myBeta));
+  myE=myE+0.002289*myQ*myQ*(std::log(myBeta*myBeta/(1-myBeta*myBeta))/(myBeta*myBeta)-10.084);
+  myBeta=std::sqrt(1-(myMass/(myE))*(myMass/(myE)));
+  myE=myE+0.125311*myQ*myQ*(std::log(myBeta*myBeta/(1-myBeta*myBeta))/(myBeta*myBeta)-2.11119);
+  myBeta=std::sqrt(1-(myMass/(myE))*(myMass/(myE)));
   //energy loss after F7PPAC+scint
   myE=myE+0.014541*myQ*myQ*(std::log(myBeta*myBeta/(1-myBeta*myBeta))/(myBeta*myBeta)-6.06449);
-  myBeta=std::sqrt(1-(myMass/(myE+myMass))*(myMass/(myE+myMass)));
+  myBeta=std::sqrt(1-(myMass/(myE))*(myMass/(myE)));
   //energy loss after SBT
   myE=myE+0.028674*myQ*myQ*(std::log(myBeta*myBeta/(1-myBeta*myBeta))/(myBeta*myBeta)-5.21278);
-  myBeta=std::sqrt(1-(myMass/(myE+myMass))*(myMass/(myE+myMass)));
+  myBeta=std::sqrt(1-(myMass/(myE))*(myMass/(myE)));
   //energy loss of BDCs
   myE=myE+0.038455*myQ*myQ*(std::log(myBeta*myBeta/(1-myBeta*myBeta))/(myBeta*myBeta)-5.34635);
-  myBeta=std::sqrt(1-(myMass/(myE+myMass))*(myMass/(myE+myMass)));
+  myBeta=std::sqrt(1-(myMass/(myE))*(myMass/(myE)));
   myP=myMass*myBeta/std::sqrt(std::abs(1-myBeta*myBeta));
   //End up with momentum after the BDCs
+  hBeta->Fill(myBeta);
   return myP;
 }
 
@@ -55,7 +63,7 @@ Double_t *MagStep(Double_t Mdz,Double_t MBrho,Double_t MB,Double_t Ma){
   return Arr;
 }
 
-void BDCprojection(Int_t runNo = 3202, Int_t neve_max=30000000)
+void BDCprojection(Int_t runNo = 3202, Int_t neve_max=3000000)
 {
   //parameters
   Double_t Enc_x_Offset=2.;//offset of enclosure, x axis, in mm
@@ -175,6 +183,8 @@ void BDCprojection(Int_t runNo = 3202, Int_t neve_max=30000000)
   TH1* hACxa0_5T = new TH2D("hACxa0T_5", "TGT XA; x (mm); x' (mrad)",200,-100,100, 200, 0, 200); // angle: mrad
   TH1* hACyb0_5T = new TH2D("hACyb0T_5", "TGT YB; y (mm); y' (mrad)",200,-100,100, 200, -100, 100); // angle: mrad
 
+  TH1* hXBeta = new TH2D("hXBeta", "x(mm); beta",200,-1,1, 200, -100, 100); // angle: mrad
+  
   TArtStoreManager *sman = TArtStoreManager::Instance();
 
 
@@ -452,6 +462,9 @@ void BDCprojection(Int_t runNo = 3202, Int_t neve_max=30000000)
   auto cvs3 = new TCanvas("cvs3", "AC field projection", 1200, 500);
   cvs3 -> Divide(3, 1);
 
+  auto cvs4 = new TCanvas("cvs4", "Beta distribution after BDCs", 1200, 500);
+ 
+  
   TLine *AC_up_line=new TLine(AC_left,AC_up,AC_right,AC_up);
   TLine *AC_down_line=new TLine(AC_left,AC_down,AC_right,AC_down);
   TLine *AC_left_line=new TLine(AC_left,AC_down,AC_left,AC_up);
@@ -516,7 +529,9 @@ void BDCprojection(Int_t runNo = 3202, Int_t neve_max=30000000)
   cvs3 -> cd(3);
   hACyb0_5T -> Draw("colz");
 
-
+  cvs4->cd();
+  hBeta->Draw();
+  
   fout->cd();
   TGT_lin->Write();
   TGT_mag->Write();
