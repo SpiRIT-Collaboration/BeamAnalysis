@@ -401,14 +401,20 @@ void BDCprojection(Int_t runNo = 3202, Int_t neve_max=3000000)
 
 	Double_t B;
 	Double_t Brho;//this is to be determined event by event in coming versions
-  Brho=3.3356*p/(std::abs(beam->z))/1000.;//in Tm
+	Brho=3.3356*p/(std::abs(beam->z))/1000.;//in Tm
 	x=bdc2trx;
 	y=bdc2try+(dist_BDC1_TGT-dist_BDCs)*std::tan(TGT_b_0T/1000.);
 	z=BDC2_z;
+	//
+	
 	a=TGT_a_0T;
 	b=TGT_b_0T;
-	//p=GetP(beam->z,beam->aoq,beta);//in MeV/c
+	p=GetP(beam->z,beam->aoq,beta);//in MeV/c
 
+	TGT_py_0T=p*std::sin(b/1000.);
+	TGT_px_0T=std::sqrt(p*p-py*py)*std::sin(a/1000.);
+	TGT_pz_0T=std::sqrt(p*p-py*py-px*px);
+	
 
 	while(z<AC_z){
 	  B=Byy[(int)(std::sqrt(z*z+x*x)/10.+0.5)];//pull magnetic field from the previously created map
@@ -426,6 +432,15 @@ void BDCprojection(Int_t runNo = 3202, Int_t neve_max=3000000)
 	  a=MagStep(dz,Brho,B,a)[1];
 	  z=z+dz;
 	}
+
+	TGT_py_0_5T=p*std::sin(b/1000.);
+	TGT_px_0_5T=std::sqrt(p*p-py*py)*std::sin(a/1000.);
+	TGT_pz_0_5T=std::sqrt(p*p-py*py-px*px);
+	
+	
+	//py=p*std::sin(b/1000.);
+	//px=std::sqrt(p*p-py*py)*std::sin(a/1000.);
+	//pz=std::sqrt(p*p-py*py-px*px);
 
 	TGT_x_0_5T=x;
 	TGT_y_0_5T=y;
