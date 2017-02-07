@@ -485,17 +485,13 @@ void BDCprojection(Int_t runNo = 3202, Int_t neve_max=3000000)
   auto cvs4 = new TCanvas("cvs4", "Beta distribution after BDCs", 1200, 500);
 
 
-  TText *tAC = new TText(.5,.5,Form("Inside AC: %i",inAC));
-  tAC->SetTextAlign(22);
+  TText *tAC = new TText(40,-80,Form("Inside AC: %i",inAC));
   tAC->SetTextColor(kRed+2);
-  tAC->SetTextFont(43);
   tAC->SetTextSize(10);
   tAC->Draw();
 
-  TText *tTGT = new TText(.5,.5,Form("Inside TGT: %i",inTGT));
-  tTGT->SetTextAlign(22);
+  TText *tTGT = new TText(40,-80,Form("Inside TGT: %i",inTGT));
   tTGT->SetTextColor(kRed+2);
-  tTGT->SetTextFont(43);
   tTGT->SetTextSize(10);
   tTGT->Draw();
 
