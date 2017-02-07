@@ -411,7 +411,7 @@ void BDCprojection(Int_t runNo = 3202, Int_t neve_max=3000000)
 
 	a=TGT_a_0T;
 	b=TGT_b_0T;
-	p=GetP(beam->z,beam->aoq,beta);//in MeV/c
+	//p=GetP(beam->z,beam->aoq,beta);//in MeV/c
 
 	TGT_py_0T=p*std::sin(b/1000.);
 	TGT_px_0T=std::sqrt(p*p-py*py)*std::sin(a/1000.);
@@ -497,8 +497,8 @@ void BDCprojection(Int_t runNo = 3202, Int_t neve_max=3000000)
 
   cout << Form("Inside AC: %i",inAC)<< endl;
   cout << Form("Inside TGT: %i",inTGT) << endl;
-  
-  
+
+
   TLine *AC_up_line=new TLine(AC_left,AC_up,AC_right,AC_up);
   TLine *AC_down_line=new TLine(AC_left,AC_down,AC_right,AC_down);
   TLine *AC_left_line=new TLine(AC_left,AC_down,AC_left,AC_up);
