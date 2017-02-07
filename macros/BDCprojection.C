@@ -385,7 +385,9 @@ void BDCprojection(Int_t runNo = 3202, Int_t neve_max=3000000)
     beta78=beam->BigRIPSBeam_beta[0];
     //if(beta78 > 0. && beta78<1.) beta=beta78*0.973;//manually set normalization
 
-    if(beta78 > 0. && beta78<1.) p=Initial_momentum(beam->z,beam->aoq, beta78);//in Mev/c
+    if(beta78 > 0. && beta78<1.)
+    {
+    p=Initial_momentum(beam->z,beam->aoq, beta78);//in Mev/c
 
     //produce linear projection
     if(bdc1trks && bdc2trks && beam->z >20 && beam->z < 75 && beam->aoq > 0 && beam->aoq<3){
@@ -459,6 +461,7 @@ void BDCprojection(Int_t runNo = 3202, Int_t neve_max=3000000)
 
   if(AC_x_0_5T > AC_left && AC_x_0_5T < AC_right && AC_y_0_5T > AC_down && AC_y_0_5T < AC_up ) inAC++;
   if(TGT_x_0_5T > TGT_left && TGT_x_0_5T < TGT_right && TGT_y_0_5T > TGT_down && TGT_y_0_5T < TGT_up ) inTGT++;
+}
       }
 
     }
