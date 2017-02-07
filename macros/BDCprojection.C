@@ -415,7 +415,7 @@ void BDCprojection(Int_t runNo = 3202, Int_t neve_max=3000000)
 
 	TGT_py_0T=p*std::sin(b/1000.);
 	TGT_px_0T=std::sqrt(p*p-py*py)*std::sin(a/1000.);
-	TGT_pz_0T=p;
+	TGT_pz_0T=std::sqrt(p*p-TGT_px_0T*TGT_px_0T-TGT_py_0T*TGT_py_0T);
 
 
 	while(z<AC_z){
@@ -437,7 +437,7 @@ void BDCprojection(Int_t runNo = 3202, Int_t neve_max=3000000)
 
 	TGT_py_0_5T=p*std::sin(b/1000.);
 	TGT_px_0_5T=std::sqrt(p*p-py*py)*std::sin(a/1000.);
-	TGT_pz_0_5T=std::sqrt(p*p-py*py-px*px);
+	TGT_pz_0_5T=std::sqrt(p*p-TGT_px_0_5T*TGT_px_0_5T-TGT_py_0_5T*TGT_py_0_5T);
 
 
 	//py=p*std::sin(b/1000.);
