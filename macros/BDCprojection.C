@@ -486,15 +486,19 @@ void BDCprojection(Int_t runNo = 3202, Int_t neve_max=3000000)
 
 
   TText *tAC = new TText(40,-80,Form("Inside AC: %i",inAC));
-  tAC->SetTextColor(kRed+2);
+  tAC->SetTextColor(kRed);
   tAC->SetTextSize(10);
   tAC->Draw();
 
-  TText *tTGT = new TText(40,-80,Form("Inside TGT: %i",inTGT));
-  tTGT->SetTextColor(kRed+2);
-  tTGT->SetTextSize(10);
+  TText *tTGT = new TText(0,0,Form("Inside TGT: %i",inTGT));
+  tTGT->SetTextColor(kRed);
+  tTGT->SetTextSize(100);
   tTGT->Draw();
 
+  cout << Form("Inside AC: %i",inAC)<< endl;
+  cout << Form("Inside TGT: %i",inTGT) << endl;
+  
+  
   TLine *AC_up_line=new TLine(AC_left,AC_up,AC_right,AC_up);
   TLine *AC_down_line=new TLine(AC_left,AC_down,AC_right,AC_down);
   TLine *AC_left_line=new TLine(AC_left,AC_down,AC_left,AC_up);
