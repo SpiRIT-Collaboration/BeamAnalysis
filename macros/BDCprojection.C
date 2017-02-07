@@ -22,8 +22,10 @@ Double_t Initial_momentum(Double_t myQ, Double_t myAoQ, Double_t myBeta){
   myMass=myQ*myAoQ*931.494*0.9993774;
   //initial energy
   myE=myMass*(1/std::sqrt(1-myBeta*myBeta));
+  //energy loss through F7PPAC1
   myE=myE+0.002289*myQ*myQ*(std::log(myBeta*myBeta/(1-myBeta*myBeta))/(myBeta*myBeta)-10.084);
   myBeta=std::sqrt(1-(myMass/(myE))*(myMass/(myE)));
+  //Energy loss through Ion Chamber
   myE=myE+0.125311*myQ*myQ*(std::log(myBeta*myBeta/(1-myBeta*myBeta))/(myBeta*myBeta)-2.11119);
   myBeta=std::sqrt(1-(myMass/(myE))*(myMass/(myE)));
   //energy loss after F7PPAC+scint
@@ -179,17 +181,17 @@ void BDCprojection(Int_t runNo = 3202, Int_t neve_max=3000000)
   TH1* htgt2xa0_5T = new TH2D("htgt2xa0T_5", "TGT XA; x (mm); x' (mrad)",200,-100,100, 200, 0, 200); // angle: mrad
   TH1* htgt2yb0_5T = new TH2D("htgt2yb0T_5", "TGT YB; y (mm); y' (mrad)",200,-100,100, 200, -100, 100); // angle: mrad
 
-  TH1* hACxy0_5T = new TH2D("hACxy0_5T", "TGT XY; x (mm); y (mm)",200,-100,100, 200,-100,100); // mm
-  TH1* hACxa0_5T = new TH2D("hACxa0T_5", "TGT XA; x (mm); x' (mrad)",200,-100,100, 200, 0, 200); // angle: mrad
-  TH1* hACyb0_5T = new TH2D("hACyb0T_5", "TGT YB; y (mm); y' (mrad)",200,-100,100, 200, -100, 100); // angle: mrad
+  TH1* hACxy0_5T = new TH2D("hACxy0_5T", "AC XY; x (mm); y (mm)",200,-100,100, 200,-100,100); // mm
+  TH1* hACxa0_5T = new TH2D("hACxa0T_5", "AC XA; x (mm); x' (mrad)",200,-100,100, 200, 0, 200); // angle: mrad
+  TH1* hACyb0_5T = new TH2D("hACyb0T_5", "AC YB; y (mm); y' (mrad)",200,-100,100, 200, -100, 100); // angle: mrad
 
-  TH1* hXBeta = new TH2D("hXBeta", "x(mm); beta",200,-1,1, 200, -100, 100); // angle: mrad
-  
+  TH1* hXBeta = new TH2D("hXBeta", "beta; beta; counts",200,-1,1, 200, -100, 100); // angle: mrad
+
   TArtStoreManager *sman = TArtStoreManager::Instance();
 
 
-  int InAC=0;
-  int InTGT=0;
+  int inAC=0;
+  int inTGT=0;
   //Define variables to write out
   int neve = 0;
   bdc_info -> Branch("neve",&neve);
@@ -406,7 +408,7 @@ void BDCprojection(Int_t runNo = 3202, Int_t neve_max=3000000)
 	y=bdc2try+(dist_BDC1_TGT-dist_BDCs)*std::tan(TGT_b_0T/1000.);
 	z=BDC2_z;
 	//
-	
+
 	a=TGT_a_0T;
 	b=TGT_b_0T;
 	p=GetP(beam->z,beam->aoq,beta);//in MeV/c
@@ -414,7 +416,7 @@ void BDCprojection(Int_t runNo = 3202, Int_t neve_max=3000000)
 	TGT_py_0T=p*std::sin(b/1000.);
 	TGT_px_0T=std::sqrt(p*p-py*py)*std::sin(a/1000.);
 	TGT_pz_0T=std::sqrt(p*p-py*py-px*px);
-	
+
 
 	while(z<AC_z){
 	  B=Byy[(int)(std::sqrt(z*z+x*x)/10.+0.5)];//pull magnetic field from the previously created map
@@ -436,8 +438,8 @@ void BDCprojection(Int_t runNo = 3202, Int_t neve_max=3000000)
 	TGT_py_0_5T=p*std::sin(b/1000.);
 	TGT_px_0_5T=std::sqrt(p*p-py*py)*std::sin(a/1000.);
 	TGT_pz_0_5T=std::sqrt(p*p-py*py-px*px);
-	
-	
+
+
 	//py=p*std::sin(b/1000.);
 	//px=std::sqrt(p*p-py*py)*std::sin(a/1000.);
 	//pz=std::sqrt(p*p-py*py-px*px);
@@ -454,6 +456,9 @@ void BDCprojection(Int_t runNo = 3202, Int_t neve_max=3000000)
 	hACxy0_5T -> Fill(AC_x_0_5T,AC_y_0_5T); // mm
 	hACxa0_5T -> Fill(AC_x_0_5T,AC_a_0_5T); //mrad
 	hACyb0_5T -> Fill(AC_y_0_5T,AC_b_0_5T); //mrad
+
+  if(AC_x_0_5T > AC_left && AC_x_0_5T < AC_right && AC_y_0_5T > AC_down && AC_y_0_5T < AC_up ) inAC++;
+  if(TGT_x_0_5T > TGT_left && TGT_x_0_5T < TGT_right && TGT_y_0_5T > TGT_down && TGT_y_0_5T < TGT_up ) inTGT++;
       }
 
     }
@@ -478,8 +483,22 @@ void BDCprojection(Int_t runNo = 3202, Int_t neve_max=3000000)
   cvs3 -> Divide(3, 1);
 
   auto cvs4 = new TCanvas("cvs4", "Beta distribution after BDCs", 1200, 500);
- 
-  
+
+
+  TText *tAC = new TText(.5,.5,Form("Inside AC: %i",inAC));
+  tAC->SetTextAlign(22);
+  tAC->SetTextColor(kRed+2);
+  tAC->SetTextFont(43);
+  tAC->SetTextSize(10);
+  tAC->Draw();
+
+  TText *tTGT = new TText(.5,.5,Form("Inside TGT: %i",inTGT));
+  tTGT->SetTextAlign(22);
+  tTGT->SetTextColor(kRed+2);
+  tTGT->SetTextFont(43);
+  tTGT->SetTextSize(10);
+  tTGT->Draw();
+
   TLine *AC_up_line=new TLine(AC_left,AC_up,AC_right,AC_up);
   TLine *AC_down_line=new TLine(AC_left,AC_down,AC_right,AC_down);
   TLine *AC_left_line=new TLine(AC_left,AC_down,AC_left,AC_up);
@@ -523,6 +542,7 @@ void BDCprojection(Int_t runNo = 3202, Int_t neve_max=3000000)
   TGT_down_line->Draw("same");
   TGT_left_line->Draw("same");
   TGT_right_line->Draw("same");
+  tTGT->Draw("same");
 
   cvs2 -> cd(2);
   htgt2xa0_5T -> Draw("colz");
@@ -536,7 +556,7 @@ void BDCprojection(Int_t runNo = 3202, Int_t neve_max=3000000)
   AC_down_line->Draw("same");
   AC_left_line->Draw("same");
   AC_right_line->Draw("same");
-
+  tAC->Draw("same");
 
   cvs3 -> cd(2);
   hACxa0_5T -> Draw("colz");
@@ -546,7 +566,7 @@ void BDCprojection(Int_t runNo = 3202, Int_t neve_max=3000000)
 
   cvs4->cd();
   hBeta->Draw();
-  
+
   fout->cd();
   TGT_lin->Write();
   TGT_mag->Write();
