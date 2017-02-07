@@ -411,7 +411,7 @@ void BDCprojection(Int_t runNo = 3202, Int_t neve_max=3000000)
 
 	a=TGT_a_0T;
 	b=TGT_b_0T;
-	p=GetP(beam->z,beam->aoq,beta);//in MeV/c
+	//p=GetP(beam->z,beam->aoq,beta);//in MeV/c
 
 	TGT_py_0T=p*std::sin(b/1000.);
 	TGT_px_0T=std::sqrt(p*p-py*py)*std::sin(a/1000.);
