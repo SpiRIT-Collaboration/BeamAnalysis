@@ -1,0 +1,1571 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataroot>
+<SAMURAIFDC3>
+<ID>1</ID>
+   <NAME>FDC2K_0_0</NAME>
+   <FPL>13</FPL>
+   <layer>0</layer>
+   <id_plane>81</id_plane>
+   <anodedir>X</anodedir>
+   <wireid>0</wireid>
+   <wirepos>278</wirepos>
+   <wirez>-102</wirez>
+   <det>38</det>
+   <geo>26</geo>
+   <ch>3</ch>
+</SAMURAIFDC3>
+<SAMURAIFDC3>
+<ID>2</ID>
+   <NAME>FDC2K_0_1</NAME>
+   <FPL>13</FPL>
+   <layer>0</layer>
+   <id_plane>81</id_plane>
+   <anodedir>X</anodedir>
+   <wireid>1</wireid>
+   <wirepos>257</wirepos>
+   <wirez>-102</wirez>
+   <det>38</det>
+   <geo>26</geo>
+   <ch>7</ch>
+</SAMURAIFDC3>
+<SAMURAIFDC3>
+<ID>3</ID>
+   <NAME>FDC2K_0_2</NAME>
+   <FPL>13</FPL>
+   <layer>0</layer>
+   <id_plane>81</id_plane>
+   <anodedir>X</anodedir>
+   <wireid>2</wireid>
+   <wirepos>236</wirepos>
+   <wirez>-102</wirez>
+   <det>38</det>
+   <geo>26</geo>
+   <ch>11</ch>
+</SAMURAIFDC3>
+<SAMURAIFDC3>
+<ID>4</ID>
+   <NAME>FDC2K_0_3</NAME>
+   <FPL>13</FPL>
+   <layer>0</layer>
+   <id_plane>81</id_plane>
+   <anodedir>X</anodedir>
+   <wireid>3</wireid>
+   <wirepos>215</wirepos>
+   <wirez>-102</wirez>
+   <det>38</det>
+   <geo>26</geo>
+   <ch>15</ch>
+</SAMURAIFDC3>
+<SAMURAIFDC3>
+<ID>5</ID>
+   <NAME>FDC2K_0_4</NAME>
+   <FPL>13</FPL>
+   <layer>0</layer>
+   <id_plane>81</id_plane>
+   <anodedir>X</anodedir>
+   <wireid>4</wireid>
+   <wirepos>194</wirepos>
+   <wirez>-102</wirez>
+   <det>38</det>
+   <geo>26</geo>
+   <ch>19</ch>
+</SAMURAIFDC3>
+<SAMURAIFDC3>
+<ID>6</ID>
+   <NAME>FDC2K_0_5</NAME>
+   <FPL>13</FPL>
+   <layer>0</layer>
+   <id_plane>81</id_plane>
+   <anodedir>X</anodedir>
+   <wireid>5</wireid>
+   <wirepos>173</wirepos>
+   <wirez>-102</wirez>
+   <det>38</det>
+   <geo>26</geo>
+   <ch>23</ch>
+</SAMURAIFDC3>
+<SAMURAIFDC3>
+<ID>7</ID>
+   <NAME>FDC2K_0_6</NAME>
+   <FPL>13</FPL>
+   <layer>0</layer>
+   <id_plane>81</id_plane>
+   <anodedir>X</anodedir>
+   <wireid>6</wireid>
+   <wirepos>152</wirepos>
+   <wirez>-102</wirez>
+   <det>38</det>
+   <geo>26</geo>
+   <ch>27</ch>
+</SAMURAIFDC3>
+<SAMURAIFDC3>
+<ID>8</ID>
+   <NAME>FDC2K_0_7</NAME>
+   <FPL>13</FPL>
+   <layer>0</layer>
+   <id_plane>81</id_plane>
+   <anodedir>X</anodedir>
+   <wireid>7</wireid>
+   <wirepos>131</wirepos>
+   <wirez>-102</wirez>
+   <det>38</det>
+   <geo>26</geo>
+   <ch>31</ch>
+</SAMURAIFDC3>
+<SAMURAIFDC3>
+<ID>9</ID>
+   <NAME>FDC2K_0_8</NAME>
+   <FPL>13</FPL>
+   <layer>0</layer>
+   <id_plane>81</id_plane>
+   <anodedir>X</anodedir>
+   <wireid>8</wireid>
+   <wirepos>110</wirepos>
+   <wirez>-102</wirez>
+   <det>38</det>
+   <geo>26</geo>
+   <ch>35</ch>
+</SAMURAIFDC3>
+<SAMURAIFDC3>
+<ID>10</ID>
+   <NAME>FDC2K_0_9</NAME>
+   <FPL>13</FPL>
+   <layer>0</layer>
+   <id_plane>81</id_plane>
+   <anodedir>X</anodedir>
+   <wireid>9</wireid>
+   <wirepos>89</wirepos>
+   <wirez>-102</wirez>
+   <det>38</det>
+   <geo>26</geo>
+   <ch>39</ch>
+</SAMURAIFDC3>
+<SAMURAIFDC3>
+<ID>11</ID>
+   <NAME>FDC2K_0_10</NAME>
+   <FPL>13</FPL>
+   <layer>0</layer>
+   <id_plane>81</id_plane>
+   <anodedir>X</anodedir>
+   <wireid>10</wireid>
+   <wirepos>68</wirepos>
+   <wirez>-102</wirez>
+   <det>38</det>
+   <geo>26</geo>
+   <ch>43</ch>
+</SAMURAIFDC3>
+<SAMURAIFDC3>
+<ID>12</ID>
+   <NAME>FDC2K_0_11</NAME>
+   <FPL>13</FPL>
+   <layer>0</layer>
+   <id_plane>81</id_plane>
+   <anodedir>X</anodedir>
+   <wireid>11</wireid>
+   <wirepos>47</wirepos>
+   <wirez>-102</wirez>
+   <det>38</det>
+   <geo>26</geo>
+   <ch>47</ch>
+</SAMURAIFDC3>
+<SAMURAIFDC3>
+<ID>13</ID>
+   <NAME>FDC2K_0_12</NAME>
+   <FPL>13</FPL>
+   <layer>0</layer>
+   <id_plane>81</id_plane>
+   <anodedir>X</anodedir>
+   <wireid>12</wireid>
+   <wirepos>26</wirepos>
+   <wirez>-102</wirez>
+   <det>38</det>
+   <geo>26</geo>
+   <ch>51</ch>
+</SAMURAIFDC3>
+<SAMURAIFDC3>
+<ID>14</ID>
+   <NAME>FDC2K_0_13</NAME>
+   <FPL>13</FPL>
+   <layer>0</layer>
+   <id_plane>81</id_plane>
+   <anodedir>X</anodedir>
+   <wireid>13</wireid>
+   <wirepos>5</wirepos>
+   <wirez>-102</wirez>
+   <det>38</det>
+   <geo>26</geo>
+   <ch>55</ch>
+</SAMURAIFDC3>
+<SAMURAIFDC3>
+<ID>15</ID>
+   <NAME>FDC2K_0_14</NAME>
+   <FPL>13</FPL>
+   <layer>0</layer>
+   <id_plane>81</id_plane>
+   <anodedir>X</anodedir>
+   <wireid>14</wireid>
+   <wirepos>-16</wirepos>
+   <wirez>-102</wirez>
+   <det>38</det>
+   <geo>26</geo>
+   <ch>59</ch>
+</SAMURAIFDC3>
+<SAMURAIFDC3>
+<ID>16</ID>
+   <NAME>FDC2K_0_15</NAME>
+   <FPL>13</FPL>
+   <layer>0</layer>
+   <id_plane>81</id_plane>
+   <anodedir>X</anodedir>
+   <wireid>15</wireid>
+   <wirepos>-37</wirepos>
+   <wirez>-102</wirez>
+   <det>38</det>
+   <geo>26</geo>
+   <ch>63</ch>
+</SAMURAIFDC3>
+<SAMURAIFDC3>
+<ID>17</ID>
+   <NAME>FDC2K_0_16</NAME>
+   <FPL>13</FPL>
+   <layer>0</layer>
+   <id_plane>81</id_plane>
+   <anodedir>X</anodedir>
+   <wireid>16</wireid>
+   <wirepos>-58</wirepos>
+   <wirez>-102</wirez>
+   <det>38</det>
+   <geo>27</geo>
+   <ch>3</ch>
+</SAMURAIFDC3>
+<SAMURAIFDC3>
+<ID>18</ID>
+   <NAME>FDC2K_0_17</NAME>
+   <FPL>13</FPL>
+   <layer>0</layer>
+   <id_plane>81</id_plane>
+   <anodedir>X</anodedir>
+   <wireid>17</wireid>
+   <wirepos>-79</wirepos>
+   <wirez>-102</wirez>
+   <det>38</det>
+   <geo>27</geo>
+   <ch>7</ch>
+</SAMURAIFDC3>
+<SAMURAIFDC3>
+<ID>19</ID>
+   <NAME>FDC2K_0_18</NAME>
+   <FPL>13</FPL>
+   <layer>0</layer>
+   <id_plane>81</id_plane>
+   <anodedir>X</anodedir>
+   <wireid>18</wireid>
+   <wirepos>-100</wirepos>
+   <wirez>-102</wirez>
+   <det>38</det>
+   <geo>27</geo>
+   <ch>11</ch>
+</SAMURAIFDC3>
+<SAMURAIFDC3>
+<ID>20</ID>
+   <NAME>FDC2K_0_19</NAME>
+   <FPL>13</FPL>
+   <layer>0</layer>
+   <id_plane>81</id_plane>
+   <anodedir>X</anodedir>
+   <wireid>19</wireid>
+   <wirepos>-121</wirepos>
+   <wirez>-102</wirez>
+   <det>38</det>
+   <geo>27</geo>
+   <ch>15</ch>
+</SAMURAIFDC3>
+<SAMURAIFDC3>
+<ID>21</ID>
+   <NAME>FDC2K_0_20</NAME>
+   <FPL>13</FPL>
+   <layer>0</layer>
+   <id_plane>81</id_plane>
+   <anodedir>X</anodedir>
+   <wireid>20</wireid>
+   <wirepos>-142</wirepos>
+   <wirez>-102</wirez>
+   <det>38</det>
+   <geo>27</geo>
+   <ch>19</ch>
+</SAMURAIFDC3>
+<SAMURAIFDC3>
+<ID>22</ID>
+   <NAME>FDC2K_0_21</NAME>
+   <FPL>13</FPL>
+   <layer>0</layer>
+   <id_plane>81</id_plane>
+   <anodedir>X</anodedir>
+   <wireid>21</wireid>
+   <wirepos>-163</wirepos>
+   <wirez>-102</wirez>
+   <det>38</det>
+   <geo>27</geo>
+   <ch>23</ch>
+</SAMURAIFDC3>
+<SAMURAIFDC3>
+<ID>23</ID>
+   <NAME>FDC2K_0_22</NAME>
+   <FPL>13</FPL>
+   <layer>0</layer>
+   <id_plane>81</id_plane>
+   <anodedir>X</anodedir>
+   <wireid>22</wireid>
+   <wirepos>-184</wirepos>
+   <wirez>-102</wirez>
+   <det>38</det>
+   <geo>27</geo>
+   <ch>27</ch>
+</SAMURAIFDC3>
+<SAMURAIFDC3>
+<ID>24</ID>
+   <NAME>FDC2K_0_23</NAME>
+   <FPL>13</FPL>
+   <layer>0</layer>
+   <id_plane>81</id_plane>
+   <anodedir>X</anodedir>
+   <wireid>23</wireid>
+   <wirepos>-205</wirepos>
+   <wirez>-102</wirez>
+   <det>38</det>
+   <geo>27</geo>
+   <ch>31</ch>
+</SAMURAIFDC3>
+<SAMURAIFDC3>
+<ID>25</ID>
+   <NAME>FDC2K_0_24</NAME>
+   <FPL>13</FPL>
+   <layer>0</layer>
+   <id_plane>81</id_plane>
+   <anodedir>X</anodedir>
+   <wireid>24</wireid>
+   <wirepos>-226</wirepos>
+   <wirez>-102</wirez>
+   <det>38</det>
+   <geo>27</geo>
+   <ch>35</ch>
+</SAMURAIFDC3>
+<SAMURAIFDC3>
+<ID>26</ID>
+   <NAME>FDC2K_0_25</NAME>
+   <FPL>13</FPL>
+   <layer>0</layer>
+   <id_plane>81</id_plane>
+   <anodedir>X</anodedir>
+   <wireid>25</wireid>
+   <wirepos>-247</wirepos>
+   <wirez>-102</wirez>
+   <det>38</det>
+   <geo>27</geo>
+   <ch>39</ch>
+</SAMURAIFDC3>
+<SAMURAIFDC3>
+<ID>27</ID>
+   <NAME>FDC2K_0_26</NAME>
+   <FPL>13</FPL>
+   <layer>0</layer>
+   <id_plane>81</id_plane>
+   <anodedir>X</anodedir>
+   <wireid>26</wireid>
+   <wirepos>-268</wirepos>
+   <wirez>-102</wirez>
+   <det>38</det>
+   <geo>27</geo>
+   <ch>43</ch>
+</SAMURAIFDC3>
+<SAMURAIFDC3>
+<ID>28</ID>
+   <NAME>FDC2K_0_27</NAME>
+   <FPL>13</FPL>
+   <layer>0</layer>
+   <id_plane>81</id_plane>
+   <anodedir>X</anodedir>
+   <wireid>27</wireid>
+   <wirepos>-289</wirepos>
+   <wirez>-102</wirez>
+   <det>38</det>
+   <geo>27</geo>
+   <ch>47</ch>
+</SAMURAIFDC3>
+<SAMURAIFDC3>
+<ID>29</ID>
+   <NAME>FDC2K_1_0</NAME>
+   <FPL>13</FPL>
+   <layer>1</layer>
+   <id_plane>82</id_plane>
+   <anodedir>X</anodedir>
+   <wireid>0</wireid>
+   <wirepos>288.5</wirepos>
+   <wirez>-84</wirez>
+   <det>38</det>
+   <geo>26</geo>
+   <ch>2</ch>
+</SAMURAIFDC3>
+<SAMURAIFDC3>
+<ID>30</ID>
+   <NAME>FDC2K_1_1</NAME>
+   <FPL>13</FPL>
+   <layer>1</layer>
+   <id_plane>82</id_plane>
+   <anodedir>X</anodedir>
+   <wireid>1</wireid>
+   <wirepos>267.5</wirepos>
+   <wirez>-84</wirez>
+   <det>38</det>
+   <geo>26</geo>
+   <ch>6</ch>
+</SAMURAIFDC3>
+<SAMURAIFDC3>
+<ID>31</ID>
+   <NAME>FDC2K_1_2</NAME>
+   <FPL>13</FPL>
+   <layer>1</layer>
+   <id_plane>82</id_plane>
+   <anodedir>X</anodedir>
+   <wireid>2</wireid>
+   <wirepos>246.5</wirepos>
+   <wirez>-84</wirez>
+   <det>38</det>
+   <geo>26</geo>
+   <ch>10</ch>
+</SAMURAIFDC3>
+<SAMURAIFDC3>
+<ID>32</ID>
+   <NAME>FDC2K_1_3</NAME>
+   <FPL>13</FPL>
+   <layer>1</layer>
+   <id_plane>82</id_plane>
+   <anodedir>X</anodedir>
+   <wireid>3</wireid>
+   <wirepos>225.5</wirepos>
+   <wirez>-84</wirez>
+   <det>38</det>
+   <geo>26</geo>
+   <ch>14</ch>
+</SAMURAIFDC3>
+<SAMURAIFDC3>
+<ID>33</ID>
+   <NAME>FDC2K_1_4</NAME>
+   <FPL>13</FPL>
+   <layer>1</layer>
+   <id_plane>82</id_plane>
+   <anodedir>X</anodedir>
+   <wireid>4</wireid>
+   <wirepos>204.5</wirepos>
+   <wirez>-84</wirez>
+   <det>38</det>
+   <geo>26</geo>
+   <ch>18</ch>
+</SAMURAIFDC3>
+<SAMURAIFDC3>
+<ID>34</ID>
+   <NAME>FDC2K_1_5</NAME>
+   <FPL>13</FPL>
+   <layer>1</layer>
+   <id_plane>82</id_plane>
+   <anodedir>X</anodedir>
+   <wireid>5</wireid>
+   <wirepos>183.5</wirepos>
+   <wirez>-84</wirez>
+   <det>38</det>
+   <geo>26</geo>
+   <ch>22</ch>
+</SAMURAIFDC3>
+<SAMURAIFDC3>
+<ID>35</ID>
+   <NAME>FDC2K_1_6</NAME>
+   <FPL>13</FPL>
+   <layer>1</layer>
+   <id_plane>82</id_plane>
+   <anodedir>X</anodedir>
+   <wireid>6</wireid>
+   <wirepos>162.5</wirepos>
+   <wirez>-84</wirez>
+   <det>38</det>
+   <geo>26</geo>
+   <ch>26</ch>
+</SAMURAIFDC3>
+<SAMURAIFDC3>
+<ID>36</ID>
+   <NAME>FDC2K_1_7</NAME>
+   <FPL>13</FPL>
+   <layer>1</layer>
+   <id_plane>82</id_plane>
+   <anodedir>X</anodedir>
+   <wireid>7</wireid>
+   <wirepos>141.5</wirepos>
+   <wirez>-84</wirez>
+   <det>38</det>
+   <geo>26</geo>
+   <ch>30</ch>
+</SAMURAIFDC3>
+<SAMURAIFDC3>
+<ID>37</ID>
+   <NAME>FDC2K_1_8</NAME>
+   <FPL>13</FPL>
+   <layer>1</layer>
+   <id_plane>82</id_plane>
+   <anodedir>X</anodedir>
+   <wireid>8</wireid>
+   <wirepos>120.5</wirepos>
+   <wirez>-84</wirez>
+   <det>38</det>
+   <geo>26</geo>
+   <ch>34</ch>
+</SAMURAIFDC3>
+<SAMURAIFDC3>
+<ID>38</ID>
+   <NAME>FDC2K_1_9</NAME>
+   <FPL>13</FPL>
+   <layer>1</layer>
+   <id_plane>82</id_plane>
+   <anodedir>X</anodedir>
+   <wireid>9</wireid>
+   <wirepos>99.5</wirepos>
+   <wirez>-84</wirez>
+   <det>38</det>
+   <geo>26</geo>
+   <ch>38</ch>
+</SAMURAIFDC3>
+<SAMURAIFDC3>
+<ID>39</ID>
+   <NAME>FDC2K_1_10</NAME>
+   <FPL>13</FPL>
+   <layer>1</layer>
+   <id_plane>82</id_plane>
+   <anodedir>X</anodedir>
+   <wireid>10</wireid>
+   <wirepos>78.5</wirepos>
+   <wirez>-84</wirez>
+   <det>38</det>
+   <geo>26</geo>
+   <ch>42</ch>
+</SAMURAIFDC3>
+<SAMURAIFDC3>
+<ID>40</ID>
+   <NAME>FDC2K_1_11</NAME>
+   <FPL>13</FPL>
+   <layer>1</layer>
+   <id_plane>82</id_plane>
+   <anodedir>X</anodedir>
+   <wireid>11</wireid>
+   <wirepos>57.5</wirepos>
+   <wirez>-84</wirez>
+   <det>38</det>
+   <geo>26</geo>
+   <ch>46</ch>
+</SAMURAIFDC3>
+<SAMURAIFDC3>
+<ID>41</ID>
+   <NAME>FDC2K_1_12</NAME>
+   <FPL>13</FPL>
+   <layer>1</layer>
+   <id_plane>82</id_plane>
+   <anodedir>X</anodedir>
+   <wireid>12</wireid>
+   <wirepos>36.5</wirepos>
+   <wirez>-84</wirez>
+   <det>38</det>
+   <geo>26</geo>
+   <ch>50</ch>
+</SAMURAIFDC3>
+<SAMURAIFDC3>
+<ID>42</ID>
+   <NAME>FDC2K_1_13</NAME>
+   <FPL>13</FPL>
+   <layer>1</layer>
+   <id_plane>82</id_plane>
+   <anodedir>X</anodedir>
+   <wireid>13</wireid>
+   <wirepos>15.5</wirepos>
+   <wirez>-84</wirez>
+   <det>38</det>
+   <geo>26</geo>
+   <ch>54</ch>
+</SAMURAIFDC3>
+<SAMURAIFDC3>
+<ID>43</ID>
+   <NAME>FDC2K_1_14</NAME>
+   <FPL>13</FPL>
+   <layer>1</layer>
+   <id_plane>82</id_plane>
+   <anodedir>X</anodedir>
+   <wireid>14</wireid>
+   <wirepos>-5.5</wirepos>
+   <wirez>-84</wirez>
+   <det>38</det>
+   <geo>26</geo>
+   <ch>58</ch>
+</SAMURAIFDC3>
+<SAMURAIFDC3>
+<ID>44</ID>
+   <NAME>FDC2K_1_15</NAME>
+   <FPL>13</FPL>
+   <layer>1</layer>
+   <id_plane>82</id_plane>
+   <anodedir>X</anodedir>
+   <wireid>15</wireid>
+   <wirepos>-26.5</wirepos>
+   <wirez>-84</wirez>
+   <det>38</det>
+   <geo>26</geo>
+   <ch>62</ch>
+</SAMURAIFDC3>
+<SAMURAIFDC3>
+<ID>45</ID>
+   <NAME>FDC2K_1_16</NAME>
+   <FPL>13</FPL>
+   <layer>1</layer>
+   <id_plane>82</id_plane>
+   <anodedir>X</anodedir>
+   <wireid>16</wireid>
+   <wirepos>-47.5</wirepos>
+   <wirez>-84</wirez>
+   <det>38</det>
+   <geo>27</geo>
+   <ch>2</ch>
+</SAMURAIFDC3>
+<SAMURAIFDC3>
+<ID>46</ID>
+   <NAME>FDC2K_1_17</NAME>
+   <FPL>13</FPL>
+   <layer>1</layer>
+   <id_plane>82</id_plane>
+   <anodedir>X</anodedir>
+   <wireid>17</wireid>
+   <wirepos>-68.5</wirepos>
+   <wirez>-84</wirez>
+   <det>38</det>
+   <geo>27</geo>
+   <ch>6</ch>
+</SAMURAIFDC3>
+<SAMURAIFDC3>
+<ID>47</ID>
+   <NAME>FDC2K_1_18</NAME>
+   <FPL>13</FPL>
+   <layer>1</layer>
+   <id_plane>82</id_plane>
+   <anodedir>X</anodedir>
+   <wireid>18</wireid>
+   <wirepos>-89.5</wirepos>
+   <wirez>-84</wirez>
+   <det>38</det>
+   <geo>27</geo>
+   <ch>10</ch>
+</SAMURAIFDC3>
+<SAMURAIFDC3>
+<ID>48</ID>
+   <NAME>FDC2K_1_19</NAME>
+   <FPL>13</FPL>
+   <layer>1</layer>
+   <id_plane>82</id_plane>
+   <anodedir>X</anodedir>
+   <wireid>19</wireid>
+   <wirepos>-110.5</wirepos>
+   <wirez>-84</wirez>
+   <det>38</det>
+   <geo>27</geo>
+   <ch>14</ch>
+</SAMURAIFDC3>
+<SAMURAIFDC3>
+<ID>49</ID>
+   <NAME>FDC2K_1_20</NAME>
+   <FPL>13</FPL>
+   <layer>1</layer>
+   <id_plane>82</id_plane>
+   <anodedir>X</anodedir>
+   <wireid>20</wireid>
+   <wirepos>-131.5</wirepos>
+   <wirez>-84</wirez>
+   <det>38</det>
+   <geo>27</geo>
+   <ch>18</ch>
+</SAMURAIFDC3>
+<SAMURAIFDC3>
+<ID>50</ID>
+   <NAME>FDC2K_1_21</NAME>
+   <FPL>13</FPL>
+   <layer>1</layer>
+   <id_plane>82</id_plane>
+   <anodedir>X</anodedir>
+   <wireid>21</wireid>
+   <wirepos>-152.5</wirepos>
+   <wirez>-84</wirez>
+   <det>38</det>
+   <geo>27</geo>
+   <ch>22</ch>
+</SAMURAIFDC3>
+<SAMURAIFDC3>
+<ID>51</ID>
+   <NAME>FDC2K_1_22</NAME>
+   <FPL>13</FPL>
+   <layer>1</layer>
+   <id_plane>82</id_plane>
+   <anodedir>X</anodedir>
+   <wireid>22</wireid>
+   <wirepos>-173.5</wirepos>
+   <wirez>-84</wirez>
+   <det>38</det>
+   <geo>27</geo>
+   <ch>26</ch>
+</SAMURAIFDC3>
+<SAMURAIFDC3>
+<ID>52</ID>
+   <NAME>FDC2K_1_23</NAME>
+   <FPL>13</FPL>
+   <layer>1</layer>
+   <id_plane>82</id_plane>
+   <anodedir>X</anodedir>
+   <wireid>23</wireid>
+   <wirepos>-194.5</wirepos>
+   <wirez>-84</wirez>
+   <det>38</det>
+   <geo>27</geo>
+   <ch>30</ch>
+</SAMURAIFDC3>
+<SAMURAIFDC3>
+<ID>53</ID>
+   <NAME>FDC2K_1_24</NAME>
+   <FPL>13</FPL>
+   <layer>1</layer>
+   <id_plane>82</id_plane>
+   <anodedir>X</anodedir>
+   <wireid>24</wireid>
+   <wirepos>-215.5</wirepos>
+   <wirez>-84</wirez>
+   <det>38</det>
+   <geo>27</geo>
+   <ch>34</ch>
+</SAMURAIFDC3>
+<SAMURAIFDC3>
+<ID>54</ID>
+   <NAME>FDC2K_1_25</NAME>
+   <FPL>13</FPL>
+   <layer>1</layer>
+   <id_plane>82</id_plane>
+   <anodedir>X</anodedir>
+   <wireid>25</wireid>
+   <wirepos>-236.5</wirepos>
+   <wirez>-84</wirez>
+   <det>38</det>
+   <geo>27</geo>
+   <ch>38</ch>
+</SAMURAIFDC3>
+<SAMURAIFDC3>
+<ID>55</ID>
+   <NAME>FDC2K_1_26</NAME>
+   <FPL>13</FPL>
+   <layer>1</layer>
+   <id_plane>82</id_plane>
+   <anodedir>X</anodedir>
+   <wireid>26</wireid>
+   <wirepos>-257.5</wirepos>
+   <wirez>-84</wirez>
+   <det>38</det>
+   <geo>27</geo>
+   <ch>42</ch>
+</SAMURAIFDC3>
+<SAMURAIFDC3>
+<ID>56</ID>
+   <NAME>FDC2K_1_27</NAME>
+   <FPL>13</FPL>
+   <layer>1</layer>
+   <id_plane>82</id_plane>
+   <anodedir>X</anodedir>
+   <wireid>27</wireid>
+   <wirepos>-278.5</wirepos>
+   <wirez>-84</wirez>
+   <det>38</det>
+   <geo>27</geo>
+   <ch>46</ch>
+</SAMURAIFDC3>
+<SAMURAIFDC3>
+<ID>57</ID>
+   <NAME>FDC2K_2_0</NAME>
+   <FPL>13</FPL>
+   <layer>2</layer>
+   <id_plane>83</id_plane>
+   <anodedir>X</anodedir>
+   <wireid>0</wireid>
+   <wirepos>278</wirepos>
+   <wirez>-66</wirez>
+   <det>38</det>
+   <geo>26</geo>
+   <ch>1</ch>
+</SAMURAIFDC3>
+<SAMURAIFDC3>
+<ID>58</ID>
+   <NAME>FDC2K_2_1</NAME>
+   <FPL>13</FPL>
+   <layer>2</layer>
+   <id_plane>83</id_plane>
+   <anodedir>X</anodedir>
+   <wireid>1</wireid>
+   <wirepos>257</wirepos>
+   <wirez>-66</wirez>
+   <det>38</det>
+   <geo>26</geo>
+   <ch>5</ch>
+</SAMURAIFDC3>
+<SAMURAIFDC3>
+<ID>59</ID>
+   <NAME>FDC2K_2_2</NAME>
+   <FPL>13</FPL>
+   <layer>2</layer>
+   <id_plane>83</id_plane>
+   <anodedir>X</anodedir>
+   <wireid>2</wireid>
+   <wirepos>236</wirepos>
+   <wirez>-66</wirez>
+   <det>38</det>
+   <geo>26</geo>
+   <ch>9</ch>
+</SAMURAIFDC3>
+<SAMURAIFDC3>
+<ID>60</ID>
+   <NAME>FDC2K_2_3</NAME>
+   <FPL>13</FPL>
+   <layer>2</layer>
+   <id_plane>83</id_plane>
+   <anodedir>X</anodedir>
+   <wireid>3</wireid>
+   <wirepos>215</wirepos>
+   <wirez>-66</wirez>
+   <det>38</det>
+   <geo>26</geo>
+   <ch>13</ch>
+</SAMURAIFDC3>
+<SAMURAIFDC3>
+<ID>61</ID>
+   <NAME>FDC2K_2_4</NAME>
+   <FPL>13</FPL>
+   <layer>2</layer>
+   <id_plane>83</id_plane>
+   <anodedir>X</anodedir>
+   <wireid>4</wireid>
+   <wirepos>194</wirepos>
+   <wirez>-66</wirez>
+   <det>38</det>
+   <geo>26</geo>
+   <ch>17</ch>
+</SAMURAIFDC3>
+<SAMURAIFDC3>
+<ID>62</ID>
+   <NAME>FDC2K_2_5</NAME>
+   <FPL>13</FPL>
+   <layer>2</layer>
+   <id_plane>83</id_plane>
+   <anodedir>X</anodedir>
+   <wireid>5</wireid>
+   <wirepos>173</wirepos>
+   <wirez>-66</wirez>
+   <det>38</det>
+   <geo>26</geo>
+   <ch>21</ch>
+</SAMURAIFDC3>
+<SAMURAIFDC3>
+<ID>63</ID>
+   <NAME>FDC2K_2_6</NAME>
+   <FPL>13</FPL>
+   <layer>2</layer>
+   <id_plane>83</id_plane>
+   <anodedir>X</anodedir>
+   <wireid>6</wireid>
+   <wirepos>152</wirepos>
+   <wirez>-66</wirez>
+   <det>38</det>
+   <geo>26</geo>
+   <ch>25</ch>
+</SAMURAIFDC3>
+<SAMURAIFDC3>
+<ID>64</ID>
+   <NAME>FDC2K_2_7</NAME>
+   <FPL>13</FPL>
+   <layer>2</layer>
+   <id_plane>83</id_plane>
+   <anodedir>X</anodedir>
+   <wireid>7</wireid>
+   <wirepos>131</wirepos>
+   <wirez>-66</wirez>
+   <det>38</det>
+   <geo>26</geo>
+   <ch>29</ch>
+</SAMURAIFDC3>
+<SAMURAIFDC3>
+<ID>65</ID>
+   <NAME>FDC2K_2_8</NAME>
+   <FPL>13</FPL>
+   <layer>2</layer>
+   <id_plane>83</id_plane>
+   <anodedir>X</anodedir>
+   <wireid>8</wireid>
+   <wirepos>110</wirepos>
+   <wirez>-66</wirez>
+   <det>38</det>
+   <geo>26</geo>
+   <ch>33</ch>
+</SAMURAIFDC3>
+<SAMURAIFDC3>
+<ID>66</ID>
+   <NAME>FDC2K_2_9</NAME>
+   <FPL>13</FPL>
+   <layer>2</layer>
+   <id_plane>83</id_plane>
+   <anodedir>X</anodedir>
+   <wireid>9</wireid>
+   <wirepos>89</wirepos>
+   <wirez>-66</wirez>
+   <det>38</det>
+   <geo>26</geo>
+   <ch>37</ch>
+</SAMURAIFDC3>
+<SAMURAIFDC3>
+<ID>67</ID>
+   <NAME>FDC2K_2_10</NAME>
+   <FPL>13</FPL>
+   <layer>2</layer>
+   <id_plane>83</id_plane>
+   <anodedir>X</anodedir>
+   <wireid>10</wireid>
+   <wirepos>68</wirepos>
+   <wirez>-66</wirez>
+   <det>38</det>
+   <geo>26</geo>
+   <ch>41</ch>
+</SAMURAIFDC3>
+<SAMURAIFDC3>
+<ID>68</ID>
+   <NAME>FDC2K_2_11</NAME>
+   <FPL>13</FPL>
+   <layer>2</layer>
+   <id_plane>83</id_plane>
+   <anodedir>X</anodedir>
+   <wireid>11</wireid>
+   <wirepos>47</wirepos>
+   <wirez>-66</wirez>
+   <det>38</det>
+   <geo>26</geo>
+   <ch>45</ch>
+</SAMURAIFDC3>
+<SAMURAIFDC3>
+<ID>69</ID>
+   <NAME>FDC2K_2_12</NAME>
+   <FPL>13</FPL>
+   <layer>2</layer>
+   <id_plane>83</id_plane>
+   <anodedir>X</anodedir>
+   <wireid>12</wireid>
+   <wirepos>26</wirepos>
+   <wirez>-66</wirez>
+   <det>38</det>
+   <geo>26</geo>
+   <ch>49</ch>
+</SAMURAIFDC3>
+<SAMURAIFDC3>
+<ID>70</ID>
+   <NAME>FDC2K_2_13</NAME>
+   <FPL>13</FPL>
+   <layer>2</layer>
+   <id_plane>83</id_plane>
+   <anodedir>X</anodedir>
+   <wireid>13</wireid>
+   <wirepos>5</wirepos>
+   <wirez>-66</wirez>
+   <det>38</det>
+   <geo>26</geo>
+   <ch>53</ch>
+</SAMURAIFDC3>
+<SAMURAIFDC3>
+<ID>71</ID>
+   <NAME>FDC2K_2_14</NAME>
+   <FPL>13</FPL>
+   <layer>2</layer>
+   <id_plane>83</id_plane>
+   <anodedir>X</anodedir>
+   <wireid>14</wireid>
+   <wirepos>-16</wirepos>
+   <wirez>-66</wirez>
+   <det>38</det>
+   <geo>26</geo>
+   <ch>57</ch>
+</SAMURAIFDC3>
+<SAMURAIFDC3>
+<ID>72</ID>
+   <NAME>FDC2K_2_15</NAME>
+   <FPL>13</FPL>
+   <layer>2</layer>
+   <id_plane>83</id_plane>
+   <anodedir>X</anodedir>
+   <wireid>15</wireid>
+   <wirepos>-37</wirepos>
+   <wirez>-66</wirez>
+   <det>38</det>
+   <geo>26</geo>
+   <ch>61</ch>
+</SAMURAIFDC3>
+<SAMURAIFDC3>
+<ID>73</ID>
+   <NAME>FDC2K_2_16</NAME>
+   <FPL>13</FPL>
+   <layer>2</layer>
+   <id_plane>83</id_plane>
+   <anodedir>X</anodedir>
+   <wireid>16</wireid>
+   <wirepos>-58</wirepos>
+   <wirez>-66</wirez>
+   <det>38</det>
+   <geo>27</geo>
+   <ch>1</ch>
+</SAMURAIFDC3>
+<SAMURAIFDC3>
+<ID>74</ID>
+   <NAME>FDC2K_2_17</NAME>
+   <FPL>13</FPL>
+   <layer>2</layer>
+   <id_plane>83</id_plane>
+   <anodedir>X</anodedir>
+   <wireid>17</wireid>
+   <wirepos>-79</wirepos>
+   <wirez>-66</wirez>
+   <det>38</det>
+   <geo>27</geo>
+   <ch>5</ch>
+</SAMURAIFDC3>
+<SAMURAIFDC3>
+<ID>75</ID>
+   <NAME>FDC2K_2_18</NAME>
+   <FPL>13</FPL>
+   <layer>2</layer>
+   <id_plane>83</id_plane>
+   <anodedir>X</anodedir>
+   <wireid>18</wireid>
+   <wirepos>-100</wirepos>
+   <wirez>-66</wirez>
+   <det>38</det>
+   <geo>27</geo>
+   <ch>9</ch>
+</SAMURAIFDC3>
+<SAMURAIFDC3>
+<ID>76</ID>
+   <NAME>FDC2K_2_19</NAME>
+   <FPL>13</FPL>
+   <layer>2</layer>
+   <id_plane>83</id_plane>
+   <anodedir>X</anodedir>
+   <wireid>19</wireid>
+   <wirepos>-121</wirepos>
+   <wirez>-66</wirez>
+   <det>38</det>
+   <geo>27</geo>
+   <ch>13</ch>
+</SAMURAIFDC3>
+<SAMURAIFDC3>
+<ID>77</ID>
+   <NAME>FDC2K_2_20</NAME>
+   <FPL>13</FPL>
+   <layer>2</layer>
+   <id_plane>83</id_plane>
+   <anodedir>X</anodedir>
+   <wireid>20</wireid>
+   <wirepos>-142</wirepos>
+   <wirez>-66</wirez>
+   <det>38</det>
+   <geo>27</geo>
+   <ch>17</ch>
+</SAMURAIFDC3>
+<SAMURAIFDC3>
+<ID>78</ID>
+   <NAME>FDC2K_2_21</NAME>
+   <FPL>13</FPL>
+   <layer>2</layer>
+   <id_plane>83</id_plane>
+   <anodedir>X</anodedir>
+   <wireid>21</wireid>
+   <wirepos>-163</wirepos>
+   <wirez>-66</wirez>
+   <det>38</det>
+   <geo>27</geo>
+   <ch>21</ch>
+</SAMURAIFDC3>
+<SAMURAIFDC3>
+<ID>79</ID>
+   <NAME>FDC2K_2_22</NAME>
+   <FPL>13</FPL>
+   <layer>2</layer>
+   <id_plane>83</id_plane>
+   <anodedir>X</anodedir>
+   <wireid>22</wireid>
+   <wirepos>-184</wirepos>
+   <wirez>-66</wirez>
+   <det>38</det>
+   <geo>27</geo>
+   <ch>25</ch>
+</SAMURAIFDC3>
+<SAMURAIFDC3>
+<ID>80</ID>
+   <NAME>FDC2K_2_23</NAME>
+   <FPL>13</FPL>
+   <layer>2</layer>
+   <id_plane>83</id_plane>
+   <anodedir>X</anodedir>
+   <wireid>23</wireid>
+   <wirepos>-205</wirepos>
+   <wirez>-66</wirez>
+   <det>38</det>
+   <geo>27</geo>
+   <ch>29</ch>
+</SAMURAIFDC3>
+<SAMURAIFDC3>
+<ID>81</ID>
+   <NAME>FDC2K_2_24</NAME>
+   <FPL>13</FPL>
+   <layer>2</layer>
+   <id_plane>83</id_plane>
+   <anodedir>X</anodedir>
+   <wireid>24</wireid>
+   <wirepos>-226</wirepos>
+   <wirez>-66</wirez>
+   <det>38</det>
+   <geo>27</geo>
+   <ch>33</ch>
+</SAMURAIFDC3>
+<SAMURAIFDC3>
+<ID>82</ID>
+   <NAME>FDC2K_2_25</NAME>
+   <FPL>13</FPL>
+   <layer>2</layer>
+   <id_plane>83</id_plane>
+   <anodedir>X</anodedir>
+   <wireid>25</wireid>
+   <wirepos>-247</wirepos>
+   <wirez>-66</wirez>
+   <det>38</det>
+   <geo>27</geo>
+   <ch>37</ch>
+</SAMURAIFDC3>
+<SAMURAIFDC3>
+<ID>83</ID>
+   <NAME>FDC2K_2_26</NAME>
+   <FPL>13</FPL>
+   <layer>2</layer>
+   <id_plane>83</id_plane>
+   <anodedir>X</anodedir>
+   <wireid>26</wireid>
+   <wirepos>-268</wirepos>
+   <wirez>-66</wirez>
+   <det>38</det>
+   <geo>27</geo>
+   <ch>41</ch>
+</SAMURAIFDC3>
+<SAMURAIFDC3>
+<ID>84</ID>
+   <NAME>FDC2K_2_27</NAME>
+   <FPL>13</FPL>
+   <layer>2</layer>
+   <id_plane>83</id_plane>
+   <anodedir>X</anodedir>
+   <wireid>27</wireid>
+   <wirepos>-289</wirepos>
+   <wirez>-66</wirez>
+   <det>38</det>
+   <geo>27</geo>
+   <ch>45</ch>
+</SAMURAIFDC3>
+<SAMURAIFDC3>
+<ID>85</ID>
+   <NAME>FDC2K_3_0</NAME>
+   <FPL>13</FPL>
+   <layer>3</layer>
+   <id_plane>84</id_plane>
+   <anodedir>X</anodedir>
+   <wireid>0</wireid>
+   <wirepos>288.5</wirepos>
+   <wirez>-48</wirez>
+   <det>38</det>
+   <geo>26</geo>
+   <ch>0</ch>
+</SAMURAIFDC3>
+<SAMURAIFDC3>
+<ID>86</ID>
+   <NAME>FDC2K_3_1</NAME>
+   <FPL>13</FPL>
+   <layer>3</layer>
+   <id_plane>84</id_plane>
+   <anodedir>X</anodedir>
+   <wireid>1</wireid>
+   <wirepos>267.5</wirepos>
+   <wirez>-48</wirez>
+   <det>38</det>
+   <geo>26</geo>
+   <ch>4</ch>
+</SAMURAIFDC3>
+<SAMURAIFDC3>
+<ID>87</ID>
+   <NAME>FDC2K_3_2</NAME>
+   <FPL>13</FPL>
+   <layer>3</layer>
+   <id_plane>84</id_plane>
+   <anodedir>X</anodedir>
+   <wireid>2</wireid>
+   <wirepos>246.5</wirepos>
+   <wirez>-48</wirez>
+   <det>38</det>
+   <geo>26</geo>
+   <ch>8</ch>
+</SAMURAIFDC3>
+<SAMURAIFDC3>
+<ID>88</ID>
+   <NAME>FDC2K_3_3</NAME>
+   <FPL>13</FPL>
+   <layer>3</layer>
+   <id_plane>84</id_plane>
+   <anodedir>X</anodedir>
+   <wireid>3</wireid>
+   <wirepos>225.5</wirepos>
+   <wirez>-48</wirez>
+   <det>38</det>
+   <geo>26</geo>
+   <ch>12</ch>
+</SAMURAIFDC3>
+<SAMURAIFDC3>
+<ID>89</ID>
+   <NAME>FDC2K_3_4</NAME>
+   <FPL>13</FPL>
+   <layer>3</layer>
+   <id_plane>84</id_plane>
+   <anodedir>X</anodedir>
+   <wireid>4</wireid>
+   <wirepos>204.5</wirepos>
+   <wirez>-48</wirez>
+   <det>38</det>
+   <geo>26</geo>
+   <ch>16</ch>
+</SAMURAIFDC3>
+<SAMURAIFDC3>
+<ID>90</ID>
+   <NAME>FDC2K_3_5</NAME>
+   <FPL>13</FPL>
+   <layer>3</layer>
+   <id_plane>84</id_plane>
+   <anodedir>X</anodedir>
+   <wireid>5</wireid>
+   <wirepos>183.5</wirepos>
+   <wirez>-48</wirez>
+   <det>38</det>
+   <geo>26</geo>
+   <ch>20</ch>
+</SAMURAIFDC3>
+<SAMURAIFDC3>
+<ID>91</ID>
+   <NAME>FDC2K_3_6</NAME>
+   <FPL>13</FPL>
+   <layer>3</layer>
+   <id_plane>84</id_plane>
+   <anodedir>X</anodedir>
+   <wireid>6</wireid>
+   <wirepos>162.5</wirepos>
+   <wirez>-48</wirez>
+   <det>38</det>
+   <geo>26</geo>
+   <ch>24</ch>
+</SAMURAIFDC3>
+<SAMURAIFDC3>
+<ID>92</ID>
+   <NAME>FDC2K_3_7</NAME>
+   <FPL>13</FPL>
+   <layer>3</layer>
+   <id_plane>84</id_plane>
+   <anodedir>X</anodedir>
+   <wireid>7</wireid>
+   <wirepos>141.5</wirepos>
+   <wirez>-48</wirez>
+   <det>38</det>
+   <geo>26</geo>
+   <ch>28</ch>
+</SAMURAIFDC3>
+<SAMURAIFDC3>
+<ID>93</ID>
+   <NAME>FDC2K_3_8</NAME>
+   <FPL>13</FPL>
+   <layer>3</layer>
+   <id_plane>84</id_plane>
+   <anodedir>X</anodedir>
+   <wireid>8</wireid>
+   <wirepos>120.5</wirepos>
+   <wirez>-48</wirez>
+   <det>38</det>
+   <geo>26</geo>
+   <ch>32</ch>
+</SAMURAIFDC3>
+<SAMURAIFDC3>
+<ID>94</ID>
+   <NAME>FDC2K_3_9</NAME>
+   <FPL>13</FPL>
+   <layer>3</layer>
+   <id_plane>84</id_plane>
+   <anodedir>X</anodedir>
+   <wireid>9</wireid>
+   <wirepos>99.5</wirepos>
+   <wirez>-48</wirez>
+   <det>38</det>
+   <geo>26</geo>
+   <ch>36</ch>
+</SAMURAIFDC3>
+<SAMURAIFDC3>
+<ID>95</ID>
+   <NAME>FDC2K_3_10</NAME>
+   <FPL>13</FPL>
+   <layer>3</layer>
+   <id_plane>84</id_plane>
+   <anodedir>X</anodedir>
+   <wireid>10</wireid>
+   <wirepos>78.5</wirepos>
+   <wirez>-48</wirez>
+   <det>38</det>
+   <geo>26</geo>
+   <ch>40</ch>
+</SAMURAIFDC3>
+<SAMURAIFDC3>
+<ID>96</ID>
+   <NAME>FDC2K_3_11</NAME>
+   <FPL>13</FPL>
+   <layer>3</layer>
+   <id_plane>84</id_plane>
+   <anodedir>X</anodedir>
+   <wireid>11</wireid>
+   <wirepos>57.5</wirepos>
+   <wirez>-48</wirez>
+   <det>38</det>
+   <geo>26</geo>
+   <ch>44</ch>
+</SAMURAIFDC3>
+<SAMURAIFDC3>
+<ID>97</ID>
+   <NAME>FDC2K_3_12</NAME>
+   <FPL>13</FPL>
+   <layer>3</layer>
+   <id_plane>84</id_plane>
+   <anodedir>X</anodedir>
+   <wireid>12</wireid>
+   <wirepos>36.5</wirepos>
+   <wirez>-48</wirez>
+   <det>38</det>
+   <geo>26</geo>
+   <ch>48</ch>
+</SAMURAIFDC3>
+<SAMURAIFDC3>
+<ID>98</ID>
+   <NAME>FDC2K_3_13</NAME>
+   <FPL>13</FPL>
+   <layer>3</layer>
+   <id_plane>84</id_plane>
+   <anodedir>X</anodedir>
+   <wireid>13</wireid>
+   <wirepos>15.5</wirepos>
+   <wirez>-48</wirez>
+   <det>38</det>
+   <geo>26</geo>
+   <ch>52</ch>
+</SAMURAIFDC3>
+<SAMURAIFDC3>
+<ID>99</ID>
+   <NAME>FDC2K_3_14</NAME>
+   <FPL>13</FPL>
+   <layer>3</layer>
+   <id_plane>84</id_plane>
+   <anodedir>X</anodedir>
+   <wireid>14</wireid>
+   <wirepos>-5.5</wirepos>
+   <wirez>-48</wirez>
+   <det>38</det>
+   <geo>26</geo>
+   <ch>56</ch>
+</SAMURAIFDC3>
+<SAMURAIFDC3>
+<ID>100</ID>
+   <NAME>FDC2K_3_15</NAME>
+   <FPL>13</FPL>
+   <layer>3</layer>
+   <id_plane>84</id_plane>
+   <anodedir>X</anodedir>
+   <wireid>15</wireid>
+   <wirepos>-26.5</wirepos>
+   <wirez>-48</wirez>
+   <det>38</det>
+   <geo>26</geo>
+   <ch>60</ch>
+</SAMURAIFDC3>
+<SAMURAIFDC3>
+<ID>101</ID>
+   <NAME>FDC2K_3_16</NAME>
+   <FPL>13</FPL>
+   <layer>3</layer>
+   <id_plane>84</id_plane>
+   <anodedir>X</anodedir>
+   <wireid>16</wireid>
+   <wirepos>-47.5</wirepos>
+   <wirez>-48</wirez>
+   <det>38</det>
+   <geo>27</geo>
+   <ch>0</ch>
+</SAMURAIFDC3>
+<SAMURAIFDC3>
+<ID>102</ID>
+   <NAME>FDC2K_3_17</NAME>
+   <FPL>13</FPL>
+   <layer>3</layer>
+   <id_plane>84</id_plane>
+   <anodedir>X</anodedir>
+   <wireid>17</wireid>
+   <wirepos>-68.5</wirepos>
+   <wirez>-48</wirez>
+   <det>38</det>
+   <geo>27</geo>
+   <ch>4</ch>
+</SAMURAIFDC3>
+<SAMURAIFDC3>
+<ID>103</ID>
+   <NAME>FDC2K_3_18</NAME>
+   <FPL>13</FPL>
+   <layer>3</layer>
+   <id_plane>84</id_plane>
+   <anodedir>X</anodedir>
+   <wireid>18</wireid>
+   <wirepos>-89.5</wirepos>
+   <wirez>-48</wirez>
+   <det>38</det>
+   <geo>27</geo>
+   <ch>8</ch>
+</SAMURAIFDC3>
+<SAMURAIFDC3>
+<ID>104</ID>
+   <NAME>FDC2K_3_19</NAME>
+   <FPL>13</FPL>
+   <layer>3</layer>
+   <id_plane>84</id_plane>
+   <anodedir>X</anodedir>
+   <wireid>19</wireid>
+   <wirepos>-110.5</wirepos>
+   <wirez>-48</wirez>
+   <det>38</det>
+   <geo>27</geo>
+   <ch>12</ch>
+</SAMURAIFDC3>
+<SAMURAIFDC3>
+<ID>105</ID>
+   <NAME>FDC2K_3_20</NAME>
+   <FPL>13</FPL>
+   <layer>3</layer>
+   <id_plane>84</id_plane>
+   <anodedir>X</anodedir>
+   <wireid>20</wireid>
+   <wirepos>-131.5</wirepos>
+   <wirez>-48</wirez>
+   <det>38</det>
+   <geo>27</geo>
+   <ch>16</ch>
+</SAMURAIFDC3>
+<SAMURAIFDC3>
+<ID>106</ID>
+   <NAME>FDC2K_3_21</NAME>
+   <FPL>13</FPL>
+   <layer>3</layer>
+   <id_plane>84</id_plane>
+   <anodedir>X</anodedir>
+   <wireid>21</wireid>
+   <wirepos>-152.5</wirepos>
+   <wirez>-48</wirez>
+   <det>38</det>
+   <geo>27</geo>
+   <ch>20</ch>
+</SAMURAIFDC3>
+<SAMURAIFDC3>
+<ID>107</ID>
+   <NAME>FDC2K_3_22</NAME>
+   <FPL>13</FPL>
+   <layer>3</layer>
+   <id_plane>84</id_plane>
+   <anodedir>X</anodedir>
+   <wireid>22</wireid>
+   <wirepos>-173.5</wirepos>
+   <wirez>-48</wirez>
+   <det>38</det>
+   <geo>27</geo>
+   <ch>24</ch>
+</SAMURAIFDC3>
+<SAMURAIFDC3>
+<ID>108</ID>
+   <NAME>FDC2K_3_23</NAME>
+   <FPL>13</FPL>
+   <layer>3</layer>
+   <id_plane>84</id_plane>
+   <anodedir>X</anodedir>
+   <wireid>23</wireid>
+   <wirepos>-194.5</wirepos>
+   <wirez>-48</wirez>
+   <det>38</det>
+   <geo>27</geo>
+   <ch>28</ch>
+</SAMURAIFDC3>
+<SAMURAIFDC3>
+<ID>109</ID>
+   <NAME>FDC2K_3_24</NAME>
+   <FPL>13</FPL>
+   <layer>3</layer>
+   <id_plane>84</id_plane>
+   <anodedir>X</anodedir>
+   <wireid>24</wireid>
+   <wirepos>-215.5</wirepos>
+   <wirez>-48</wirez>
+   <det>38</det>
+   <geo>27</geo>
+   <ch>32</ch>
+</SAMURAIFDC3>
+<SAMURAIFDC3>
+<ID>110</ID>
+   <NAME>FDC2K_3_25</NAME>
+   <FPL>13</FPL>
+   <layer>3</layer>
+   <id_plane>84</id_plane>
+   <anodedir>X</anodedir>
+   <wireid>25</wireid>
+   <wirepos>-236.5</wirepos>
+   <wirez>-48</wirez>
+   <det>38</det>
+   <geo>27</geo>
+   <ch>36</ch>
+</SAMURAIFDC3>
+<SAMURAIFDC3>
+<ID>111</ID>
+   <NAME>FDC2K_3_26</NAME>
+   <FPL>13</FPL>
+   <layer>3</layer>
+   <id_plane>84</id_plane>
+   <anodedir>X</anodedir>
+   <wireid>26</wireid>
+   <wirepos>-257.5</wirepos>
+   <wirez>-48</wirez>
+   <det>38</det>
+   <geo>27</geo>
+   <ch>40</ch>
+</SAMURAIFDC3>
+<SAMURAIFDC3>
+<ID>112</ID>
+   <NAME>FDC2K_3_27</NAME>
+   <FPL>13</FPL>
+   <layer>3</layer>
+   <id_plane>84</id_plane>
+   <anodedir>X</anodedir>
+   <wireid>27</wireid>
+   <wirepos>-278.5</wirepos>
+   <wirez>-48</wirez>
+   <det>38</det>
+   <geo>27</geo>
+   <ch>44</ch>
+</SAMURAIFDC3>
+</dataroot>
