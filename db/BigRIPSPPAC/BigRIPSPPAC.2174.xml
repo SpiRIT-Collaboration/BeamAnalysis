@@ -19,7 +19,7 @@
 <ypos_off>0</ypos_off>
 <xzpos>178.5</xzpos>
 <yzpos>187.1</yzpos>
-<tdc_overflow>10000000</tdc_overflow>
+<tdc_overflow>50000</tdc_overflow>
 <txsum_min>-2</txsum_min>
 <txsum_max>-1</txsum_max>
 <tysum_min>-2</tysum_min>
@@ -74,7 +74,7 @@
 <ypos_off>0</ypos_off>
 <xzpos>498.5</xzpos>
 <yzpos>507.1</yzpos>
-<tdc_overflow>10000000</tdc_overflow>
+<tdc_overflow>50000</tdc_overflow>
 <txsum_min>-2</txsum_min>
 <txsum_max>-1</txsum_max>
 <tysum_min>-2</tysum_min>
@@ -184,7 +184,7 @@
 <ypos_off>-2</ypos_off>
 <xzpos>56.5</xzpos>
 <yzpos>65.1</yzpos>
-<tdc_overflow>10000000</tdc_overflow>
+<tdc_overflow>50000</tdc_overflow>
 <txsum_min>-2</txsum_min>
 <txsum_max>-1</txsum_max>
 <tysum_min>-2</tysum_min>
@@ -239,7 +239,7 @@
 <ypos_off>0</ypos_off>
 <xzpos>-18.7</xzpos>
 <yzpos>-10.1</yzpos>
-<tdc_overflow>10000000</tdc_overflow>
+<tdc_overflow>50000</tdc_overflow>
 <txsum_min>94.435</txsum_min>
 <txsum_max>100.76</txsum_max>
 <tysum_min>92.7592</tysum_min>
@@ -294,7 +294,7 @@
 <ypos_off>0</ypos_off>
 <xzpos>18.7</xzpos>
 <yzpos>10.1</yzpos>
-<tdc_overflow>10000000</tdc_overflow>
+<tdc_overflow>50000</tdc_overflow>
 <txsum_min>89.1091</txsum_min>
 <txsum_max>95.0939</txsum_max>
 <tysum_min>93.9943</tysum_min>
@@ -349,7 +349,7 @@
 <ypos_off>0</ypos_off>
 <xzpos>871.3</xzpos>
 <yzpos>879.9</yzpos>
-<tdc_overflow>10000000</tdc_overflow>
+<tdc_overflow>50000</tdc_overflow>
 <txsum_min>169.176</txsum_min>
 <txsum_max>177.745</txsum_max>
 <tysum_min>91.817</tysum_min>
@@ -404,7 +404,7 @@
 <ypos_off>0</ypos_off>
 <xzpos>908.7</xzpos>
 <yzpos>900.1</yzpos>
-<tdc_overflow>10000000</tdc_overflow>
+<tdc_overflow>50000</tdc_overflow>
 <txsum_min>171.322</txsum_min>
 <txsum_max>181.048</txsum_max>
 <tysum_min>96.9551</tysum_min>
@@ -459,7 +459,7 @@
 <ypos_off>0</ypos_off>
 <xzpos>96.5</xzpos>
 <yzpos>105.1</yzpos>
-<tdc_overflow>10000000</tdc_overflow>
+<tdc_overflow>50000</tdc_overflow>
 <txsum_min>-2</txsum_min>
 <txsum_max>-1</txsum_max>
 <tysum_min>-2</tysum_min>
@@ -514,7 +514,7 @@
 <ypos_off>0</ypos_off>
 <xzpos>-418.7</xzpos>
 <yzpos>-410.1</yzpos>
-<tdc_overflow>10000000</tdc_overflow>
+<tdc_overflow>50000</tdc_overflow>
 <txsum_min>171.369</txsum_min>
 <txsum_max>182.733</txsum_max>
 <tysum_min>92.8139</tysum_min>
@@ -569,7 +569,7 @@
 <ypos_off>0</ypos_off>
 <xzpos>-381.3</xzpos>
 <yzpos>-389.9</yzpos>
-<tdc_overflow>10000000</tdc_overflow>
+<tdc_overflow>50000</tdc_overflow>
 <txsum_min>170.121</txsum_min>
 <txsum_max>178.093</txsum_max>
 <tysum_min>95.1919</tysum_min>
@@ -624,7 +624,7 @@
 <ypos_off>0</ypos_off>
 <xzpos>231.3</xzpos>
 <yzpos>239.9</yzpos>
-<tdc_overflow>10000000</tdc_overflow>
+<tdc_overflow>50000</tdc_overflow>
 <txsum_min>169.559</txsum_min>
 <txsum_max>175.818</txsum_max>
 <tysum_min>99.585</tysum_min>
@@ -679,7 +679,7 @@
 <ypos_off>0</ypos_off>
 <xzpos>268.7</xzpos>
 <yzpos>260.1</yzpos>
-<tdc_overflow>10000000</tdc_overflow>
+<tdc_overflow>50000</tdc_overflow>
 <txsum_min>175.506</txsum_min>
 <txsum_max>183.331</txsum_max>
 <tysum_min>102.203</tysum_min>
@@ -734,7 +734,7 @@
 <ypos_off>0</ypos_off>
 <xzpos>96.5</xzpos>
 <yzpos>105.1</yzpos>
-<tdc_overflow>10000000</tdc_overflow>
+<tdc_overflow>50000</tdc_overflow>
 <txsum_min>-2</txsum_min>
 <txsum_max>-1</txsum_max>
 <tysum_min>-2</tysum_min>
@@ -789,7 +789,7 @@
 <ypos_off>0</ypos_off>
 <xzpos>-868.7</xzpos>
 <yzpos>-860.1</yzpos>
-<tdc_overflow>10000000</tdc_overflow>
+<tdc_overflow>50000</tdc_overflow>
 <txsum_min>164.26</txsum_min>
 <txsum_max>173.793</txsum_max>
 <tysum_min>100.295</tysum_min>
@@ -844,7 +844,7 @@
 <ypos_off>0</ypos_off>
 <xzpos>-831.3</xzpos>
 <yzpos>-839.9</yzpos>
-<tdc_overflow>10000000</tdc_overflow>
+<tdc_overflow>50000</tdc_overflow>
 <txsum_min>169.284</txsum_min>
 <txsum_max>176.485</txsum_max>
 <tysum_min>92.4267</tysum_min>
@@ -899,7 +899,7 @@
 <ypos_off>0</ypos_off>
 <xzpos>76.3</xzpos>
 <yzpos>84.3</yzpos>
-<tdc_overflow>10000000</tdc_overflow>
+<tdc_overflow>50000</tdc_overflow>
 <txsum_min>83.1046</txsum_min>
 <txsum_max>89.6791</txsum_max>
 <tysum_min>92.9664</tysum_min>
@@ -954,7 +954,7 @@
 <ypos_off>0</ypos_off>
 <xzpos>113.7</xzpos>
 <yzpos>105.1</yzpos>
-<tdc_overflow>10000000</tdc_overflow>
+<tdc_overflow>50000</tdc_overflow>
 <txsum_min>-2</txsum_min>
 <txsum_max>-1</txsum_max>
 <tysum_min>-2</tysum_min>
