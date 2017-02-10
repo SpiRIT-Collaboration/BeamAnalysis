@@ -73,7 +73,7 @@ void BDCprojection(Int_t runNo = 3202, Int_t neve_max=3000000)
   Double_t AC_left=-5.;//BL side of AC
   Double_t AC_right=21;//BR side of AC
   Double_t AC_up=14.;//side of AC
-  Double_t AC_down=-17.5.;//side of AC
+  Double_t AC_down=-17.5;//side of AC
   Double_t TGT_left=-15.;//side of TGT
   Double_t TGT_right=15.;//side of TGT
   Double_t TGT_up=20.;//side of TGT
