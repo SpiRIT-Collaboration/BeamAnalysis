@@ -426,7 +426,7 @@ void BDCprojection(Int_t runNo = 3202, Int_t neve_max=3000000)
 	AC_b_0_5T=b;
 	
 	TGT_py_0T=p*std::sin(b/1000.);
-	TGT_px_0T=std::sqrt(p*p-py*py)*std::sin(a/1000.);
+	TGT_px_0T=std::sqrt(p*p-TGT_py_0T*TGT_py_0T)*std::sin(a/1000.);
 	TGT_pz_0T=std::sqrt(p*p-TGT_px_0T*TGT_px_0T-TGT_py_0T*TGT_py_0T);
 
 	
@@ -438,7 +438,7 @@ void BDCprojection(Int_t runNo = 3202, Int_t neve_max=3000000)
 	}
 	y=bdc2try+(dist_BDC1_TGT-dist_BDCs)*std::tan(TGT_b_0T/1000.);
 	TGT_py_0_5T=p*std::sin(b/1000.);
-	TGT_px_0_5T=std::sqrt(p*p-py*py)*std::sin(a/1000.);
+	TGT_px_0_5T=std::sqrt(p*p-TGT_py_0_5T*TGT_py_0_5T)*std::sin(a/1000.);
 	TGT_pz_0_5T=std::sqrt(p*p-TGT_px_0_5T*TGT_px_0_5T-TGT_py_0_5T*TGT_py_0_5T);
 
 
