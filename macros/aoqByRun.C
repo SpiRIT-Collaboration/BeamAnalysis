@@ -48,12 +48,21 @@ void aoqByRun(){
     //define the first and last run to evaluate
     int first_run=2840;
     int last_run=2845;
-    //define the AoQ range to investigate
-    double startAoQ=2.63;
-    double endAoQ=2.65;
+
     // where we want the AoQ to be: for 132 Sn, this is 132/50 = 2.64
-    double goalAoQ=2.64;
+    double goalAoQ=2.64;//assume 132Sn by default
+    if(first_run>=1735 && last run <2174) goalAoQ=2.64;//Commissioning run
+    if(first_run>=2174 && last run <2509) goalAoQ=108./50.;
+    if(first_run>=2509 && last run <2805) goalAoQ=112./50.;
+    if(first_run>=2805 && last run <3040) goalAoQ=132./50.;
+    if(first_run>=3040 && last run <3184) goalAoQ=124./50.;
+
+
     double guessTOF=0.;
+
+    //define the AoQ range to investigate
+    double startAoQ=goalAoQ+.2;
+    double endAoQ=goalAoQ-.2;
 
     ofstream myfile;
     myfile.open (Form("output/AoqByRun.%i.%i.csv",first_run,last_run));
