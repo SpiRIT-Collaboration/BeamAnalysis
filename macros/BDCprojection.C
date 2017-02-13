@@ -104,9 +104,9 @@ void BDCprojection(Int_t runNo = 3202, Int_t neve_max=3000000)
 
   //Output file and Trees to write out
   TFile *fout = new TFile(Form("./output/BDC/BDCout.%i.root",runNo),"recreate");
-  auto TGT_lin = new TTree("TGT_lin","TGT_lin");
-  auto TGT_mag = new TTree("TGT_mag","TGT_mag");
-  auto bdc_info = new TTree("bdc_info","bdc_info");
+  auto TGTlin = new TTree("TGTlin","TGTlin");
+  auto TGTmag = new TTree("TGTmag","TGT_mag");
+  auto bdcinfo = new TTree("bdcinfo","bdcinfo");
 
   TArtSAMURAIParameters *samurai_prm = new TArtSAMURAIParameters();
   samurai_prm->LoadParameter("db/SAMURAIBDC1.xml");
@@ -216,35 +216,35 @@ void BDCprojection(Int_t runNo = 3202, Int_t neve_max=3000000)
 
   Double_t beta,beta78;
 
-  TGT_lin -> Branch("TGT_x_0T",&TGT_x_0T,"TGT_x_0T/D");
-  TGT_lin -> Branch("TGT_y_0T",&TGT_y_0T,"TGT_y_0T/D");
-  TGT_lin -> Branch("TGT_a_0T",&TGT_a_0T,"TGT_a_0T/D");
-  TGT_lin -> Branch("TGT_b_0T",&TGT_b_0T,"TGT_b_0T/D");
-  TGT_lin -> Branch("TGT_px_0T",&TGT_px_0T,"TGT_px_0T/D");
-  TGT_lin -> Branch("TGT_py_0T",&TGT_py_0T,"TGT_py_0T/D");
-  TGT_lin -> Branch("TGT_pz_0T",&TGT_pz_0T,"TGT_pz_0T/D");
+  TGTlin -> Branch("TGT_x_0T",&TGT_x_0T,"TGT_x_0T/D");
+  TGTlin -> Branch("TGT_y_0T",&TGT_y_0T,"TGT_y_0T/D");
+  TGTlin -> Branch("TGT_a_0T",&TGT_a_0T,"TGT_a_0T/D");
+  TGTlin -> Branch("TGT_b_0T",&TGT_b_0T,"TGT_b_0T/D");
+  TGTlin -> Branch("TGT_px_0T",&TGT_px_0T,"TGT_px_0T/D");
+  TGTlin -> Branch("TGT_py_0T",&TGT_py_0T,"TGT_py_0T/D");
+  TGTlin -> Branch("TGT_pz_0T",&TGT_pz_0T,"TGT_pz_0T/D");
 
-  TGT_mag -> Branch("TGT_x_0_5T",&TGT_x_0_5T,"TGT_x_0_5T/D");
-  TGT_mag -> Branch("TGT_y_0_5T",&TGT_y_0_5T,"TGT_y_0_5T/D");
-  TGT_mag -> Branch("TGT_a_0_5T",&TGT_a_0_5T,"TGT_a_0_5T/D");
-  TGT_mag -> Branch("TGT_b_0_5T",&TGT_b_0_5T,"TGT_b_0_5T/D");
-  TGT_mag -> Branch("TGT_px_0_5T",&TGT_px_0_5T,"TGT_px_0_5T/D");
-  TGT_mag -> Branch("TGT_py_0_5T",&TGT_py_0_5T,"TGT_py_0_5T/D");
-  TGT_mag -> Branch("TGT_pz_0_5T",&TGT_pz_0_5T,"TGT_pz_0_5T/D");
+  TGTmag -> Branch("TGT_x_0_5T",&TGT_x_0_5T,"TGT_x_0_5T/D");
+  TGTmag -> Branch("TGT_y_0_5T",&TGT_y_0_5T,"TGT_y_0_5T/D");
+  TGTmag -> Branch("TGT_a_0_5T",&TGT_a_0_5T,"TGT_a_0_5T/D");
+  TGTmag -> Branch("TGT_b_0_5T",&TGT_b_0_5T,"TGT_b_0_5T/D");
+  TGTmag -> Branch("TGT_px_0_5T",&TGT_px_0_5T,"TGT_px_0_5T/D");
+  TGTmag -> Branch("TGT_py_0_5T",&TGT_py_0_5T,"TGT_py_0_5T/D");
+  TGTmag -> Branch("TGT_pz_0_5T",&TGT_pz_0_5T,"TGT_pz_0_5T/D");
 
-  TGT_lin -> Branch("beta",&beta,"beta/D");
-  TGT_mag -> Branch("beta",&beta,"beta/D");
-  TGT_lin -> Branch("beta78",&beta78,"beta78/D");//written in two branches for simplicity. should be same across both branches!
-  TGT_mag -> Branch("beta78",&beta78,"beta78/D");//written in two branches for simplicity. should be same across both branches!
+  TGTlin -> Branch("beta",&beta,"beta/D");
+  TGTmag -> Branch("beta",&beta,"beta/D");
+  TGTlin -> Branch("beta78",&beta78,"beta78/D");//written in two branches for simplicity. should be same across both branches!
+  TGTmag -> Branch("beta78",&beta78,"beta78/D");//written in two branches for simplicity. should be same across both branches!
 
   Double_t bdc1trax, bdc1tray;
   Double_t bdc1trx,bdc1try;
   Double_t bdc2trax, bdc2tray;
   Double_t bdc2trx,bdc2try;
-  bdc_info -> Branch("bdc1trx",&bdc1trx,"bdc1trx/D");
-  bdc_info -> Branch("bdc1try",&bdc1try,"bdc1try/D");
-  bdc_info -> Branch("bdc2trx",&bdc2trx,"bdc2trx/D");
-  bdc_info -> Branch("bdc2try",&bdc2try,"bdc2try/D");
+  bdcinfo -> Branch("bdc1trx",&bdc1trx,"bdc1trx/D");
+  bdcinfo -> Branch("bdc1try",&bdc1try,"bdc1try/D");
+  bdcinfo -> Branch("bdc2trx",&bdc2trx,"bdc2trx/D");
+  bdcinfo -> Branch("bdc2try",&bdc2try,"bdc2try/D");
 
   while(estore->GetNextEvent() && neve<neve_max){
     if (neve%100==0){
@@ -413,7 +413,7 @@ void BDCprojection(Int_t runNo = 3202, Int_t neve_max=3000000)
 	b=TGT_b_0T;
 	//p=GetP(beam->z,beam->aoq,beta);//in MeV/c
 
-	
+
 	while(z<AC_z){
 	  B=Byy[(int)(std::sqrt(z*z+x*x)/10.+0.5)];//pull magnetic field from the previously created map
 	  x=x+MagStep(dz,Brho,B,a)[0];//add dx over this step of dz
@@ -424,12 +424,12 @@ void BDCprojection(Int_t runNo = 3202, Int_t neve_max=3000000)
 	AC_y_0_5T=y;
 	AC_a_0_5T=a;
 	AC_b_0_5T=b;
-	
+
 	TGT_py_0T=p*std::sin(b/1000.);
 	TGT_px_0T=std::sqrt(p*p-TGT_py_0T*TGT_py_0T)*std::sin(a/1000.);
 	TGT_pz_0T=std::sqrt(p*p-TGT_px_0T*TGT_px_0T-TGT_py_0T*TGT_py_0T);
 
-	
+
 	while(z<TGT_z){
 	  B=Byy[(int)(std::sqrt(z*z+x*x)/10.+0.5)];//pull magnetic field from the previously created map
 	  x=x+MagStep(dz,Brho,B,a)[0];
@@ -463,9 +463,9 @@ void BDCprojection(Int_t runNo = 3202, Int_t neve_max=3000000)
 
     }
 
-    TGT_lin -> Fill();
-    TGT_mag -> Fill();
-    bdc_info -> Fill();
+    TGTlin -> Fill();
+    TGTmag -> Fill();
+    bdcinfo -> Fill();
     //move to next event
     estore->ClearData();
     ++neve;
@@ -556,9 +556,9 @@ void BDCprojection(Int_t runNo = 3202, Int_t neve_max=3000000)
   hBeta->Draw();
 
   fout->cd();
-  TGT_lin->Write();
-  TGT_mag->Write();
-  bdc_info->Write();
+  TGTlin->Write();
+  TGTmag->Write();
+  bdcinfo->Write();
   fout->Write();
   fout->Close();
 
