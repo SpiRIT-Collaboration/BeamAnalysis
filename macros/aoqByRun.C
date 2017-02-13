@@ -46,8 +46,8 @@ void aoqByRun(){
     gROOT->ForceStyle();
     double myTOF;
     //define the first and last run to evaluate
-    int first_run=2840;
-    int last_run=2845;
+    int first_run=2225;
+    int last_run=2255;
 
     // where we want the AoQ to be: for 132 Sn, this is 132/50 = 2.64
     double goalAoQ=2.64;//assume 132Sn by default
@@ -61,8 +61,10 @@ void aoqByRun(){
     double guessTOF=0.;
 
     //define the AoQ range to investigate
-    double startAoQ=goalAoQ+.2;
-    double endAoQ=goalAoQ-.2;
+    double startAoQ,endAoQ;
+    startAoQ=goalAoQ+.2;
+    endAoQ=goalAoQ-.2;
+    cout << startAoQ << "," << endAoQ << endl;
 
     ofstream myfile;
     myfile.open (Form("output/AoqByRun.%i.%i.csv",first_run,last_run));
