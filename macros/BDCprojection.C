@@ -103,7 +103,7 @@ void BDCprojection(Int_t runNo = 3202, Int_t neve_max=3000000)
   beam->Init();
 
   //Output file and Trees to write out
-  TFile *fout = new TFile(Form("./output/BDC/BDCout.%i.root",runNo),"recreate");
+  TFile *fout = new TFile(Form("./output/BDC/BDCout.%i.ridf.root",runNo),"recreate");
   auto TGTlin = new TTree("TGTlin","TGTlin");
   auto TGTmag = new TTree("TGTmag","TGT_mag");
   auto bdcinfo = new TTree("bdcinfo","bdcinfo");
