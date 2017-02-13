@@ -9,6 +9,7 @@
 
 #pragma link C++ class BeamRaw;
 #pragma link C++ class BeamBeam;
+#pragma link C++ class CalibSpectrum;
 
 #endif
 

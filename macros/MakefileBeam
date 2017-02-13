@@ -1,12 +1,13 @@
 #----------! Written by C. Santamaria / CEA Saclay !----------
 include ./Makefile.arch
-OBJ = 
+OBJ =
 
 #======= BEGIN CONFIGURATION =========
 
 # TClonesArray variables
 OBJ += BeamRaw.o
 OBJ += BeamBeam.o
+OBJ += CalibSpectrum.o
 
 
 #=======  END  CONFIGURATION =========
@@ -20,8 +21,8 @@ DICTSRC = .libbeam_dict.cc
 DICTOBJ = $(DICTSRC:.cc=.o)
 DICTHDR = $(DICTSRC:.cc=.h)
 
-CXXFLAGS = -fPIC `root-config --cflags` 
-LDFLAGS = `root-config --libs` 
+CXXFLAGS = -fPIC `root-config --cflags`
+LDFLAGS = `root-config --libs`
 
 all: $(TARGET)
 
