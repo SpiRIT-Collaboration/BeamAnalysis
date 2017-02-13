@@ -72,7 +72,7 @@ void BDCprojection(Int_t runNo = 3202, Int_t neve_max=3000000)
   Double_t FC_x_Offset = 3.5;//offset of field cage, x axis, in mm
   Double_t AC_left=-5.;//BL side of AC
   Double_t AC_right=21;//BR side of AC
-  Double_t AC_up=14.;//side of AC
+  Double_t AC_up=15.;//side of AC
   Double_t AC_down=-17.5;//side of AC
   Double_t TGT_left=-15.;//side of TGT
   Double_t TGT_right=15.;//side of TGT
@@ -192,7 +192,7 @@ void BDCprojection(Int_t runNo = 3202, Int_t neve_max=3000000)
   int inTGT=0;
   //Define variables to write out
   int neve = 0;
-  bdc_info -> Branch("neve",&neve);
+  bdcinfo -> Branch("neve",&neve);
 
   Double_t TGT_x_0T; //mm
   Double_t TGT_y_0T; //mm
@@ -208,6 +208,9 @@ void BDCprojection(Int_t runNo = 3202, Int_t neve_max=3000000)
   Double_t TGT_px_0_5T;//MeV/c
   Double_t TGT_py_0_5T;//MeV/c
   Double_t TGT_pz_0_5T;//MeV/c
+
+  TVector3 TGTVec;
+  TVector3 TGTPVec;
 
   Double_t AC_x_0_5T; //mm
   Double_t AC_y_0_5T; //mm
@@ -231,6 +234,8 @@ void BDCprojection(Int_t runNo = 3202, Int_t neve_max=3000000)
   TGTmag -> Branch("TGT_px_0_5T",&TGT_px_0_5T,"TGT_px_0_5T/D");
   TGTmag -> Branch("TGT_py_0_5T",&TGT_py_0_5T,"TGT_py_0_5T/D");
   TGTmag -> Branch("TGT_pz_0_5T",&TGT_pz_0_5T,"TGT_pz_0_5T/D");
+  TGTmag -> Branch("TGTVec",&TGTVec);
+  TGTmag -> Branch("TGTPVec",&TGTPVec);
 
   TGTlin -> Branch("beta",&beta,"beta/D");
   TGTmag -> Branch("beta",&beta,"beta/D");
@@ -374,6 +379,9 @@ void BDCprojection(Int_t runNo = 3202, Int_t neve_max=3000000)
     TGT_py_0_5T=-9999;//MeV/c
     TGT_pz_0_5T=-9999;//MeV/c
 
+    TGTVec.SetXYZ(-9999,-9999,-9999);
+    TGTPVec.SetXYZ(-99999,-99999,-99999);
+
     AC_x_0_5T=-9999; //mm
     AC_y_0_5T=-9999; //mm
     AC_a_0_5T=-999; //mrad
@@ -424,11 +432,11 @@ void BDCprojection(Int_t runNo = 3202, Int_t neve_max=3000000)
 	AC_y_0_5T=y;
 	AC_a_0_5T=a;
 	AC_b_0_5T=b;
-
+  /*
 	TGT_py_0T=p*std::sin(b/1000.);
 	TGT_px_0T=std::sqrt(p*p-TGT_py_0T*TGT_py_0T)*std::sin(a/1000.);
 	TGT_pz_0T=std::sqrt(p*p-TGT_px_0T*TGT_px_0T-TGT_py_0T*TGT_py_0T);
-
+  */
 
 	while(z<TGT_z){
 	  B=Byy[(int)(std::sqrt(z*z+x*x)/10.+0.5)];//pull magnetic field from the previously created map
@@ -441,7 +449,8 @@ void BDCprojection(Int_t runNo = 3202, Int_t neve_max=3000000)
 	TGT_px_0_5T=std::sqrt(p*p-TGT_py_0_5T*TGT_py_0_5T)*std::sin(a/1000.);
 	TGT_pz_0_5T=std::sqrt(p*p-TGT_px_0_5T*TGT_px_0_5T-TGT_py_0_5T*TGT_py_0_5T);
 
-
+  TGTPVec.SetXYZ(TGT_px_0T,TGT_py_0T,TGT_pz_0T);
+  TGTVec.SetXYZ(x,y,TGT_z);
 
 	TGT_x_0_5T=x;
 	TGT_y_0_5T=y;
