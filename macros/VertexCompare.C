@@ -1,21 +1,23 @@
  void VertexCompare(int runNo = 2843){
-   auto beam = new TChain("beam");
+   auto TGTmag = new TChain("TGTmag");
   auto cbmsim = new TChain("cbmsim");
 
   for (Int_t i = 0; i < 42; i++) {
   cbmsim -> AddFile(Form("/mnt/spirit/analysis/changj/SpiRITROOT/macros/data/run2843_s%d.reco.v1.04.root", i));
   }
-  beam -> AddFile(Form("./output/BDC/BDCout.%i.ridf.root",runNo));
+  TGTmag -> AddFile(Form("./output/BDC/BDCout.%i.ridf.root",runNo));
 
-  cbmsim -> AddFriend(beam);
+  cbmsim -> AddFriend(TGTMag);
 
   TClonesArray *eventArray = nullptr;
-  cbmsim -> SetBranchAddress("STEvent", &eventArray);
+  cbmsim -> SetBranchAddress("STVertex", &eventArray);
 
   auto *cvs1 = new TCanvas("cvs", "", 800, 800);
-
-  cbmsim -> Draw("z:aoq >> histBeamPID", "", "colz");
-
+  cvs1->Divide(2,2);
+  cvs1->cd(1);
+  cbmsim -> Draw("TGT_y_0_5T:TGT_x_0_5T >> hist(300, -100, 100, 300, -330, -130)", "", "colz");
+  cvs1->cd(2);
+  cbmsim -> Draw("STVertex.fPos.Y():STVertex.fPos.X() >> hist(300, -100, 100, 300, -330, -130)", "STVertex.fPos.Z()>-18&&STVertex.fPos.Z()<-5", "colz");
 /*
 
    auto c = new TChain("cbmsim");
