@@ -25,8 +25,8 @@ void drawPID(){
     BeamBeam *beam = new BeamBeam();
     BeamRaw *raw = new BeamRaw();
 
-    int first_run=2841;
-    int last_run=2841;
+    int first_run=2225;
+    int last_run=2255;
     //add runs to the chain
     for (int ii=first_run; ii<=last_run; ii++){
         beam->fChainBeam->AddFile(Form("data/run%i.ridf.root",ii),0,"beam");
@@ -40,7 +40,7 @@ void drawPID(){
     cout << " Entries = " << nentries << endl;
 
     TCanvas *cvs2 = new TCanvas("cvspid2", "", 0, 0, 800, 580);
-    auto *histBeamPID = new TH2D("histBeamPID", "", 500, 2, 3, 500, 0, 60);
+    auto *histBeamPID = new TH2D("histBeamPID", "", 500, 2.1, 2.3, 500, 40, 60);
 
     for(int ientry=0; ientry < nentries; ientry++){
       if(ientry%100000 == 0) cout << "File read: " << ientry*100./nentries << "%" << endl;
