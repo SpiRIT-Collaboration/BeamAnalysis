@@ -62,8 +62,8 @@ void aoqByRun(){
 
     //define the AoQ range to investigate
     double startAoQ,endAoQ;
-    startAoQ=goalAoQ+.2;
-    endAoQ=goalAoQ-.2;
+    startAoQ=goalAoQ-0.2;
+    endAoQ=goalAoQ+0.2;
     cout << startAoQ << "," << endAoQ << endl;
 
     ofstream myfile;
