@@ -9,15 +9,26 @@
 
   cbmsim -> AddFriend(TGTMag);
 
-  TClonesArray *eventArray = nullptr;
-  cbmsim -> SetBranchAddress("STVertex", &eventArray);
+  TClonesArray *STVertex = nullptr;
+  cbmsim -> SetBranchAddress("STVertex", &STVertex);
 
+  TVector3 *TPCpos;
+  STVertex->SetBranchAddress("fPos",&TPCpos);
+  
   auto *cvs1 = new TCanvas("cvs", "", 800, 800);
   cvs1->Divide(2,2);
   cvs1->cd(1);
   cbmsim -> Draw("TGT_y_0_5T:TGT_x_0_5T >> hist(300, -100, 100, 300, -330, -130)", "", "colz");
   cvs1->cd(2);
   cbmsim -> Draw("STVertex.fPos.Y():STVertex.fPos.X() >> hist(300, -100, 100, 300, -330, -130)", "STVertex.fPos.Z()>-18&&STVertex.fPos.Z()<-5", "colz");
+  Int_t nEvents = cbmsim -> GetEntries();
+  cout << "Number of events: " << nEvents << endl;
+
+  for(int iEvent=0; iEvent<nEvents; iEvents++){
+    cbmsim->GetEnetry(iEvent);
+    cout << TPCpos.X() << endl;
+  }
+
 /*
 
    auto c = new TChain("cbmsim");
