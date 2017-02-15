@@ -65,7 +65,7 @@ void aoqByRun(){
     startAoQ=goalAoQ-0.2;
     endAoQ=goalAoQ+0.2;
     cout << startAoQ << "," << endAoQ << endl;
-
+    
     ofstream myfile;
     myfile.open (Form("output/AoqByRun.%i.%i.csv",first_run,last_run));
     //the canvas is used to store a graph of the reconstructed AoQ, run by run
@@ -91,7 +91,7 @@ void aoqByRun(){
       cvs->Divide(2,1);
       auto *histAoQSn = new TH1D("histAoQSn", "", 1000, startAoQ, endAoQ);
       auto *histPID = new TH2D("histPID", "", 1000, startAoQ-0.05, endAoQ+0.05,1000,30,60);
-      myTOF=getTOF(ii);
+      myTOF=getTOF(ii);//this routine currently doesn't function properly
       for(int ientry=0; ientry < nentries; ientry++){
         if(ientry%100000 == 0) cout << "File " << ii << " read: " << ientry*100./nentries << "%" << endl;
         beam->fChainBeam->GetEvent(ientry);
@@ -115,7 +115,7 @@ void aoqByRun(){
         guessTOF=(goalAoQ-fitFuncAoq->GetParameter(1))*50.+myTOF;
 
       }
-      myfile<<ii<<","<<nentries<<","<<fitFuncAoq->GetParameter(1)<<","<< guessTOF<<","<<myTOF<<endl;
+      myfile<<ii<<","<<nentries<<","<<fitFuncAoq->GetParameter(1)<<","<< (goalAoQ-fitFuncAoq->GetParameter(1))*50. <<","<<myTOF<<endl;
 
       if(fitFuncAoq->GetParameter(1)>0.1) graph->SetPoint(graph->GetN(),ii,fitFuncAoq->GetParameter(1));
 
