@@ -23,19 +23,59 @@ Double_t Initial_momentum(Double_t myQ, Double_t myAoQ, Double_t myBeta){
   //initial energy
   myE=myMass*(1/std::sqrt(1-myBeta*myBeta));
   //energy loss through F7PPAC1
-  myE=myE+0.002289*myQ*myQ*(std::log(myBeta*myBeta/(1-myBeta*myBeta))/(myBeta*myBeta)-10.084);
+  myE=myE+0.2228*myQ*myQ/myBeta/myBeta*(-7.67057+std::log(myBeta*myBeta/(1-myBeta*myBeta))-1)*0.0045;
+  //myE=myE+0.002289*myQ*myQ*(std::log(myBeta*myBeta/(1-myBeta*myBeta))/(myBeta*myBeta)-10.084);
   myBeta=std::sqrt(1-(myMass/(myE))*(myMass/(myE)));
-  //Energy loss through Ion Chamber
-  myE=myE+0.125311*myQ*myQ*(std::log(myBeta*myBeta/(1-myBeta*myBeta))/(myBeta*myBeta)-2.11119);
+  //Energy loss through Ion Chamber window
+  myE=myE+0.223380*myQ*myQ/myBeta/myBeta*(-7.695977714+std::log(myBeta*myBeta/(1-myBeta*myBeta))-1)*0.0125;
   myBeta=std::sqrt(1-(myMass/(myE))*(myMass/(myE)));
-  //energy loss after F7PPAC+scint
-  myE=myE+0.014541*myQ*myQ*(std::log(myBeta*myBeta/(1-myBeta*myBeta))/(myBeta*myBeta)-6.06449);
+  //Energy loss through Ion Chamber gas
+  myE=myE+0.000182*myQ*myQ/myBeta/myBeta*(-7.806010114+std::log(myBeta*myBeta/(1-myBeta*myBeta))-1)*58.6;
   myBeta=std::sqrt(1-(myMass/(myE))*(myMass/(myE)));
-  //energy loss after SBT
-  myE=myE+0.028674*myQ*myQ*(std::log(myBeta*myBeta/(1-myBeta*myBeta))/(myBeta*myBeta)-5.21278);
+  //Energy loss through Ion Chamber electrodes
+  myE=myE+0.222831*myQ*myQ/myBeta/myBeta*(-7.644343291+std::log(myBeta*myBeta/(1-myBeta*myBeta))-1)*0.01;
   myBeta=std::sqrt(1-(myMass/(myE))*(myMass/(myE)));
-  //energy loss of BDCs
-  myE=myE+0.038455*myQ*myQ*(std::log(myBeta*myBeta/(1-myBeta*myBeta))/(myBeta*myBeta)-5.34635);
+  //Energy loss through Ion Chamber window
+  myE=myE+0.223380*myQ*myQ/myBeta/myBeta*(-7.695977714+std::log(myBeta*myBeta/(1-myBeta*myBeta))-1)*0.0125;
+  myBeta=std::sqrt(1-(myMass/(myE))*(myMass/(myE)));
+  //energy loss through F7PPAC2
+  myE=myE+0.2228*myQ*myQ/myBeta/myBeta*(-7.67057+std::log(myBeta*myBeta/(1-myBeta*myBeta))-1)*0.0045;
+  myBeta=std::sqrt(1-(myMass/(myE))*(myMass/(myE)));
+  //energy loss through F7Plas
+  myE=myE+0.171309*myQ*myQ/myBeta/myBeta*(-90.60272126+std::log(myBeta*myBeta/(1-myBeta*myBeta))-1)*0.002;
+  myBeta=std::sqrt(1-(myMass/(myE))*(myMass/(myE)));
+  //energy loss through SBT1mylar
+  myE=myE+0.222831*myQ*myQ/myBeta/myBeta*(-7.300888145+std::log(myBeta*myBeta/(1-myBeta*myBeta))-1)*0.0012;
+  myBeta=std::sqrt(1-(myMass/(myE))*(myMass/(myE)));
+  //energy loss through SBT1
+  myE=myE+0.171309*myQ*myQ/myBeta/myBeta*(-15.04321305+std::log(myBeta*myBeta/(1-myBeta*myBeta))-1)*0.012;
+  myBeta=std::sqrt(1-(myMass/(myE))*(myMass/(myE)));
+  //energy loss through SBT1+2mylar
+  myE=myE+0.222831*myQ*myQ/myBeta/myBeta*(-7.300888145+std::log(myBeta*myBeta/(1-myBeta*myBeta))-1)*0.0024;
+  myBeta=std::sqrt(1-(myMass/(myE))*(myMass/(myE)));
+  //energy loss through SBT2
+  myE=myE+0.171309*myQ*myQ/myBeta/myBeta*(-15.04321305+std::log(myBeta*myBeta/(1-myBeta*myBeta))-1)*0.012;
+  myBeta=std::sqrt(1-(myMass/(myE))*(myMass/(myE)));
+  //energy loss through SBT2mylar
+  myE=myE+0.222831*myQ*myQ/myBeta/myBeta*(-7.300888145+std::log(myBeta*myBeta/(1-myBeta*myBeta))-1)*0.0012;
+  myBeta=std::sqrt(1-(myMass/(myE))*(myMass/(myE)));
+  //energy loss through BDC1window
+  myE=myE+0.222831*myQ*myQ/myBeta/myBeta*(-7.624580002+std::log(myBeta*myBeta/(1-myBeta*myBeta))-1)*0.008;
+  myBeta=std::sqrt(1-(myMass/(myE))*(myMass/(myE)));
+  //energy loss through BDC1Gas
+  myE=myE+0.000017*myQ*myQ/myBeta/myBeta*(-7.136558507+std::log(myBeta*myBeta/(1-myBeta*myBeta))-1)*9;
+  myBeta=std::sqrt(1-(myMass/(myE))*(myMass/(myE)));
+  //energy loss through BDC1cathode
+  myE=myE+0.222831*myQ*myQ/myBeta/myBeta*(-7.624580002+std::log(myBeta*myBeta/(1-myBeta*myBeta))-1)*0.008;
+  myBeta=std::sqrt(1-(myMass/(myE))*(myMass/(myE)));
+  //energy loss through BDC2window
+  myE=myE+0.222831*myQ*myQ/myBeta/myBeta*(-7.624580002+std::log(myBeta*myBeta/(1-myBeta*myBeta))-1)*0.008;
+  myBeta=std::sqrt(1-(myMass/(myE))*(myMass/(myE)));
+  //energy loss through BDC2Gas
+  myE=myE+0.000017*myQ*myQ/myBeta/myBeta*(-7.136558507+std::log(myBeta*myBeta/(1-myBeta*myBeta))-1)*9;
+  myBeta=std::sqrt(1-(myMass/(myE))*(myMass/(myE)));
+  //energy loss through BDC2cathode
+  myE=myE+0.222831*myQ*myQ/myBeta/myBeta*(-7.624580002+std::log(myBeta*myBeta/(1-myBeta*myBeta))-1)*0.008;
   myBeta=std::sqrt(1-(myMass/(myE))*(myMass/(myE)));
   myP=myMass*myBeta/std::sqrt(std::abs(1-myBeta*myBeta));
   //End up with momentum after the BDCs
@@ -178,11 +218,11 @@ void BDCprojection(Int_t runNo = 3202, Int_t neve_max=3000000)
   TH1* htgt2yb0T = new TH2D("htgt2yb0T", "TGT YB; y (mm); y' (mrad)",200,-100,100, 200, -100, 100); // angle: mrad
 
   TH1* htgt2xy0_5T = new TH2D("htgt2xy0_5T", "TGT XY; x (mm); y (mm)",200,-100,100, 200,-100,100); // mm
-  TH1* htgt2xa0_5T = new TH2D("htgt2xa0T_5", "TGT XA; x (mm); x' (mrad)",200,-100,100, 200, 0, 200); // angle: mrad
+  TH1* htgt2xa0_5T = new TH2D("htgt2xa0T_5", "TGT XA; x (mm); x' (mrad)",200,-100,100, 200, -100, 100); // angle: mrad
   TH1* htgt2yb0_5T = new TH2D("htgt2yb0T_5", "TGT YB; y (mm); y' (mrad)",200,-100,100, 200, -100, 100); // angle: mrad
 
   TH1* hACxy0_5T = new TH2D("hACxy0_5T", "AC XY; x (mm); y (mm)",200,-100,100, 200,-100,100); // mm
-  TH1* hACxa0_5T = new TH2D("hACxa0T_5", "AC XA; x (mm); x' (mrad)",200,-100,100, 200, 0, 200); // angle: mrad
+  TH1* hACxa0_5T = new TH2D("hACxa0T_5", "AC XA; x (mm); x' (mrad)",200,-100,100, 200, -100, 100); // angle: mrad
   TH1* hACyb0_5T = new TH2D("hACyb0T_5", "AC YB; y (mm); y' (mrad)",200,-100,100, 200, -100, 100); // angle: mrad
 
   TArtStoreManager *sman = TArtStoreManager::Instance();
