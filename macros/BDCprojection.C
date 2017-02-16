@@ -235,7 +235,7 @@ void BDCprojection(Int_t runNo = 3202, Int_t neve_max=3000000)
   Double_t MAGx,MAGy,MAGz,MAGpx,MAGpy,MAGpz,MAGa,MAGb;
   Double_t beta,beta78;
   TVector3 TPCpos,TPCmom;
-  TVector3 MAGpos,TPCmom;
+  TVector3 MAGpos,MAGmom;
 
   TPCframe -> Branch("TPCx",&TPCx,"TPCx/D");
   TPCframe -> Branch("TPCy",&TPCy,"TPCy/D");
@@ -592,8 +592,8 @@ void BDCprojection(Int_t runNo = 3202, Int_t neve_max=3000000)
   hBeta->Draw();
 
   fout->cd();
-  TGTlin->Write();
-  TGTmag->Write();
+  TPCframe->Write();
+  MAGframe->Write();
   bdcinfo->Write();
   fout->Write();
   fout->Close();
