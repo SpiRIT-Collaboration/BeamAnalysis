@@ -10,7 +10,7 @@ Double_t AC_z=-820.;//mm, desired projection plane in magnet frame
 Double_t dist_BDCs = BDC2_z-BDC1_z; //mm
 Double_t dist_BDC1_TGT = TGT_z-BDC1_z; //mm
 Double_t dz=1.;//step forward in mm
-
+Double_t TPCzero[3]={2,204.3,-580.4};
 TH1* hBeta = new TH1D("hBeta", "x(mm); beta",200,.5,1); // angle: mrad
 
 
@@ -83,13 +83,6 @@ Double_t Initial_momentum(Double_t myQ, Double_t myAoQ, Double_t myBeta){
   return myP;
 }
 
-Double_t GetP(Double_t mQ, Double_t mAoQ, Double_t mBeta){
-  Double_t momentum;
-  Double_t rest_mass=mQ*mAoQ*931.494*0.9993774;//approximate mass by number of nucleons, in MeV/nucleon
-  //could look up mass exactly using a table
-  momentum=rest_mass*mBeta/std::sqrt(std::abs(1-mBeta*mBeta));
-  return momentum;
-}
 
 Double_t *MagStep(Double_t Mdz,Double_t MBrho,Double_t MB,Double_t Ma){
   //only for positive charge in +y magnetic field
@@ -144,8 +137,8 @@ void BDCprojection(Int_t runNo = 3202, Int_t neve_max=3000000)
 
   //Output file and Trees to write out
   TFile *fout = new TFile(Form("./output/BDC/BDCout.%i.ridf.root",runNo),"recreate");
-  auto TGTlin = new TTree("TGTlin","TGTlin");
-  auto TGTmag = new TTree("TGTmag","TGT_mag");
+  auto TPCframe = new TTree("TPCframe","TPCframe");
+  auto MAGframe = new TTree("MAGframe","MAGframe");
   auto bdcinfo = new TTree("bdcinfo","bdcinfo");
 
   TArtSAMURAIParameters *samurai_prm = new TArtSAMURAIParameters();
@@ -233,54 +226,46 @@ void BDCprojection(Int_t runNo = 3202, Int_t neve_max=3000000)
   //Define variables to write out
   int neve = 0;
   bdcinfo -> Branch("neve",&neve);
+  TPCframe -> Branch("neve",&neve);
+  MAGframe -> Branch("neve",&neve);
 
-  Double_t TGT_x_0T; //mm
-  Double_t TGT_y_0T; //mm
-  Double_t TGT_a_0T; //mrad
-  Double_t TGT_b_0T; //mrad
-  Double_t TGT_px_0T;//MeV/c
-  Double_t TGT_py_0T;//MeV/c
-  Double_t TGT_pz_0T;//MeV/c
-  Double_t TGT_x_0_5T; //mm
-  Double_t TGT_y_0_5T; //mm
-  Double_t TGT_a_0_5T; //mrad
-  Double_t TGT_b_0_5T; //mrad
-  Double_t TGT_px_0_5T;//MeV/c
-  Double_t TGT_py_0_5T;//MeV/c
-  Double_t TGT_pz_0_5T;//MeV/c
+  Double_t AC_x_0_5T,AC_y_0_5T,AC_a_0_5T,AC_b_0_5T;
 
-  TVector3 TGTVec;
-  TVector3 TGTPVec;
-
-  Double_t AC_x_0_5T; //mm
-  Double_t AC_y_0_5T; //mm
-  Double_t AC_a_0_5T; //mrad
-  Double_t AC_b_0_5T; //mrad
-
+  Double_t TPCx,TPCy,TPCz,TPCpx,TPCpy,TPCpz,TPCa,TPCb;
+  Double_t MAGx,MAGy,MAGz,MAGpx,MAGpy,MAGpz,MAGa,MAGb;
   Double_t beta,beta78;
+  TVector3 TPCpos,TPCmom;
+  TVector3 MAGpos,TPCmom;
 
-  TGTlin -> Branch("TGT_x_0T",&TGT_x_0T,"TGT_x_0T/D");
-  TGTlin -> Branch("TGT_y_0T",&TGT_y_0T,"TGT_y_0T/D");
-  TGTlin -> Branch("TGT_a_0T",&TGT_a_0T,"TGT_a_0T/D");
-  TGTlin -> Branch("TGT_b_0T",&TGT_b_0T,"TGT_b_0T/D");
-  TGTlin -> Branch("TGT_px_0T",&TGT_px_0T,"TGT_px_0T/D");
-  TGTlin -> Branch("TGT_py_0T",&TGT_py_0T,"TGT_py_0T/D");
-  TGTlin -> Branch("TGT_pz_0T",&TGT_pz_0T,"TGT_pz_0T/D");
+  TPCframe -> Branch("TPCx",&TPCx,"TPCx/D");
+  TPCframe -> Branch("TPCy",&TPCy,"TPCy/D");
+  TPCframe -> Branch("TPCz",&TPCz,"TPCz/D");
+  TPCframe -> Branch("TPCpx",&TPCpx,"TPCpx/D");
+  TPCframe -> Branch("TPCpy",&TPCpy,"TPCpy/D");
+  TPCframe -> Branch("TPCpz",&TPCpz,"TPCpz/D");
+  TPCframe -> Branch("TPCa",&TPCa,"TPCa/D");
+  TPCframe -> Branch("TPCb",&TPCb,"TPCb/D");
+  TPCframe -> Branch("TPCpos",&TPCpos,"TPCpos/D");
+  TPCframe -> Branch("TPCmom",&TPCmom,"TPCmom/D");
 
-  TGTmag -> Branch("TGT_x_0_5T",&TGT_x_0_5T,"TGT_x_0_5T/D");
-  TGTmag -> Branch("TGT_y_0_5T",&TGT_y_0_5T,"TGT_y_0_5T/D");
-  TGTmag -> Branch("TGT_a_0_5T",&TGT_a_0_5T,"TGT_a_0_5T/D");
-  TGTmag -> Branch("TGT_b_0_5T",&TGT_b_0_5T,"TGT_b_0_5T/D");
-  TGTmag -> Branch("TGT_px_0_5T",&TGT_px_0_5T,"TGT_px_0_5T/D");
-  TGTmag -> Branch("TGT_py_0_5T",&TGT_py_0_5T,"TGT_py_0_5T/D");
-  TGTmag -> Branch("TGT_pz_0_5T",&TGT_pz_0_5T,"TGT_pz_0_5T/D");
-  TGTmag -> Branch("TGTVec",&TGTVec);
-  TGTmag -> Branch("TGTPVec",&TGTPVec);
+  MAGframe -> Branch("MAGx",&MAGx,"MAGx/D");
+  MAGframe -> Branch("MAGy",&MAGy,"MAGy/D");
+  MAGframe -> Branch("MAGz",&MAGz,"MAGz/D");
+  MAGframe -> Branch("MAGpx",&MAGpx,"MAGpx/D");
+  MAGframe -> Branch("MAGpy",&MAGpy,"MAGpy/D");
+  MAGframe -> Branch("MAGpz",&MAGpz,"MAGpz/D");
+  MAGframe -> Branch("MAGa",&MAGa,"MAGa/D");
+  MAGframe -> Branch("MAGb",&MAGb,"MAGb/D");
+  MAGframe -> Branch("MAGpos",&MAGpos,"MAGpos/D");
+  MAGframe -> Branch("MAGmom",&MAGmom,"MAGmom/D");
 
-  TGTlin -> Branch("beta",&beta,"beta/D");
-  TGTmag -> Branch("beta",&beta,"beta/D");
-  TGTlin -> Branch("beta78",&beta78,"beta78/D");//written in two branches for simplicity. should be same across both branches!
-  TGTmag -> Branch("beta78",&beta78,"beta78/D");//written in two branches for simplicity. should be same across both branches!
+
+
+
+  TPCframe-> Branch("beta",&beta,"beta/D");
+  TPCframe -> Branch("beta",&beta,"beta/D");
+  MAGframe -> Branch("beta78",&beta78,"beta78/D");//written in two branches for simplicity. should be same across both branches!
+  MAGframe -> Branch("beta78",&beta78,"beta78/D");//written in two branches for simplicity. should be same across both branches!
 
   Double_t bdc1trax, bdc1tray;
   Double_t bdc1trx,bdc1try;
@@ -404,28 +389,30 @@ void BDCprojection(Int_t runNo = 3202, Int_t neve_max=3000000)
     // Target
 
     //initialize variables
-    TGT_x_0T=-9999; //mm
-    TGT_y_0T=-9999; //mm
-    TGT_a_0T=-999; //mrad
-    TGT_b_0T=-999; //mrad
-    TGT_px_0T=-9999;//MeV/c
-    TGT_py_0T=-9999;//MeV/c
-    TGT_pz_0T=-9999;//MeV/c
-    TGT_x_0_5T=-9999; //mm
-    TGT_y_0_5T=-9999; //mm
-    TGT_a_0_5T=-999; //mrad
-    TGT_b_0_5T=-999; //mrad
-    TGT_px_0_5T=-9999;//MeV/c
-    TGT_py_0_5T=-9999;//MeV/c
-    TGT_pz_0_5T=-9999;//MeV/c
+    TPCx=-9999; //mm
+    TPCy=-9999; //mm
+    TPCa=-999; //mrad
+    TPCb=-999; //mrad
+    TPCpx=-9999;//MeV/c
+    TPCpy=-9999;//MeV/c
+    TPCpz=-9999;//MeV/c
+    MAGx=-9999; //mm
+    MAGy=-9999; //mm
+    MAGa=-999; //mrad
+    MAGb=-999; //mrad
+    MAGpx=-9999;//MeV/c
+    MAGpy=-9999;//MeV/c
+    MAGpz=-9999;//MeV/c
 
-    TGTVec.SetXYZ(-9999,-9999,-9999);
-    TGTPVec.SetXYZ(-99999,-99999,-99999);
+    TPCpos.SetXYZ(-9999,-9999,-9999);
+    TPCmom.SetXYZ(-99999,-99999,-99999);
 
     AC_x_0_5T=-9999; //mm
     AC_y_0_5T=-9999; //mm
     AC_a_0_5T=-999; //mrad
     AC_b_0_5T=-999; //mrad
+
+    Double_t x,y,z,a,b;
     Double_t p=-9999;
     beam->fChainBeam->GetEvent(neve);
     beta78=beam->beta;
@@ -438,28 +425,25 @@ void BDCprojection(Int_t runNo = 3202, Int_t neve_max=3000000)
     //produce linear projection
     if(bdc1trks && bdc2trks && beam->z >20 && beam->z < 75 && beam->aoq > 0 && beam->aoq<3){
       if( bdc1trx>-1000 && bdc1try>-1000 && bdc2trx>-1000 && bdc2try>-1000){
-        TGT_x_0T=( bdc2trx-bdc1trx )/dist_BDCs*dist_BDC1_TGT + bdc1trx; //mm
-	      TGT_y_0T=( bdc2try-bdc1try )/dist_BDCs*dist_BDC1_TGT + bdc1try; //mm
-	      TGT_a_0T=atan(( bdc2trx-bdc1trx )/dist_BDCs)*1000.; //mrad
-        TGT_b_0T=atan(( bdc2try-bdc1try )/dist_BDCs)*1000.; //mrad
-      	htgt2xy0T -> Fill(TGT_x_0T,TGT_y_0T); // mm
-      	htgt2xa0T -> Fill(TGT_x_0T,TGT_a_0T); //mrad
-      	htgt2yb0T -> Fill(TGT_y_0T,TGT_b_0T); //mrad
+        x=( bdc2trx-bdc1trx )/dist_BDCs*dist_BDC1_TGT + bdc1trx; //mm
+	      y=( bdc2try-bdc1try )/dist_BDCs*dist_BDC1_TGT + bdc1try; //mm
+	      a=atan(( bdc2trx-bdc1trx )/dist_BDCs)*1000.; //mrad
+        b=atan(( bdc2try-bdc1try )/dist_BDCs)*1000.; //mrad
+      	htgt2xy0T -> Fill(x,y); // mm
+      	htgt2xa0T -> Fill(x,a); //mrad
+      	htgt2yb0T -> Fill(y,b); //mrad
 	//magnetic field inclusion
 
-	Double_t x,y,z,a,b;
+
 
 	Double_t B;
 	Double_t Brho;//this is to be determined event by event in coming versions
 	Brho=3.3356*p/(std::abs(beam->z))/1000.;//in Tm
 	x=bdc2trx;
-	y=bdc2try+(AC_z-BDC2_z)*std::tan(TGT_b_0T/1000.);
+	y=bdc2try+(AC_z-BDC2_z)*std::tan(b/1000.);
 	z=BDC2_z;
 	//
 
-	a=TGT_a_0T;
-	b=TGT_b_0T;
-	//p=GetP(beam->z,beam->aoq,beta);//in MeV/c
 
 
 	while(z<AC_z){
@@ -472,11 +456,6 @@ void BDCprojection(Int_t runNo = 3202, Int_t neve_max=3000000)
 	AC_y_0_5T=y;
 	AC_a_0_5T=a;
 	AC_b_0_5T=b;
-  /*
-	TGT_py_0T=p*std::sin(b/1000.);
-	TGT_px_0T=std::sqrt(p*p-TGT_py_0T*TGT_py_0T)*std::sin(a/1000.);
-	TGT_pz_0T=std::sqrt(p*p-TGT_px_0T*TGT_px_0T-TGT_py_0T*TGT_py_0T);
-  */
 
 	while(z<TGT_z){
 	  B=Byy[(int)(std::sqrt(z*z+x*x)/10.+0.5)];//pull magnetic field from the previously created map
@@ -484,36 +463,44 @@ void BDCprojection(Int_t runNo = 3202, Int_t neve_max=3000000)
 	  a=MagStep(dz,Brho,B,a)[1];
 	  z=z+dz;
 	}
-	y=bdc2try+(dist_BDC1_TGT-dist_BDCs)*std::tan(TGT_b_0T/1000.);
-	TGT_py_0_5T=p*std::sin(b/1000.);
-	TGT_px_0_5T=std::sqrt(p*p-TGT_py_0_5T*TGT_py_0_5T)*std::sin(a/1000.);
-	TGT_pz_0_5T=std::sqrt(p*p-TGT_px_0_5T*TGT_px_0_5T-TGT_py_0_5T*TGT_py_0_5T);
+	y=bdc2try+(dist_BDC1_TGT-dist_BDCs)*std::tan(b/1000.);
+	TPCpy=p*std::sin(b/1000.);
+	TPCpx=std::sqrt(p*p-TPCpy*TPCpy)*std::sin(a/1000.);
+	TPCpz=std::sqrt(p*p-TPCpx*TPCpx-TPCpy*TPCpy);
 
-  TGTPVec.SetXYZ(TGT_px_0T,TGT_py_0T,TGT_pz_0T);
-  TGTVec.SetXYZ(x,y,TGT_z);
+  MAGpos.SetXYZ(x,y,z);
+  MAGmom.SetXYZ(TPCpx,TPCpy,TPCpz);
 
-	TGT_x_0_5T=x;
-	TGT_y_0_5T=y;
-	TGT_a_0_5T=a;
-	TGT_b_0_5T=b;
+  MAGx=x;
+  MAGy=y;
+  MAGz=z;
 
-	if( abs(TGT_x_0_5T)>10000) TGT_x_0_5T=-9999;
-	htgt2xy0_5T -> Fill(TGT_x_0_5T,TGT_y_0_5T); // mm
-	htgt2xa0_5T -> Fill(TGT_x_0_5T,TGT_a_0_5T); //mrad
-	htgt2yb0_5T -> Fill(TGT_y_0_5T,TGT_b_0_5T); //mrad
+  TPCpos.SetXYZ(x+TPCzero[0],y+TPCzero[1],z+TPCzero[2]);
+  TPCmom.SetXYZ(TPCpx,TPCpy,TPCpz);
+
+	TPCx=x+TPCzero[0];
+	TPCy=y+TPCzero[1];
+  TPCz=z+TPCzero[2];
+	TPCa=a;
+	TPCb=b;
+
+	if( abs(x)>10000) x=-9999;
+	htgt2xy0_5T -> Fill(x,y); // mm
+	htgt2xa0_5T -> Fill(x,a); //mrad
+	htgt2yb0_5T -> Fill(y,b); //mrad
 	hACxy0_5T -> Fill(AC_x_0_5T,AC_y_0_5T); // mm
 	hACxa0_5T -> Fill(AC_x_0_5T,AC_a_0_5T); //mrad
 	hACyb0_5T -> Fill(AC_y_0_5T,AC_b_0_5T); //mrad
 
   if(AC_x_0_5T > AC_left && AC_x_0_5T < AC_right && AC_y_0_5T > AC_down && AC_y_0_5T < AC_up ) inAC++;
-  if(TGT_x_0_5T > TGT_left && TGT_x_0_5T < TGT_right && TGT_y_0_5T > TGT_down && TGT_y_0_5T < TGT_up ) inTGT++;
+  if(x > TGT_left && x < TGT_right && y > TGT_down && y < TGT_up ) inTGT++;
 
       }
 
     }
 
-    TGTlin -> Fill();
-    TGTmag -> Fill();
+    TPCframe -> Fill();
+    MAGframe -> Fill();
     bdcinfo -> Fill();
     //move to next event
     estore->ClearData();
