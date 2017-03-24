@@ -21,7 +21,7 @@ anaroot_dir = ./src
 ROOTCFLAGS   := $(shell root-config --cflags)
 ROOTLIBS     := $(shell root-config --libs) -lMinuit
 ANAROOTLIBS  := -L$(anaroot_dir)/lib -lanaroot -lananadeko -lanabrips -lanasamurai -lanaloop -lanacore
-LOCLIBS	     := -L/mnt/spirit/analysis/barneyj/anaroot/BeamAnalysis/macros -lbdc
+LOCLIBS	     := -L$(PWD) -lbdc
 
 CXX           = g++
 CXXFLAGS      = -g -O -Wall -fPIC -DEBUG
