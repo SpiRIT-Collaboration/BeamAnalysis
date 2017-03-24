@@ -9,3 +9,5 @@ make clean -f MakefileBDC
 make -f MakefileBDC
 make clean -f MakeRIDFoutput
 make -f MakeRIDFoutput
+make clean -f MakefileIC
+make -f MakefileIC
