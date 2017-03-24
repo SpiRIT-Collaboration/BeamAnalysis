@@ -1,4 +1,4 @@
-g#!/bin/bash
+#!/bin/bash
 
 if [ -e $TARTSYS ]; then
   if [ -e src ]; then
