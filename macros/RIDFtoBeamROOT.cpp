@@ -157,22 +157,40 @@ int main(int argc, char *argv[]) {
   if(runNo>=3044 && runNo<=3184) goalAoQ=124./50.;
   if(runNo>=2819 && runNo<=3039) goalAoQ=132./50.;
 
+
   //histograms to be written with file
-  auto *histBeamPID = new TH2D("histBeamPID", "", 2000, goalAoQ-0.2, goalAoQ+0.2, 2000, 35, 55);
-  auto *histAllBeamPID = new TH2D("histAllBeamPID", "", 1000, goalAoQ-0.2, goalAoQ+0.2, 2000, 35, 55);
+  auto *histBeamPID = new TH2D("histBeamPID", "", 2000, 2, goalAoQ+0.2, 2000, 25, 55);
+  auto *histAllBeamPID = new TH2D("histAllBeamPID", "", 1000, 2, goalAoQ+0.2, 2000, 25, 55);
   auto *histBeamEnergy= new TH1D("histBeamEnergy", "", 1000, 100000, 200000 );
   auto *histBeamEnergy78= new TH1D("histBeamEnergy78", "", 1000, 100000, 200000 );
+  auto *histMeVu= new TH1D("histMeVu", "", 1000, 200, 400 );
   auto *histBeta= new TH1D("histBeta", "", 1000, 0.6, 0.7);
   auto *histBeta37= new TH1D("histBeta37", "", 1000, 0.6, 0.7);
   auto *histProjection = new TH2D("histProjection", "", 1000, -50, 50, 2000, -50, 50);
   auto *histBrho= new TH1D("histBrho", "", 1000, 6, 8);
   auto *histBrho2= new TH1D("histBrho2", "", 1000, 6, 8);
+  auto *histF7_0ppac= new TH1D("histF70ppac", "", 1000, 0, 10);
+  auto *histF7_1ppac= new TH1D("histF71ppac", "", 1000, 0, 10);
+  auto *histAllppac= new TH1D("histAllppac", "", 1000, 0, 100);
 
+  auto *hBDC1X= new TH1D("hBDC1X", "", 1000, -50, 50);
+  auto *hBDC1Y= new TH1D("hBDC1Y", "", 1000, -50, 50);
+  auto *hBDC2X= new TH1D("hBDC2X", "", 1000, -50, 50);
+  auto *hBDC2Y= new TH1D("hBDC2Y", "", 1000, -50, 50);
+  auto *hBDCA= new TH1D("hBDCA", "", 1000, -50, 50);
+  auto *hBDCB= new TH1D("hBDCB", "", 1000, -50, 50);
+
+  auto *hProjA= new TH1D("hProjA", "", 1000, -50, 50);
+  auto *hProjB= new TH1D("hProjB", "", 1000, -50, 50);
 
   auto hF3corr = new TH2F("F3corr","F3 corr",2000,0,100,2000,0,0.5);
   auto hF7corr = new TH2F("F7corr","F7 corr",2000,0,100,2000,-0.3,0.2);
   auto hF131corr = new TH2F("F131corr","F13 1corr",2000,-200,100,2000,-1,1);
   auto hF132corr = new TH2F("F132corr","F13 2 corr",2000,-350,-100,2000,-1,1);
+
+    auto hF3FP = new TH2F("F3FP","F3 focal plane",1000,-50,50,1000,-50,50);
+    auto hF5FP = new TH2F("F5FP","F5 focal plane",1000,-50,50,1000,-50,50);
+    auto hF7FP = new TH2F("F7FP","F7 focal plane",1000,-50,50,1000,-50,50);
   //outbut file
   TFile *outfile = new TFile(Form("output/beam/beam_run%d.ridf.root", runNo), "recreate");
   //output trees
@@ -193,12 +211,16 @@ int main(int argc, char *argv[]) {
   Bool_t totalPPAChits_lte96;
   Bool_t F7A_PPAChits_lte8;
   Bool_t F7B_PPAChits_lte8;
+  Bool_t F3FP_in;
+  Bool_t F5FP_in;
+  Bool_t F7FP_in;
   if(fill_cuts){
       cut_tree->Branch("F3PLA_in",&F3PLA_in,"F3PLA_in/B");cut_tree->Branch("F7PLA_in",&F7PLA_in,"F7PLA_in/B");
       cut_tree->Branch("F13_1PLA_in",&F13_1PLA_in,"F13_1PLA_in/B");cut_tree->Branch("F13_2PLA_in",&F13_2PLA_in,"F13_2PLA_in/B");
       cut_tree->Branch("totalPPAChits_lte96",&totalPPAChits_lte96,"totalPPAChits_lte96/B");
       cut_tree->Branch("F7A_PPAChits_lte8",&F7A_PPAChits_lte8,"F7A_PPAChits_lte8/B");
       cut_tree->Branch("F7B_PPAChits_lte8",&F7B_PPAChits_lte8,"F7B_PPAChits_lte8/B");
+      cut_tree->Branch("F3FP_in",&F3FP_in,"F3FP_in/B");cut_tree->Branch("F5FP_in",&F5FP_in,"F5FP_in/B");cut_tree->Branch("F7FP_in",&F7FP_in,"F7FP_in/B");
   }
 
 
@@ -216,7 +238,7 @@ int main(int argc, char *argv[]) {
   Double_t F13_1PLA_TL,F13_1PLA_TR,F13_1PLA_DT,F13_1PLA_Q_TEST;
   Int_t F13_2PLA_QL,F13_2PLA_QR;
   Double_t F13_2PLA_TL,F13_2PLA_TR,F13_2PLA_DT,F13_2PLA_Q_TEST;
-/*
+
     auto raw = new TTree("raw", "rawdata");
     raw -> Branch("F3PPAC1A_X", &F3PPAC1A_X, "F3PPAC1A_X/D");raw -> Branch("F3PPAC1A_Y", &F3PPAC1A_Y, "F3PPAC1A_Y/D");
     raw -> Branch("F3PPAC1B_X", &F3PPAC1B_X, "F3PPAC1B_X/D");raw -> Branch("F3PPAC1B_Y", &F3PPAC1B_Y, "F3PPAC1B_Y/D");
@@ -251,7 +273,7 @@ int main(int argc, char *argv[]) {
     raw -> Branch("F13_2PLA_QL", &F13_2PLA_QL, "F13_2PLA_QL/I");raw -> Branch("F13_2PLA_QR", &F13_2PLA_QR, "F13_2PLA_QR/I");
     raw -> Branch("F13_2PLA_DT", &F13_2PLA_DT, "F13_2PLA_DT/D");raw -> Branch("F13_2PLA_Q_TEST", &F13_2PLA_Q_TEST, "F13_2PLA_Q_TEST/D");
 
-  */
+
   ///multi-hit information from TDCs/////
   int nppachit = 0;
   int nppachit_f7_0 = 0;
@@ -290,6 +312,7 @@ int main(int argc, char *argv[]) {
   Double_t ProjA=-9999; TBDC -> Branch("ProjA",&ProjA,"ProjA/D");
   Double_t ProjB=-9999; TBDC -> Branch("ProjB",&ProjB,"ProjB/D");
   Double_t ProjE=-9999; TBDC -> Branch("ProjE",&ProjE,"ProjE/D");
+  Double_t ProjMeVu=-9999; TBDC -> Branch("ProjMeVu",&ProjMeVu,"ProjMeVu/D");
   Double_t ProjBeta=-9999; TBDC -> Branch("ProjBeta",&ProjBeta,"ProjBeta/D");
   Double_t ProjP=-9999; TBDC -> Branch("ProjP",&ProjP,"ProjP/D");
   Double_t ProjPX=-9999; TBDC -> Branch("ProjPX",&ProjPX,"ProjPX/D");
@@ -297,6 +320,14 @@ int main(int argc, char *argv[]) {
   Double_t ProjPZ=-9999; TBDC -> Branch("ProjPZ",&ProjPZ,"ProjPZ/D");
 
   //Focal Plane Branch
+  Double_t F3X; TFocalPlane -> Branch("F3X", &F3X, "F3X/D");
+  Double_t F3A; TFocalPlane -> Branch("F3A", &F3A, "F3A/D");
+  Double_t F3Y; TFocalPlane -> Branch("F3Y", &F3Y, "F3Y/D");
+  Double_t F3B; TFocalPlane -> Branch("F3B", &F3B, "F3B/D");
+  Double_t F5X; TFocalPlane -> Branch("F5X", &F5X, "F5X/D");
+  Double_t F5A; TFocalPlane -> Branch("F5A", &F5A, "F5A/D");
+  Double_t F5Y; TFocalPlane -> Branch("F5Y", &F5Y, "F5Y/D");
+  Double_t F5B; TFocalPlane -> Branch("F5B", &F5B, "F5B/D");
   Double_t F7X; TFocalPlane -> Branch("F7X", &F7X, "F7X/D");
   Double_t F7A; TFocalPlane -> Branch("F7A", &F7A, "F7A/D");
   Double_t F7Y; TFocalPlane -> Branch("F7Y", &F7Y, "F7Y/D");
@@ -484,13 +515,13 @@ int main(int argc, char *argv[]) {
     bdcax=std::atan((bdc2x-bdc1x)/1000.)*1000.;
     bdcby=std::atan((bdc2y-bdc1y)/1000.)*1000.;
 
-    ///insert BDC projection///
+    ///BDC projection///
     ProjX=-9999;ProjY=-9999;ProjZ=-9999;ProjA=-9999;ProjB=-9999;
     ProjPX=-9999;ProjPY=-9999;ProjPZ=-9999;ProjP=-9999;ProjE=-9999;ProjBeta=-9999;
     double E1;
     E1=beamE->getCorrectedEnergy();
     if(z>0 && z<75 && aoq>1. && aoq<3){
-    bdcProj->ProjectParticle(bdc2x, bdc2y, -2160., bdcax, bdcby, z, E1, -580.4,beamE->getMass());//-580.4
+    bdcProj->ProjectParticle(bdc2x, bdc2y, -2160., bdcax, bdcby, z, E1, -592.644,beamE->getMass());//-580.4,-583.904
     ProjX=bdcProj->getX();
     ProjY=bdcProj->getY();
     ProjZ=bdcProj->getZ();
@@ -501,11 +532,11 @@ int main(int argc, char *argv[]) {
     ProjPZ=bdcProj->getPZ();
     ProjP=bdcProj->getP();
     ProjE=bdcProj->getE();
+    ProjMeVu=bdcProj->getMeVu();
     ProjBeta=bdcProj->getBeta();
     }
-    if(z>49.5 && z <50.5 && aoq>goalAoQ-0.01 && aoq < goalAoQ+0.01){
-        ;
-    }
+
+    ////////////Raw detector information (PPAC, Plastic, IC)/////////////////////////
     F3PPAC1A_X = -9999; F3PPAC1A_Y = -9999; F3PPAC1B_X = -9999; F3PPAC1B_Y = -9999;
     F3PPAC2A_X = -9999; F3PPAC2A_Y = -9999; F3PPAC2B_X = -9999; F3PPAC2B_Y = -9999;
     F5PPAC1A_X = -9999; F5PPAC1A_Y = -9999; F5PPAC1B_X = -9999; F5PPAC1B_Y = -9999;
@@ -549,7 +580,6 @@ int main(int argc, char *argv[]) {
     ppac = calibPPAC -> FindPPAC((Char_t *) "F7PPAC-2B");
     if (ppac) { F7PPAC2B_X = ppac -> GetX(); F7PPAC2B_Y = ppac -> GetY(); }
 
-    //Where we fill plastic data
     TArtPlastic *pla;
     pla = calibPLA -> FindPlastic((Char_t *) "F3pl");
     if (pla) {
@@ -576,18 +606,26 @@ int main(int argc, char *argv[]) {
       F13_2PLA_DT=F13_2PLA_TL-F13_2PLA_TR; F13_2PLA_Q_TEST=std::log(F13_2PLA_QR)-std::log(F13_2PLA_QL);
       }
 
-      hF3corr->Fill(F3PLA_DT,F3PLA_Q_TEST);
-      hF7corr->Fill(F7PLA_DT,F7PLA_Q_TEST);
-      hF131corr->Fill(F13_1PLA_DT,F13_1PLA_Q_TEST);
-      hF132corr->Fill(F13_2PLA_DT,F13_2PLA_Q_TEST);
+
 
 
     TArtIC *ic = calibIC -> FindIC((Char_t *) "F7IC");
     if (ic) for (Int_t i = 0; i < 6; i++) ICQ[i] = ic -> GetRawADC(i);
-
+///////////Focal Plane information////////////////
     TArtFocalPlane *fp = nullptr;
     TVectorD *vec;
     fp = calibFP -> FindFocalPlane(3);
+    if (fp) {
+      vec = fp -> GetOptVector();
+      F3X = (*vec)(0); F3A = (*vec)(1);
+      F3Y = (*vec)(2); F3B = (*vec)(3);
+    }
+    fp = calibFP -> FindFocalPlane(5);
+    if (fp) {
+      vec = fp -> GetOptVector();
+      F5X = (*vec)(0); F5A = (*vec)(1);
+      F5Y = (*vec)(2); F5B = (*vec)(3);
+    }
     fp = calibFP -> FindFocalPlane(7);
     if (fp) {
       vec = fp -> GetOptVector();
@@ -595,23 +633,45 @@ int main(int argc, char *argv[]) {
       F7Y = (*vec)(2); F7B = (*vec)(3);
     }
 
+
     isGood=true;
     //apply cuts
     F3PLA_in=true;F7PLA_in=true;F13_1PLA_in=true;F13_2PLA_in=true;
     totalPPAChits_lte96=true;F7A_PPAChits_lte8=true;F7B_PPAChits_lte8=true;
+/*
+    //if(nppachit<50 || nppachit>96) {isGood=false;F7B_PPAChits_lte8=false;}
+    if(not F3pl->IsInside(F3PLA_DT,F3PLA_Q_TEST)) {isGood=false;F3PLA_in=false;}
+    if(not F7pl->IsInside(F7PLA_DT,F7PLA_Q_TEST)) {isGood=false;F7PLA_in=false;}
+    if(not F13pl1->IsInside(F13_1PLA_DT,F13_1PLA_Q_TEST)) {isGood=false;F13_1PLA_in=false;}
+    if(not F13pl2->IsInside(F13_2PLA_DT,F13_2PLA_Q_TEST)) {isGood=false;F13_2PLA_in=false;}
 
-    //if(not F3pl->IsInside(F3PLA_DT,F3PLA_Q_TEST)) {isGood=false;F3PLA_in=false;}
-    //if(not F7pl->IsInside(F7PLA_DT,F7PLA_Q_TEST)) {isGood=false;F7PLA_in=false;}
-    //if(not F13pl1->IsInside(F13_1PLA_DT,F13_1PLA_Q_TEST)) {isGood=false;F13_1PLA_in=false;}
-    //if(not F13pl2->IsInside(F13_2PLA_DT,F13_2PLA_Q_TEST)) {isGood=false;F13_2PLA_in=false;}
-
-    if(nppachit>96) {isGood=false;totalPPAChits_lte96=false;}
+    if(nppachit>96 || nppachit<50) {isGood=false;totalPPAChits_lte96=false;}
     if(nppachit_f7_0>8) {isGood=false;F7A_PPAChits_lte8=false;}
-    if(nppachit_f7_0>8) {isGood=false;F7B_PPAChits_lte8=false;}
+    if(nppachit_f7_1>8) {isGood=false;F7B_PPAChits_lte8=false;}
 
+    F3FP_in=true;F5FP_in=true;F7FP_in=true;
+    if(std::abs(F3X)>30) {F3FP_in=false; isGood=false;}
+    if(std::abs(F5X)>30) {F5FP_in=false; isGood=false;}
+    if(std::abs(F7X)>30) {F7FP_in=false; isGood=false;}
 
+    //if(std::abs(F7X)>16) {F7FP_in=false; isGood=false;}
+
+    //if(F7X>0 && F7X<10 && F7Y >-10 && F7Y <10){
+    */
     histAllBeamPID->Fill(aoq,z);
     if(isGood){
+        histF7_0ppac->Fill(nppachit_f7_0);
+        histF7_1ppac->Fill(nppachit_f7_1);
+        histAllppac->Fill(nppachit);
+        hF3corr->Fill(F3PLA_DT,F3PLA_Q_TEST);
+        hF7corr->Fill(F7PLA_DT,F7PLA_Q_TEST);
+        hF131corr->Fill(F13_1PLA_DT,F13_1PLA_Q_TEST);
+        hF132corr->Fill(F13_2PLA_DT,F13_2PLA_Q_TEST);
+
+        hF3FP->Fill(F3X,F3Y);
+        hF5FP->Fill(F5X,F5Y);
+        hF7FP->Fill(F7X,F7Y);
+
       intZ=GetIsotope(z,aoq)[0];
       intA=GetIsotope(z,aoq)[1];
       histBeamPID->Fill(aoq,z);
@@ -619,14 +679,25 @@ int main(int argc, char *argv[]) {
 
       histBeamEnergy78->Fill(E1);
       histBeamEnergy->Fill(ProjE);
+      histMeVu->Fill(ProjMeVu);
       histBeta->Fill(ProjBeta);
       histBeta37->Fill(beta37);
       histBrho2->Fill(brho78);
       histBrho->Fill(brho);
+
+      hBDC1X->Fill(bdc1x);
+      hBDC1Y->Fill(bdc1y);
+      hBDC2X->Fill(bdc2x);
+      hBDC2Y->Fill(bdc2y);
+      hBDCA->Fill(bdcax);
+      hBDCB->Fill(bdcby);
+
+      hProjA->Fill(ProjA);
+      hProjB->Fill(ProjB);
     }
 
     if(fill_cuts) cut_tree->Fill();
-    //raw -> Fill();
+    raw -> Fill();
     TBeam -> Fill();
     TBDC -> Fill();
     TFocalPlane -> Fill();
@@ -637,14 +708,39 @@ int main(int argc, char *argv[]) {
 
   outfile->cd();
 
-
+/*
   F3pl->Write();
   F7pl->Write();
   F13pl1->Write();
   F13pl2->Write();
+*/
+
+  hF3corr->Write();
+  hF7corr->Write();
+  hF131corr->Write();
+  hF132corr->Write();
+
+  histF7_0ppac->Write();
+  histF7_1ppac->Write();
+  histAllppac->Write();
+
+  hBDC1X->Write();
+  hBDC1Y->Write();
+  hBDC2X->Write();
+  hBDC2Y->Write();
+  hBDCA->Write();
+  hBDCB->Write();
+
+  hProjA->Write();
+  hProjB->Write();
+
+  hF3FP->Write();
+  hF5FP->Write();
+  hF7FP->Write();
   histBeamPID->Write();
   histAllBeamPID->Write();
   histBeamEnergy->Write();
+  histMeVu->Write();
   histBeamEnergy78->Write();
   histProjection->Write();
   histBeta->Write();
@@ -652,7 +748,7 @@ int main(int argc, char *argv[]) {
   histBrho->Write();
   histBrho2->Write();
   if(fill_cuts) {cut_tree->Write();}
-  //raw->Write();
+  raw->Write();
   TBeam->Write();
   TBDC->Write();
   TFocalPlane -> Write();

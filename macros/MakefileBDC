@@ -6,6 +6,7 @@ OBJ =
 
 # TClonesArray variables
 OBJ += TBeamEnergy.o
+OBJ += TBField.o
 OBJ += TBDCProjection.o
 
 #=======  END  CONFIGURATION =========

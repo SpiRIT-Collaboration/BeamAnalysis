@@ -39,22 +39,24 @@ TOF=${input[10]}
 DCTPF=${input[11]}
 PLACUT=${input[12]}
 
+
 if  [ "$RUN" -eq "$RUN" ] 2>/dev/null; then
 if [ "$RUN" -ge $START ] && [ "$RUN" -le $END ] && [ "$EVENTS" -ge 1 ]; then
 echo "$RUN"
 cd db/
 ./setup_db_dir.sh
-echo $PWD
 cd ../
-echo $PWD
 if [ ${#IC} -ge 1 ]; then
 ln -sf BigRIPSIC/BigRIPSIC."$IC".xml ../db/BigRIPSIC.xml
-echo $PWD
 else
 ln -sf BigRIPSIC/BigRIPSIC.xml ../db/BigRIPSIC.xml
 fi
 if [ ${#PLAS} -ge 1 ]; then
-ln -sf BigRIPSPlastic/BigRIPSPlastic."$PLAS".xml ../db/BigRIPSPlastic.xml
+    ln -sf BigRIPSPlastic/BigRIPSPlastic."$PLAS".xml ../db/BigRIPSPlastic.xml
+    ln -sf F3cut."$PLACUT".root cut/plastic_cuts/F3cut.root
+    ln -sf F7cut."$PLACUT".root cut/plastic_cuts/F7cut.root
+    ln -sf F13_1cut."$PLACUT".root cut/plastic_cuts/F13_1cut.root
+    ln -sf F13_2cut."$PLACUT".root cut/plastic_cuts/F13_2cut.root
 else
 ln -sf BigRIPSPlastic/BigRIPSPlastic.xml ../db/BigRIPSPlastic.xml
 fi
@@ -72,10 +74,10 @@ cd dctpf
 ln -sf dc_tpf_$DCTPF.root dc_tpf.root
 cd ../
 if [ ${#TOF} -ge 1 ]; then
-./RIDFtoROOT $RUN $TOF
+./RIDFtoBeamROOT $RUN $TOF
 else
 echo "no TOF information in ridf_events.csv for run "$RUN", using 280 ns"
-./RIDFtoROOT $RUN 280.
+./RIDFtoBeamROOT $RUN 280.
 fi
 
 else

@@ -17,6 +17,7 @@ public:
     double getPZ();
     double getE();
     double getKE();
+    double getMeVu();
     double getP();
     double getBeta();
     void setBeam(int runNo);

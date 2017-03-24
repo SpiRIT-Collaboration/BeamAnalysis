@@ -62,6 +62,8 @@ void TBDCProjection::ProjectParticle(double sx, double sy, double sz, double sa,
     if(m_brho>0){
     while(m_z<m_end_z && std::abs(m_x)<430.){
       m_By=getByField(m_x,m_y,m_z);
+      dz = 1.;//step size in mm
+      if(m_z+dz>m_end_z) dz=m_end_z-m_z;
       MagStep();
     }
     }
@@ -72,7 +74,6 @@ void TBDCProjection::ProjectParticle(double sx, double sy, double sz, double sa,
 
 }
 void TBDCProjection::MagStep(){
-    dz = 1.;//step size in mm
     double da;
     m_brho=3.3356*m_momentum/m_charge/1000.;
     da=0.;//no change in angle unless |B|>0
@@ -137,6 +138,7 @@ void TBDCProjection::setE(){ m_energy=m_mass/std::sqrt(1-m_beta*m_beta); }
 double TBDCProjection::getE(){ return m_energy; }
 void TBDCProjection::setKE(){ m_kinetic_energy=m_energy-m_mass; }
 double TBDCProjection::getKE(){ return m_kinetic_energy; }
+double TBDCProjection::getMeVu(){ return m_kinetic_energy/(m_mass/931.494); }
 double TBDCProjection::getP(){ return m_momentum; }
 double TBDCProjection::getBeta(){ return m_beta; }
 void TBDCProjection::setBeam(int runNo){

@@ -9,6 +9,8 @@
 
 #pragma link C++ class BeamRaw;
 #pragma link C++ class BeamBeam;
+#pragma link C++ class TBDCProjection;
+#pragma link C++ class TBeamEnergy;
 #pragma link C++ class CalibSpectrum;
 
 #endif

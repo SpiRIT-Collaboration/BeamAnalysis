@@ -122,6 +122,8 @@ void LoadModule(std::string install_dir)
 //  modules.push_back(install_dir+"/lib/"+"libanaloop.so");
 
   modules.push_back("./libbeam.so");
+modules.push_back("./libbdc.so");
+modules.push_back("./libic.so");
   
   std::vector<std::string>::iterator it = modules.begin();
   while(it != modules.end()){

@@ -110,10 +110,6 @@ int main(int argc, char *argv[]) {
 
     // Create SAMURAIParameters
     //-------------------------
-    TArtSAMURAIParameters *samurai_prm = TArtSAMURAIParameters::Instance();
-    samurai_prm -> LoadParameter((Char_t *) "db/SAMURAIBDC1.xml");
-    samurai_prm -> LoadParameter((Char_t *) "db/SAMURAIBDC2.xml");
-
 
     // Create CalibPID to get and calibrate raw data ( CalibPID ->
     //[CalibPPAC , CalibIC, CalibPlastic , CalibFocalPlane] )
@@ -122,14 +118,6 @@ int main(int argc, char *argv[]) {
     TArtCalibPlastic *calibPLA  = calibPID -> GetCalibPlastic();
     TArtCalibFocalPlane *calibFP   = calibPID -> GetCalibFocalPlane();
     TArtCalibIC *calibIC   = calibPID -> GetCalibIC();
-
-    //Calib for SAMURAI
-    TArtCalibBDC1Hit *calibbdc1hit = new TArtCalibBDC1Hit;
-    TArtCalibBDC1Track *calibbdc1tr = new TArtCalibBDC1Track;
-    TArtCalibBDC2Hit *calibbdc2hit = new TArtCalibBDC2Hit;
-    TArtCalibBDC2Track *calibbdc2tr = new TArtCalibBDC2Track;
-    calibbdc1tr -> SetTDCWindow(950, 1080);
-    calibbdc2tr -> SetTDCWindow(950, 1080);
 
     // Create RecoPID to get calibrated data and to reconstruct TOF, AoQ, Z, ... (RecoPID ->
     //[ RecoTOF , RecoRIPS , RecoBeam] )
@@ -215,8 +203,7 @@ int main(int argc, char *argv[]) {
     Double_t F7X=-9999; Double_t F7A=-9999; Double_t F7Y=-9999; Double_t F7B=-9999;
 
     Double_t aoq, zet, tof, beta;
-    Double_t BDC_tx, BDC_ty, BDC_ta, BDC_tb;
-    //Double_t BDC1_tx, BDC1_ty, BDC1_ta, BDC1_tb;
+
 
     beam->Branch("F3X",&F3X,"F3X/D");
     beam->Branch("F3A",&F3A,"F3A/D");
@@ -237,38 +224,7 @@ int main(int argc, char *argv[]) {
     beam->Branch("aoq",&aoq,"aoq/D");
     beam->Branch("z",&zet,"z/D");
     beam->Branch("tof",&tof,"tof/D");
-    //beam->Branch("inTOF",&inTOF,"inTOF/D");
     beam->Branch("beta",&beta,"beta/D");
-
-    beam->Branch("tx",&BDC_tx,"tx/D");
-    beam->Branch("ty",&BDC_ty,"ty/D");
-    beam->Branch("ta",&BDC_ta,"ta/D");
-    beam->Branch("tb",&BDC_tb,"tb/D");
-
-
-    //Defining BDCs for SAMURAI
-    char myname[128];
-    TFile *bdcin = new TFile("./dctpf/dc_tpf.root", "READ");
-    if (bdcin->IsOpen()){
-        std::cout << "open dc_tpf.root" << std::endl;
-        gROOT->cd();
-        TH2* hist = NULL;
-
-        for(int i=0;i<8;i++){
-            hist = (TH2F*)bdcin->Get(Form("bdc1_tdc_l%02d",i));
-            calibbdc1tr->SetTDCDistribution(hist->ProjectionX(),i);
-            delete hist; hist = NULL;
-        }
-
-        for(int i=0;i<8;i++){
-            sprintf(myname,"bdc2_tdc_l%02d",i);
-            hist = (TH2F*)bdcin->Get(myname);
-            calibbdc2tr->SetTDCDistribution(hist->ProjectionX(),i);
-            delete hist; hist = NULL;
-        }
-    }
-    delete bdcin;
-
 
 
     Int_t numEvents = 0;
@@ -285,70 +241,8 @@ int main(int argc, char *argv[]) {
         aoq = beam_br37 -> GetAoQ();
         zet = beam_br37 -> GetZet();
         tof = tof37 -> GetTOF();
-        //inTOF = customTOF;
         beta = tof37 -> GetBeta();
 
-
-        calibbdc1hit->ClearData();
-        calibbdc1tr->ClearData();
-        calibbdc1hit->ReconstructData();
-        calibbdc1tr->ReconstructData();
-
-        Float_t tx1 = -9999;
-        Float_t ty1 = -9999;
-        Float_t ta1 = -9999;
-        Float_t tb1 = -9999;
-        auto bdc1trks = (TClonesArray *)storeMan->FindDataContainer("SAMURAIBDC1Track");
-        if (bdc1trks) {
-            Int_t bdc1ntr = bdc1trks -> GetEntries();
-            for (Int_t itr = 0; itr < bdc1ntr; ++itr) {
-                auto trk = (TArtDCTrack *) bdc1trks -> At(itr);
-                if (trk -> GetPosition(0) > -9999){
-                    tx1 = trk -> GetPosition(0);
-                    ta1 = trk -> GetAngle(0);
-                } else if (trk -> GetPosition(1) > -9999){
-                    ty1 = trk -> GetPosition(1);
-                    tb1 = trk -> GetAngle(1);
-                }
-            }
-        }
-
-        calibbdc2hit->ClearData();
-        calibbdc2tr->ClearData();
-        calibbdc2hit->ReconstructData();
-        calibbdc2tr->ReconstructData();
-
-        Float_t tx2 = -9999;
-        Float_t ty2 = -9999;
-        Float_t ta2 = -9999;
-        Float_t tb2 = -9999;
-        auto bdc2trks = (TClonesArray *)storeMan->FindDataContainer("SAMURAIBDC2Track");
-        if (bdc2trks) {
-            Int_t bdc2ntr = bdc2trks -> GetEntries();
-            for (Int_t itr = 0; itr < bdc2ntr; ++itr) {
-                auto trk = (TArtDCTrack *) bdc2trks -> At(itr);
-                if (trk -> GetPosition(0) > -9999){
-                    tx2 = trk -> GetPosition(0);
-                    ta2 = trk -> GetAngle(0);
-                }else if (trk -> GetPosition(1) > -9999){
-                    ty2 = trk -> GetPosition(1);
-                    tb2 = trk -> GetAngle(1);
-                }
-            }
-        }
-
-        Double_t dist_BDCs = 1000; //mm
-        Double_t dist_BDC1_TGT = 2570.660; //mm
-        BDC_tx = -9999;
-        BDC_ty = -9999;
-        BDC_ta = -9999;
-        BDC_tb = -9999;
-        if (tx1 > -1000 && ty1 > -1000 && tx2 > -1000 && ty2 > -1000) {
-            BDC_tx = ( tx2 - tx1 )/dist_BDCs*dist_BDC1_TGT + tx1;
-            BDC_ty = ( ty2 - ty1 )/dist_BDCs*dist_BDC1_TGT + ty1;
-            BDC_ta = ( ta2 - ta1 )*1000.; // mrad
-            BDC_tb = ( tb2 - tb1 )*1000.; // mrad
-        }
 
 
         F3X = -9999; F3A = -9999; F3Y = -9999; F3B = -9999;
