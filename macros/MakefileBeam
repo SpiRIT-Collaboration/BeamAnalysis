@@ -1,4 +1,4 @@
-#----------! Written by C. Santamaria / CEA Saclay !----------
+#----------! Written by C. Santamaria / NSCL !----------
 include ./Makefile.arch
 OBJ =
 

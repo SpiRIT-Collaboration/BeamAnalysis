@@ -1,4 +1,4 @@
-#----------! Written by C. Santamaria / CEA Saclay !----------
+#----------! Written by C. Santamaria / NSCL !----------
 ARCH         := $(shell root-config --arch)
 PLATFORM      = $(ARCH)
 
