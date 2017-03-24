@@ -19,7 +19,7 @@ anaroot_dir = ./src
 ### NOTE, FOR THE NEXT 3 LINES TO WORK YOU HAVE TO
 ### HAVE $(ROOTSYS)/bin in your path
 ROOTCFLAGS   := $(shell root-config --cflags)
-ROOTLIBS     := $(shell root-config --libs) -L/home/s015/v6.06.02/lib -lMinuit
+ROOTLIBS     := $(shell root-config --libs) -L$(ROOTSYS)/lib -lMinuit
 ANAROOTLIBS  := -L$(anaroot_dir)/lib -lanaroot -lananadeko -lanabrips -lanasamurai -lanaloop -lanacore
 
 
