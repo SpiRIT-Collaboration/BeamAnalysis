@@ -21,9 +21,6 @@
 
 using namespace std;
 
-
-
-
 void standaloneICCalib(){
     gROOT->ForceStyle();
     int runNo=2843;
@@ -107,7 +104,7 @@ void standaloneICCalib(){
         for(int ii=0; ii<6; ii++){
             ICADC[ii] = raw->BigRIPSIC_fADC[2][ii];
         }
-        if(true && (AoQ>AoQmin && AoQ<AoQmax) && (not(Zet>50.5 && AoQ<goalAoQ+0.5))){
+        if(true && (AoQ>AoQmin && AoQ<AoQmax) ){
         histIC_ADC1vsADC0->Fill( ICADC[0],ICADC[1] );
         histIC_ADC2vsADC0->Fill( ICADC[0],ICADC[2] );
         histIC_ADC3vsADC0->Fill( ICADC[0],ICADC[3] );
