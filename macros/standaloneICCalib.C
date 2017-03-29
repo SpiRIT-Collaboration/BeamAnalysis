@@ -80,7 +80,7 @@ void standaloneICCalib(){
 
     auto *histBeamPID = new TH2D("histBeamPID", "histBeamPID", 1500, AoQmin, AoQmax, 1500, Zetmin-1, Zetmax+1);
 
-    auto *histZetBeta = new TH2D("histZetBeta", "histZetBeta", 500, Betamin, Betamax, 500, Zetmin, Zetmax);
+    auto *histZetBeta = new TH2D("histZetBeta", "histZetBeta", 500, Zetmin-1, Zetmax+1, 500, Betamin, Betamax, 500);
 
     auto *histZet = new TH1D("histZet", "histZet", 500, Zetmin-1, Zetmax+1);
     auto *histICMeV = new TH1D("histICMeV", "histICMeV", 500, ICMeVmin, ICMeVmax);
@@ -113,7 +113,7 @@ void standaloneICCalib(){
 
         histBeamPID->Fill(AoQ,Zet);
 
-        histZetBeta->Fill(beta,Zet);
+        histZetBeta->Fill(Zet,beta);
 
         histZet->Fill(Zet);
         histICMeV->Fill( TMath::Sqrt(ICMeVSqSum/de_v)*beta );

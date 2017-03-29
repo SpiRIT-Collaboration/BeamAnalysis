@@ -96,10 +96,10 @@
 <ID>3</ID>
 <NAME>F7IC</NAME>
 <FPL>7</FPL>
-<ch2mev_0>7.20758</ch2mev_0>
-<ch2mev_1>0.107262</ch2mev_1>
-<zcoef_0>10.1892</zcoef_0>
-<zcoef_1>-1.79257</zcoef_1>
+<ch2mev_0>-13.72290789</ch2mev_0>
+<ch2mev_1>0.164270835</ch2mev_1>
+<zcoef_0>8.12179</zcoef_0>
+<zcoef_1>-0.189094</zcoef_1>
 <zcoef_2>0</zcoef_2>
 <ionpair>4866</ionpair>
 <pedestal0>0</pedestal0>
