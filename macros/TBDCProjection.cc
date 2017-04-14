@@ -47,8 +47,9 @@ void TBDCProjection::ProjectParticle(double sx, double sy, double sz, double sa,
         if(m_beam>100 && m_beam < 110) Eloss[i]=(m_kinetic_energy-Elost)*(1-E108[i]);
         Elost=Elost+Eloss[i];
     }
-    setMomentum();
+    //setMomentum();
     setBeta();
+    setMomentum();
     m_x=sx;
     m_y=sy;
     m_z=sz;
