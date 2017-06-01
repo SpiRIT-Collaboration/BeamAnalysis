@@ -524,7 +524,7 @@ int main(int argc, char *argv[]) {
     ProjPX=-9999;ProjPY=-9999;ProjPZ=-9999;ProjP=-9999;ProjE=-9999;ProjBeta=-9999;
     double E1;
     E1=beamE->getCorrectedEnergy();
-    if(z>0 && z<75 && aoq>1. && aoq<3){
+    if(z>0 && z<75 && aoq>1. && aoq<3 && bdc1x>-999 && bdc1y>-999 && bdc2x>-999 && bdc2y>-999){
     bdcProj->ProjectParticle(bdc2x, bdc2y, -2160., bdcax, bdcby, z, E1, end_projection_z,beamE->getMass());//-580.4,-583.904
     ProjX=bdcProj->getX();
     ProjY=bdcProj->getY();
