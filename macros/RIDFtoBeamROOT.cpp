@@ -90,6 +90,18 @@ int main(int argc, char *argv[]) {
     int runNo;
     runNo = atoi(charRun);
 
+    Int_t ppacRun = -1;
+    Int_t plaRun = -1;
+    Int_t dctpfRun = -1;
+    if (argc > 2)
+      ppacRun = atoi(argv[3]);
+    if (argc > 3)
+      plaRun = atoi(argv[4]);
+    if (argc > 4)
+      dctpfRun = atoi(argv[5]);
+
+    cout << ppacRun << " " << plaRun << " " << dctpfRun << endl;
+
     cerr << "Run Number =" << runNo << endl;
     /////////////////options to fill certain branches////////////////
     bool fill_cuts=true;
@@ -100,8 +112,10 @@ int main(int argc, char *argv[]) {
 
     Int_t maxEvents = 50000000;
     auto bigripsParameters = TArtBigRIPSParameters::Instance();
-    bigripsParameters -> LoadParameter((Char_t *) "db/BigRIPSPPAC.xml");
-    bigripsParameters -> LoadParameter((Char_t *) "db/BigRIPSPlastic.xml");
+    if (ppacRun != -1)  bigripsParameters -> LoadParameter(Form("db/BigRIPSPPAC/BigRIPSPPAC.%d.xml", ppacRun));
+    else                bigripsParameters -> LoadParameter((Char_t *) "db/BigRIPSPPAC.xml");
+    if (plaRun != -1)   bigripsParameters -> LoadParameter(Form("db/BigRIPSPlastic/BigRIPSPlastic.%d.xml", plaRun));
+    else                bigripsParameters -> LoadParameter((Char_t *) "db/BigRIPSPlastic.xml");
     bigripsParameters -> LoadParameter((Char_t *) "db/BigRIPSIC.xml");
     bigripsParameters -> LoadParameter((Char_t *) "db/FocalPlane.xml");
 
@@ -364,9 +378,12 @@ int main(int argc, char *argv[]) {
 
     //Defining BDCs for SAMURAI
     char myname[128];
-    TFile *bdcin = new TFile("./dctpf/dc_tpf.root", "READ");
+    TFile *bdcin = nullptr;
+    if (dctpfRun != -1)  bdcin = new TFile(Form("./dctpf/dc_tpf_%d.root", dctpfRun), "READ");
+    else                 bdcin = new TFile("./dctpf/dc_tpf.root", "READ");
     if (bdcin->IsOpen()){
-      std::cout << "open dc_tpf.root" << std::endl;
+      if (dctpfRun != -1) std::cout << "open dc_tpf_" << dctpfRun << ".root" << std::endl;
+      else                std::cout << "open dc_tpf.root" << std::endl;
       gROOT->cd();
       TH2* hist = NULL;
       
@@ -478,8 +495,8 @@ int main(int argc, char *argv[]) {
 
     auto bdc1trks = (TClonesArray *)storeMan->FindDataContainer("SAMURAIBDC1Track");
     if (bdc1trks) {
-      bdc2x = -9999;
-      bdc2y = -9999;
+      bdc1x = -9999;
+      bdc1y = -9999;
 
       Int_t bdc1ntr = bdc1trks -> GetEntries();
       for (Int_t itr = 0; itr < bdc1ntr; ++itr) {

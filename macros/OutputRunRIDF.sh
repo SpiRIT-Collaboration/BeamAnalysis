@@ -45,39 +45,40 @@ if [ "$RUN" -ge $START ] && [ "$RUN" -le $END ] && [ "$EVENTS" -ge 1 ]; then
 echo "$RUN"
 cd db/
 ./setup_db_dir.sh
-cd ../
-if [ ${#IC} -ge 1 ]; then
-ln -sf BigRIPSIC/BigRIPSIC."$IC".xml ../db/BigRIPSIC.xml
-else
+#cd ../
+#if [ ${#IC} -ge 1 ]; then
+#ln -sf BigRIPSIC/BigRIPSIC."$IC".xml ../db/BigRIPSIC.xml
+#else
 ln -sf BigRIPSIC/BigRIPSIC.xml ../db/BigRIPSIC.xml
-fi
-if [ ${#PLAS} -ge 1 ]; then
-    ln -sf BigRIPSPlastic/BigRIPSPlastic."$PLAS".xml ../db/BigRIPSPlastic.xml
-    ln -sf F3cut."$PLACUT".root cut/plastic_cuts/F3cut.root
-    ln -sf F7cut."$PLACUT".root cut/plastic_cuts/F7cut.root
-    ln -sf F13_1cut."$PLACUT".root cut/plastic_cuts/F13_1cut.root
-    ln -sf F13_2cut."$PLACUT".root cut/plastic_cuts/F13_2cut.root
-else
+#fi
+#if [ ${#PLAS} -ge 1 ]; then
+#    ln -sf BigRIPSPlastic/BigRIPSPlastic."$PLAS".xml ../db/BigRIPSPlastic.xml
+#    ln -sf F3cut."$PLACUT".root cut/plastic_cuts/F3cut.root
+#    ln -sf F7cut."$PLACUT".root cut/plastic_cuts/F7cut.root
+#    ln -sf F13_1cut."$PLACUT".root cut/plastic_cuts/F13_1cut.root
+#    ln -sf F13_2cut."$PLACUT".root cut/plastic_cuts/F13_2cut.root
+#else
 ln -sf BigRIPSPlastic/BigRIPSPlastic.xml ../db/BigRIPSPlastic.xml
-fi
-if [ ${#PPAC} -ge 1 ]; then
-ln -sf BigRIPSPPAC/BigRIPSPPAC."$PPAC".xml ../db/BigRIPSPPAC.xml
-else
+#fi
+#if [ ${#PPAC} -ge 1 ]; then
+#ln -sf BigRIPSPPAC/BigRIPSPPAC."$PPAC".xml ../db/BigRIPSPPAC.xml
+#else
 ln -sf BigRIPSPPAC/BigRIPSPPAC.xml ../db/BigRIPSPPAC.xml
-fi
+#fi
+cd ..
 if [ ! -e dctpf/dc_tpf_$DCTPF.root ]; then
   echo "dc_tpf file not found, creating it"
   ./SAMURAIDCTPF $DCTPF
 fi
-rm dctpf/dc_tpf.root
+#rm dctpf/dc_tpf.root
 cd dctpf
 ln -sf dc_tpf_$DCTPF.root dc_tpf.root
 cd ../
 if [ ${#TOF} -ge 1 ]; then
-./RIDFtoBeamROOT $RUN $TOF
+./RIDFtoBeamROOT $RUN $TOF $PPAC $IC $DCTPF
 else
 echo "no TOF information in ridf_events.csv for run "$RUN", using 280 ns"
-./RIDFtoBeamROOT $RUN 280.
+./RIDFtoBeamROOT $RUN 280. $PPAC $IC $DCTPF
 fi
 
 else
