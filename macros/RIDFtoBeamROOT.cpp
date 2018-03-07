@@ -478,6 +478,9 @@ int main(int argc, char *argv[]) {
 
     auto bdc1trks = (TClonesArray *)storeMan->FindDataContainer("SAMURAIBDC1Track");
     if (bdc1trks) {
+      bdc2x = -9999;
+      bdc2y = -9999;
+
       Int_t bdc1ntr = bdc1trks -> GetEntries();
       for (Int_t itr = 0; itr < bdc1ntr; ++itr) {
         auto trk = (TArtDCTrack *) bdc1trks -> At(itr);
@@ -500,6 +503,9 @@ int main(int argc, char *argv[]) {
     Float_t ty2 = -9999;
     auto bdc2trks = (TClonesArray *)storeMan->FindDataContainer("SAMURAIBDC2Track");
     if (bdc2trks) {
+      bdc2x = -9999;
+      bdc2y = -9999;
+
       Int_t bdc2ntr = bdc2trks -> GetEntries();
       for (Int_t itr = 0; itr < bdc2ntr; ++itr) {
         auto trk = (TArtDCTrack *) bdc2trks -> At(itr);
