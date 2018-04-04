@@ -91,14 +91,17 @@ int main(int argc, char *argv[]) {
     runNo = atoi(charRun);
 
     Int_t ppacRun = -1;
+    Int_t icRun = -1;
     Int_t plaRun = -1;
     Int_t dctpfRun = -1;
     if (argc > 2)
       ppacRun = atoi(argv[3]);
     if (argc > 3)
-      plaRun = atoi(argv[4]);
+      icRun = atoi(argv[4]);
     if (argc > 4)
-      dctpfRun = atoi(argv[5]);
+      plaRun = atoi(argv[5]);
+    if (argc > 5)
+      dctpfRun = atoi(argv[6]);
 
     cout << ppacRun << " " << plaRun << " " << dctpfRun << endl;
 
@@ -116,7 +119,8 @@ int main(int argc, char *argv[]) {
     else                bigripsParameters -> LoadParameter((Char_t *) "db/BigRIPSPPAC.xml");
     if (plaRun != -1)   bigripsParameters -> LoadParameter(Form("db/BigRIPSPlastic/BigRIPSPlastic.%d.xml", plaRun));
     else                bigripsParameters -> LoadParameter((Char_t *) "db/BigRIPSPlastic.xml");
-    bigripsParameters -> LoadParameter((Char_t *) "db/BigRIPSIC.xml");
+    if (icRun != -1)    bigripsParameters -> LoadParameter(Form("db/BigRIPSIC/BigRIPSIC.%d.xml", icRun));
+    else                bigripsParameters -> LoadParameter((Char_t *) "db/BigRIPSIC.xml");
     bigripsParameters -> LoadParameter((Char_t *) "db/FocalPlane.xml");
 
     auto samurai_prm = TArtSAMURAIParameters::Instance();

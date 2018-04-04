@@ -75,10 +75,10 @@ cd dctpf
 ln -sf dc_tpf_$DCTPF.root dc_tpf.root
 cd ../
 if [ ${#TOF} -ge 1 ]; then
-./RIDFtoBeamROOT $RUN $TOF $PPAC $IC $DCTPF
+./RIDFtoBeamROOT $RUN $TOF $PPAC $IC $PLAS $DCTPF
 else
 echo "no TOF information in ridf_events.csv for run "$RUN", using 280 ns"
-./RIDFtoBeamROOT $RUN 280. $PPAC $IC $DCTPF
+./RIDFtoBeamROOT $RUN 280. $PPAC $IC $PLAS $DCTPF
 fi
 
 else
