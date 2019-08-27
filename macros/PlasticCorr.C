@@ -26,8 +26,8 @@ void PlasticCorr(){
     gROOT->ForceStyle();
     BeamRaw *raw = new BeamRaw();
 
-    int first_run=2819;//2819 for 132Sn
-    int last_run=3039;//3039 for 132Sn
+    int first_run=2542;//2819 for 132Sn
+    int last_run=2542;//3039 for 132Sn
 
     for (int ii=first_run; ii<=last_run; ii++){
         raw->fChain->AddFile(Form("data/run%i.ridf.root",ii),0,"raw");

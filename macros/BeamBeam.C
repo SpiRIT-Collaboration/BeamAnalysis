@@ -100,11 +100,7 @@ void BeamBeam::Init()
    fChainBeam->SetBranchAddress("z", &z, &b_z);
    fChainBeam->SetBranchAddress("tof", &tof, &b_tof);
    fChainBeam->SetBranchAddress("beta", &beta, &b_beta);
-   fChainBeam->SetBranchAddress("tx", &tx, &b_tx);
-   fChainBeam->SetBranchAddress("ty", &ty, &b_ty);
-   fChainBeam->SetBranchAddress("ta", &ta, &b_ta);
-   fChainBeam->SetBranchAddress("tb", &tb, &b_tb);
-    Notify();
+   Notify();
 }
 
 Bool_t BeamBeam::Notify()

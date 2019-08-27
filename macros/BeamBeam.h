@@ -87,10 +87,6 @@ public :
    Double_t        z;
    Double_t        tof;
    Double_t        beta;
-   Double_t        tx;
-   Double_t        ty;
-   Double_t        ta;
-   Double_t        tb;
 
    // List of branches
    TBranch        *b_BigRIPSRIPS_;   //!
@@ -159,10 +155,6 @@ public :
    TBranch        *b_z;   //!
    TBranch        *b_tof;   //!
    TBranch        *b_beta;   //!
-   TBranch        *b_tx;   //!
-   TBranch        *b_ty;   //!
-   TBranch        *b_ta;   //!
-   TBranch        *b_tb;   //!
 
    BeamBeam();
    virtual ~BeamBeam();

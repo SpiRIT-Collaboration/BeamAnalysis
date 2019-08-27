@@ -6,6 +6,8 @@
 <FPL>3</FPL>
 <tcal_left>0.0156253</tcal_left>
 <tcal_right>0.0156253</tcal_right>
+<tslew_left_a>-4216.940357</tslew_left_a>
+<tslew_right_a>-7822.209723</tslew_right_a>
 <zpos>-205</zpos>
 <t_fpl>13</t_fpl>
 <tleft_geo>6</tleft_geo>
@@ -44,6 +46,8 @@
 <FPL>7</FPL>
 <tcal_left>0.0156253</tcal_left>
 <tcal_right>0.0156253</tcal_right>
+<tslew_left_a>-7180.574306</tslew_left_a>
+<tslew_right_a>-8476.127838</tslew_right_a>
 <zpos>220</zpos>
 <t_fpl>13</t_fpl>
 <tleft_geo>6</tleft_geo>

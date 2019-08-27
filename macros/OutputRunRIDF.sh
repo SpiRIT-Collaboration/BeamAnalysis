@@ -41,25 +41,25 @@ PLACUT=${input[12]}
 
 
 if  [ "$RUN" -eq "$RUN" ] 2>/dev/null; then
-if [ "$RUN" -ge $START ] && [ "$RUN" -le $END ] && [ "$EVENTS" -ge 1 ]; then
+if [ "$RUN" -ge $START ] && [ "$RUN" -le $END ] && [ "$EVENTS" -ge 1 ]; then ##&& [ "$RUNTYPE" -eq 1 ]; then
 echo "$RUN"
 cd db/
 ./setup_db_dir.sh
 #cd ../
-#if [ ${#IC} -ge 1 ]; then
-#ln -sf BigRIPSIC/BigRIPSIC."$IC".xml ../db/BigRIPSIC.xml
-#else
+if [ ${#IC} -ge 1 ]; then
+ln -sf BigRIPSIC/BigRIPSIC."$IC".xml ../db/BigRIPSIC.xml
+else
 ln -sf BigRIPSIC/BigRIPSIC.xml ../db/BigRIPSIC.xml
-#fi
-#if [ ${#PLAS} -ge 1 ]; then
-#    ln -sf BigRIPSPlastic/BigRIPSPlastic."$PLAS".xml ../db/BigRIPSPlastic.xml
+fi
+if [ ${#PLAS} -ge 1 ]; then
+    ln -sf BigRIPSPlastic/BigRIPSPlastic."$PLAS".xml ../db/BigRIPSPlastic.xml
 #    ln -sf F3cut."$PLACUT".root cut/plastic_cuts/F3cut.root
 #    ln -sf F7cut."$PLACUT".root cut/plastic_cuts/F7cut.root
 #    ln -sf F13_1cut."$PLACUT".root cut/plastic_cuts/F13_1cut.root
 #    ln -sf F13_2cut."$PLACUT".root cut/plastic_cuts/F13_2cut.root
-#else
+else
 ln -sf BigRIPSPlastic/BigRIPSPlastic.xml ../db/BigRIPSPlastic.xml
-#fi
+fi
 #if [ ${#PPAC} -ge 1 ]; then
 #ln -sf BigRIPSPPAC/BigRIPSPPAC."$PPAC".xml ../db/BigRIPSPPAC.xml
 #else

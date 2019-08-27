@@ -57,8 +57,15 @@ void TBDCProjection::ProjectParticle(double sx, double sy, double sz, double sa,
     m_b=sb;
     m_end_z=endz;
     m_charge=charge;
-    m_brho=3.3356*m_momentum/m_charge/1000.;//given charge in multiples of proton charge, momentum in MeV/c, provides Brho in T*m
+    
     //TLoadField();
+    m_pz=m_momentum/std::sqrt(1+std::tan(m_a/1000.)*std::tan(m_a/1000.)+std::tan(m_b/1000.)*std::tan(m_b/1000.));
+    m_px=m_pz*std::tan(m_a/1000.);
+    m_py=m_pz*std::tan(m_b/1000.);
+    
+    
+    m_brho=3.3356*std::sqrt(m_momentum*m_momentum-m_py*m_py)/m_charge/1000.;//given charge in multiples of proton charge, momentum in MeV/c, provides Brho in T*m
+    
     m_By=0;
     if(m_brho>0){
     while(m_z<m_end_z && std::abs(m_x)<430.){
@@ -68,15 +75,17 @@ void TBDCProjection::ProjectParticle(double sx, double sy, double sz, double sa,
       MagStep();
     }
     }
-
-    m_py=m_momentum*std::sin(m_b/1000.);
-    m_px=std::sqrt(m_momentum*m_momentum-m_py*m_py)*std::sin(m_a/1000.);
-    m_pz=std::sqrt(m_momentum*m_momentum-m_py*m_py-m_px*m_px);
+    m_pz=m_momentum/std::sqrt(1+std::tan(m_a/1000.)*std::tan(m_a/1000.)+std::tan(m_b/1000.)*std::tan(m_b/1000.));
+    m_px=m_pz*std::tan(m_a/1000.);
+    m_py=m_pz*std::tan(m_b/1000.);
+    //m_py=m_momentum*std::sin(m_b/1000.);
+    //m_px=std::sqrt(m_momentum*m_momentum-m_py*m_py)*std::sin(m_a/1000.);
+    //m_pz=std::sqrt(m_momentum*m_momentum-m_py*m_py-m_px*m_px);
 
 }
 void TBDCProjection::MagStep(){
     double da;
-    m_brho=3.3356*m_momentum/m_charge/1000.;
+    m_brho=3.3356*std::sqrt(m_momentum*m_momentum-m_py*m_py)/m_charge/1000.;
     da=0.;//no change in angle unless |B|>0
     dx=-dz*std::tan(m_a/1000.);//linear projection used unless |B|>0
     dy=dz*std::tan(m_b/1000.);
@@ -143,10 +152,10 @@ double TBDCProjection::getMeVu(){ return m_kinetic_energy/(m_mass/931.494); }
 double TBDCProjection::getP(){ return m_momentum; }
 double TBDCProjection::getBeta(){ return m_beta; }
 void TBDCProjection::setBeam(int runNo){
-    if(runNo>=2174 && runNo<=2509) m_beam=108;
-    if(runNo>=2520 && runNo<=2653) m_beam=112;
-    if(runNo>=3044 && runNo<=3184) m_beam=124;
-    if(runNo>=2819 && runNo<=3039) m_beam=132;
+    if(runNo>=2174 && runNo<=2509) m_beam=107.912;
+    if(runNo>=2520 && runNo<=2653) m_beam=111.905;
+    if(runNo>=3044 && runNo<=3184) m_beam=123.905;
+    if(runNo>=2819 && runNo<=3039) m_beam=131.918;
 }
 int TBDCProjection::getBeam(){
     return m_beam;

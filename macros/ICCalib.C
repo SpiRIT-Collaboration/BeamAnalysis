@@ -25,16 +25,16 @@ using namespace std;
 // 132Sn
 double AoQmin = 2.6;
 double AoQmax = 2.72;
-
+*/
 // 108Sn
-double AoQmin = 1;
+double AoQmin = 2;
 double AoQmax = 2.5;
 
-*/
+
 
 //124Sn
-double AoQmin = 2.33;
-double AoQmax = 2.65;
+//double AoQmin = 2.33;
+//double AoQmax = 2.65;
 
 double Zetmin = 46;
 double Zetmax = 54;
@@ -42,8 +42,8 @@ double Zetmax = 54;
 double Betamin = 0.6;
 double Betamax = 0.7;
 
-double ICMeVmin = 5.;
-double ICMeVmax = 7.;
+double ICMeVmin = 2.;
+double ICMeVmax = 3.;
 
 
 void ICCalib(){
@@ -54,18 +54,21 @@ void ICCalib(){
     //            PID (Z vs A/Q)                    - to look at the PID before calibration
     //            ADC[i] vs ADC[0] for IC           - Check if pedestal is 0, then no need to change ch2mev_1
     //            Z vs Beta dependence              - For ch2mev_0, if Beta dependence seen, need to correct it
-    BeamBeam *beam = new BeamBeam();
-    BeamRaw *raw = new BeamRaw();
+    //BeamBeam *beam = new BeamBeam();
+    //BeamRaw *raw = new BeamRaw();
 
     
     //ROOT Files
     //for(int ii=2840; ii<=3039; ii++){  // for 132Sn
-    //for(int ii=3058; ii<=3061; ii++){  // for 124Sn
-        //int ii = 2840; //132Sn test run
-        int ii = 3061; //124Sn test run
-        beam->fChainBeam->AddFile(Form("data/run%i.ridf.root",ii),0,"beam");
+    //for(int ii=2300; ii<=2400; ii++){  // for 124Sn
+
+      BeamBeam *beam = new BeamBeam();
+      BeamRaw *raw = new BeamRaw();
+      
+      int ii = 2257; //132Sn test run
+          beam->fChainBeam->AddFile(Form("data/run%i.ridf.root",ii),0,"beam");
         raw->fChain->AddFile(Form("data/run%i.ridf.root",ii),0,"raw");
-    //}
+	//}
     beam->Init();
     raw->Init();
 
@@ -88,13 +91,15 @@ void ICCalib(){
 
     auto *histZetBeta = new TH2D("histZetBeta", "histZetBeta", 500, Betamin, Betamax, 500, Zetmin, Zetmax);
 
-    auto *histZet = new TH1D("histZet", "histZet", 500, 20, 60);
-    auto *histICMeV = new TH1D("histICMeV", "histICMeV", 500, ICMeVmin, ICMeVmax);
+    auto *histZet = new TH1D("histZet", "histZet", 500, 45, 55);
+    auto *histICMeV = new TH1D("histICMeV", "histICMeV", 200, ICMeVmin, ICMeVmax);
+
+    auto *histIC_ADC_sq = new TH1D("histIC_ADC_sq", "histIC_ADC_sq", 2000,1000,8000);
     
     
     //////////////////////////// Entries loop ////////////////////////////
     for(int ientry=0; ientry < nentries; ientry++){
-        if(ientry%100000 == 0) cout << "File read: " << ientry*100./nentries << "%" << endl;
+      //if(ientry%1000 == 0) cout << "File read: " << ientry*100./nentries << "%" << endl;
         beam->fChainBeam->GetEvent(ientry);
         raw->fChain->GetEvent(ientry);
 
@@ -253,22 +258,26 @@ void ICCalib(){
     cvsZet->cd(2);
     histICMeV->Draw();
     cvsZet->Update();
-    
-        
+    cvsZet->SaveAs(Form("./figIC/ICMeV%i.png",ii));    
+    histICMeV->Clear();
+    histZet->Clear();
+
+
     //_________________________________________________________________________________________________________
     //Peak finder in IC Energy (uses the CalibSpectrum class in the folder, compiled with BeamBeam & BeamRaw)
     CalibSpectrum mycal(histICMeV,ICMeVmin,ICMeVmax); // needs the histogram input + the range of the histogram (defined above)
     int nPeaks = 0;
     nPeaks = mycal.FindPeaks(); //finds the number of "Z" peaks seen with TSpectrum
+    
     cerr << Form("Found %i candidates for the IC Energy peaks",nPeaks) << endl;
     mycal.FIT(0.04); //half range of the fits (in energy) as input, fits all peaks with gaussians
     
     // in a first step, hinder this part to cross-check which Z the first peak found should be
     //mycal.Calibration(49); //for 132Sn, output on terminal for zcoeff_0 & zcoeff_1
-    mycal.Calibration(47); //for 124Sn, output on terminal for zcoeff_0 & zcoeff_1
+    mycal.Calibration(49); //for 124Sn, output on terminal for zcoeff_0 & zcoeff_1
     
-    
+    //    cvsCalib->SaveAs(Form("./figIC/ICcalib%i.png",ii));    
 
-    
+
 }
 

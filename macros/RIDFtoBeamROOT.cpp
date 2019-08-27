@@ -45,33 +45,65 @@
 #include "TBeamEnergy.h"
 #include "TBDCProjection.h"
 
-
 using namespace std;
 
-
-Int_t *GetIsotope(Double_t myZ,Double_t myAoq){
+Int_t GetA(Double_t myZ,Double_t myAoq,Double_t sigZ=0.5, Double_t sigA=0.005){
   Double_t myMass=myAoq*myZ;
-  Int_t static Arr[2]={0,0};//array of Z,mass
-  int iZ1=(int)(myZ-1.);
-  int iZ2=(int)(myZ+1.);
-  int iM1=(int)(myMass-1.);
-  int iM2=(int)(myMass+1.);
+  Int_t iA=-9999;
+  Int_t iZ=-9999;
+  int iZ1=(int)(myZ-2.);
+  int iZ2=(int)(myZ+2.);
+  int iM1=(int)(myMass-2.);
+  int iM2=(int)(myMass+2.);
   Double_t ellipse=100;
-  for(int iz=iZ1;iz<iZ2;iz++){
-    for(int im=iM1;im<iM2;im++){
-      ellipse = (myZ-(double)iz)*(myZ-(double)iz)/0.5/0.5+(myMass-(double)im)*(myMass-(double)im)/0.5/0.5;//the ellipse can be numerically changed here
-      if(ellipse<1.){
-        Arr[0]=iz;
-        Arr[1]=im;
-        break;
+  Double_t AQ=1.;
+  for(int iz=iZ1;iz<=iZ2;iz++){
+    for(int im=iM1;im<=iM2;im++){
+      AQ=(double)im/((double)iz);
+      ellipse = (myZ-(double)iz)*(myZ-(double)iz)/sigZ/sigZ+(myAoq-AQ)*(myAoq-AQ)/sigA/sigA;//the ellipse can be numerically changed here
+      if(ellipse<1. ){
+	iZ=iz;
+	iA=im;
+	break;
       }
     }//mass loop
+    if(ellipse<1.) break;
+  }//charge loop
+  return iA;
+}
+Int_t GetZ(Double_t myZ,Double_t myAoq,Double_t sigZ=0.5, Double_t sigA=0.005){
+  Double_t myMass=myAoq*myZ;
+  Int_t iA=-9999;
+  Int_t iZ=-9999;
+  int iZ1=(int)(myZ-2.);
+  int iZ2=(int)(myZ+2.);
+  int iM1=(int)(myMass-2.);
+  int iM2=(int)(myMass+2.);
+  Double_t ellipse=100;
+  Double_t AQ=1.;
+  for(int iz=iZ1;iz<=iZ2;iz++){
+    for(int im=iM1;im<=iM2;im++){
+      AQ=(double)im/((double)iz);
+      ellipse = (myZ-(double)iz)*(myZ-(double)iz)/sigZ/sigZ+(myAoq-AQ)*(myAoq-AQ)/sigA/sigA;
+      if(ellipse<1. ){
+	iZ=iz;
+	iA=im;
+	break;
+      }
+    }//mass loop
+
+
     if(ellipse<1.){
       break;
     }
   }//charge loop
-  return Arr;
+  if(ellipse>1.){
+    //cout << ellipse << endl;
+    //cout << myZ << "," << myAoq << endl;
+  }
+  return iZ;
 }
+
 
 int main(int argc, char *argv[]) {
     float customTOF;
@@ -97,7 +129,7 @@ int main(int argc, char *argv[]) {
     if (argc > 2)
       ppacRun = atoi(argv[3]);
     if (argc > 3)
-      icRun = atoi(argv[4]);
+     icRun = atoi(argv[4]);
     if (argc > 4)
       plaRun = atoi(argv[5]);
     if (argc > 5)
@@ -107,11 +139,11 @@ int main(int argc, char *argv[]) {
 
     cerr << "Run Number =" << runNo << endl;
     /////////////////options to fill certain branches////////////////
-    bool fill_cuts=true;
-    bool fill_raw=false;
+    bool fill_cuts=false;
+    bool fill_raw=true;
     bool fill_hist=true;
     /////////////////BDC Projection options//////////////////////////
-    double end_projection_z=-592.644;//////mid target = -592.644, start pad plane =-580.4, end of pad plane = 763.6
+    double end_projection_z=-592.644;//////mid target = -592.644, start pad plane =-580.4, end of pad plane = 763.6//AC paddles (LR) -857.3
 
     Int_t maxEvents = 50000000;
     auto bigripsParameters = TArtBigRIPSParameters::Instance();
@@ -175,15 +207,36 @@ int main(int argc, char *argv[]) {
 
 
     double goalAoQ;
-    if(runNo>=2174 && runNo<=2509) goalAoQ=108./50.;
-    if(runNo>=2520 && runNo<=2653) goalAoQ=112./50.;
-    if(runNo>=3044 && runNo<=3184) goalAoQ=124./50.;
-    if(runNo>=2819 && runNo<=3039) goalAoQ=132./50.;
-
+    double spreadAoQ=0.2;
+    double goalZ=50;
+    double spreadZ=15;
+    double mass=108;
+    if(runNo>=2174 && runNo<=2509){
+      goalAoQ=108./50.;
+      mass=108.;
+    }
+    if(runNo>=2520 && runNo<=2653){
+      goalAoQ=112./50.;
+      mass=112.;
+    }
+    if(runNo>=3044 && runNo<=3184){
+      goalAoQ=124./50.;
+      mass=124.;
+    }
+    if(runNo>=2819 && runNo<=3039){
+      goalAoQ=132./50.;
+      mass=132.;
+    }
+    if(runNo>3184){
+      goalAoQ=1.5;
+      spreadAoQ=1.;
+      goalZ=2;
+      spreadZ=5;
+    }
 
     //histograms to be written with file
-    auto *histBeamPID = new TH2D("histBeamPID", "", 2000, 2, goalAoQ+0.2, 2000, 25, 55);
-    auto *histAllBeamPID = new TH2D("histAllBeamPID", "", 1000, 2, goalAoQ+0.2, 2000, 25, 55);
+    auto *histBeamPID = new TH2D("histBeamPID", "", 2000, goalAoQ-spreadAoQ, goalAoQ+spreadAoQ, 2000, 25, 55);
+    auto *histAllBeamPID = new TH2D("histAllBeamPID", "", 1000, goalAoQ-spreadAoQ, goalAoQ+spreadAoQ, 2000, goalZ-spreadZ,goalZ+spreadZ);
     auto *histBeamEnergy= new TH1D("histBeamEnergy", "", 1000, 100000, 200000 );
     auto *histBeamEnergy78= new TH1D("histBeamEnergy78", "", 1000, 100000, 200000 );
     auto *histMeVu= new TH1D("histMeVu", "", 1000, 200, 400 );
@@ -203,8 +256,8 @@ int main(int argc, char *argv[]) {
     auto *hBDCA= new TH1D("hBDCA", "", 1000, -50, 50);
     auto *hBDCB= new TH1D("hBDCB", "", 1000, -50, 50);
 
-    auto *hProjA= new TH1D("hProjA", "", 1000, -50, 50);
-    auto *hProjB= new TH1D("hProjB", "", 1000, -50, 50);
+    auto *hProjA= new TH1D("hProjA", "", 1000, -100, 50);
+    auto *hProjB= new TH1D("hProjB", "", 1000, -100, 50);
 
     auto hF3corr = new TH2F("F3corr","F3 corr",2000,0,100,2000,0,0.5);
     auto hF7corr = new TH2F("F7corr","F7 corr",2000,0,100,2000,-0.3,0.2);
@@ -254,13 +307,16 @@ int main(int argc, char *argv[]) {
     Int_t ICQ[8];
     Int_t F3PLA_QL,F3PLA_QR;
     Double_t F3PLA_TL,F3PLA_TR,F3PLA_DT,F3PLA_Q_TEST;
+    Double_t F3PLA_TL_slew,F3PLA_TR_slew;
     Int_t F7PLA_QL,F7PLA_QR;
     Double_t F7PLA_TL,F7PLA_TR,F7PLA_DT,F7PLA_Q_TEST;
+    Double_t F7PLA_TL_slew,F7PLA_TR_slew;
     Int_t F13_1PLA_QL,F13_1PLA_QR;
     Double_t F13_1PLA_TL,F13_1PLA_TR,F13_1PLA_DT,F13_1PLA_Q_TEST;
     Int_t F13_2PLA_QL,F13_2PLA_QR;
     Double_t F13_2PLA_TL,F13_2PLA_TR,F13_2PLA_DT,F13_2PLA_Q_TEST;
-    
+
+
     auto raw = new TTree("raw", "rawdata");
     raw -> Branch("F3PPAC1A_X", &F3PPAC1A_X, "F3PPAC1A_X/D");raw -> Branch("F3PPAC1A_Y", &F3PPAC1A_Y, "F3PPAC1A_Y/D");
     raw -> Branch("F3PPAC1B_X", &F3PPAC1B_X, "F3PPAC1B_X/D");raw -> Branch("F3PPAC1B_Y", &F3PPAC1B_Y, "F3PPAC1B_Y/D");
@@ -278,12 +334,14 @@ int main(int argc, char *argv[]) {
     raw -> Branch("F7PPAC2B_X", &F7PPAC2B_X, "F7PPAC2B_X/D");raw -> Branch("F7PPAC2B_Y", &F7PPAC2B_Y, "F7PPAC2B_Y/D");
 
     raw -> Branch("ICQ", &ICQ, "ICQ[8]/I");
-
+    
     raw -> Branch("F3PLA_TL", &F3PLA_TL, "F3PLA_TL/D");raw -> Branch("F3PLA_TR", &F3PLA_TR, "F3PLA_TR/D");
+    raw -> Branch("F3PLA_TL_slew_slew", &F3PLA_TL_slew, "F3PLA_TL_slew/D");raw -> Branch("F3PLA_TR_slew", &F3PLA_TR_slew, "F3PLA_TR_slew/D");
     raw -> Branch("F3PLA_QL", &F3PLA_QL, "F3PLA_QL/I");raw -> Branch("F3PLA_QR", &F3PLA_QR, "F3PLA_QR/I");
     raw -> Branch("F3PLA_DT", &F3PLA_DT, "F3PLA_DT/D");raw -> Branch("F3PLA_Q_TEST", &F3PLA_Q_TEST, "F3PLA_Q_TEST/D");
 
     raw -> Branch("F7PLA_TL", &F7PLA_TL, "F7PLA_TL/D");raw -> Branch("F7PLA_TR", &F7PLA_TR, "F7PLA_TR/D");
+    raw -> Branch("F7PLA_TL_slew_slew", &F7PLA_TL_slew, "F7PLA_TL_slew/D");raw -> Branch("F7PLA_TR_slew", &F7PLA_TR_slew, "F7PLA_TR_slew/D");
     raw -> Branch("F7PLA_QL", &F7PLA_QL, "F7PLA_QL/I");raw -> Branch("F7PLA_QR", &F7PLA_QR, "F7PLA_QR/I");
     raw -> Branch("F7PLA_DT", &F7PLA_DT, "F7PLA_DT/D");raw -> Branch("F7PLA_Q_TEST", &F7PLA_Q_TEST, "F7PLA_Q_TEST/D");
 
@@ -300,6 +358,21 @@ int main(int argc, char *argv[]) {
     int nppachit = 0;
     int nppachit_f7_0 = 0;
     int nppachit_f7_1 = 0;
+    //Int_t nppachit_f5_1a = 0;
+    //Int_t nppachit_f5_1b = 0;
+    //Int_t nppachit_f5_2a = 0;
+    //Int_t nppachit_f5_2b = 0;
+    
+    Int_t nppachit_f7_1a = 0;
+    Int_t nppachit_f7_1b = 0;
+    Int_t nppachit_f7_2a = 0;
+    Int_t nppachit_f7_2b = 0;
+    Int_t nppachit_f7_1a_anode = 0;
+    Int_t nppachit_f7_1b_anode = 0;
+    Int_t nppachit_f7_2a_anode = 0;
+    Int_t nppachit_f7_2b_anode = 0;
+    
+    
     int ppactdc_first[128];
     int ppactdc_second[128];
     int f7ppac1_nhit_first = 0;
@@ -312,6 +385,8 @@ int main(int argc, char *argv[]) {
     //TBeam branches
     Int_t neve=0; TBeam-> Branch("neve", &neve, "neve/I");
     Double_t z=-9999; TBeam -> Branch("z", &z, "z/D");
+
+    
     Double_t aoq=-9999; TBeam -> Branch("aoq", &aoq, "aoq/D");
     Double_t beta37=-9999; TBeam -> Branch("beta37", &beta37, "beta37/D");
     Double_t brho78=-9999; TBeam -> Branch("brho78", &brho78, "brho78/D");
@@ -320,6 +395,7 @@ int main(int argc, char *argv[]) {
     Bool_t isGood=false; TBeam -> Branch("isGood", &isGood, "isGood/B");
     Int_t intZ=-9999; TBeam-> Branch("intZ", &intZ, "intZ/I");
     Int_t intA=-9999; TBeam-> Branch("intA", &intA, "intA/I");
+    Double_t length=-9999; TBeam -> Branch("length", &length, "length/D");
     
     //TBDC branches
     Double_t bdc1x=-9999; TBDC -> Branch("bdc1x",&bdc1x,"bdc1x/D");
@@ -328,6 +404,9 @@ int main(int argc, char *argv[]) {
     Double_t bdc2y=-9999; TBDC -> Branch("bdc2y",&bdc2y,"bdc2y/D");
     Double_t bdcax=-9999; TBDC -> Branch("bdcax",&bdcax,"bdcax/D");
     Double_t bdcby=-9999; TBDC -> Branch("bdcby",&bdcby,"bdcby/D");
+    //Double_t bdc1a=-9999; TBDC -> Branch("bdc1a",&bdc1a,"bdc1a/D");
+    //Double_t bdc2a=-9999; TBDC -> Branch("bdc2a",&bdc2a,"bdc2a/D");
+    
     Double_t ProjX=-9999; TBDC -> Branch("ProjX",&ProjX,"ProjX/D");
     Double_t ProjY=-9999; TBDC -> Branch("ProjY",&ProjY,"ProjY/D");
     Double_t ProjZ=-9999; TBDC -> Branch("ProjZ",&ProjZ,"ProjZ/D");
@@ -340,8 +419,26 @@ int main(int argc, char *argv[]) {
     Double_t ProjPX=-9999; TBDC -> Branch("ProjPX",&ProjPX,"ProjPX/D");
     Double_t ProjPY=-9999; TBDC -> Branch("ProjPY",&ProjPY,"ProjPY/D");
     Double_t ProjPZ=-9999; TBDC -> Branch("ProjPZ",&ProjPZ,"ProjPZ/D");
-    
+    /*
+    Double_t ProjX1=-9999; TBDC -> Branch("ProjX1",&ProjX1,"ProjX1/D");
+    Double_t ProjY1=-9999; TBDC -> Branch("ProjY1",&ProjY1,"ProjY1/D");
+    Double_t ProjZ1=-9999; TBDC -> Branch("ProjZ1",&ProjZ1,"ProjZ1/D");
+    Double_t ProjA1=-9999; TBDC -> Branch("ProjA1",&ProjA1,"ProjA1/D");
+    Double_t ProjB1=-9999; TBDC -> Branch("ProjB1",&ProjB1,"ProjB1/D");
+    */
     //Focal Plane Branch
+    //TFocalPlane -> Branch("nppachit_f5_1a", &nppachit_f5_1a, "nppachit_f5_1a/I");
+    //TFocalPlane -> Branch("nppachit_f5_1b", &nppachit_f5_1b, "nppachit_f5_1b/I");
+    //TFocalPlane -> Branch("nppachit_f5_2a", &nppachit_f5_2a, "nppachit_f5_2a/I");
+    //TFocalPlane -> Branch("nppachit_f5_2b", &nppachit_f5_2b, "nppachit_f5_2b/I");
+    TFocalPlane -> Branch("nppachit_f7_1a", &nppachit_f7_1a, "nppachit_f7_1a/I");
+    TFocalPlane -> Branch("nppachit_f7_1b", &nppachit_f7_1b, "nppachit_f7_1b/I");
+    TFocalPlane -> Branch("nppachit_f7_2a", &nppachit_f7_2a, "nppachit_f7_2a/I");
+    TFocalPlane -> Branch("nppachit_f7_2b", &nppachit_f7_2b, "nppachit_f7_2b/I");
+    TFocalPlane -> Branch("nppachit_f7_1a_anode", &nppachit_f7_1a_anode, "nppachit_f7_1a_anode/I");
+    TFocalPlane -> Branch("nppachit_f7_1b_anode", &nppachit_f7_1b_anode, "nppachit_f7_1b_anode/I");
+    TFocalPlane -> Branch("nppachit_f7_2a_anode", &nppachit_f7_2a_anode, "nppachit_f7_2a_anode/I");
+    TFocalPlane -> Branch("nppachit_f7_2b_anode", &nppachit_f7_2b_anode, "nppachit_f7_2b_anode/I");
     Double_t F3X; TFocalPlane -> Branch("F3X", &F3X, "F3X/D");
     Double_t F3A; TFocalPlane -> Branch("F3A", &F3A, "F3A/D");
     Double_t F3Y; TFocalPlane -> Branch("F3Y", &F3Y, "F3Y/D");
@@ -425,12 +522,26 @@ int main(int argc, char *argv[]) {
       calibbdc1tr->ClearData();
       calibbdc1hit->ReconstructData();
       calibbdc1tr->ReconstructData();
+
       //
       ///initialize variables for multi-hit information
       //////following routine provided by Aki///
       nppachit = 0;
+      //nppachit_f5_1a = 0;
+      //nppachit_f5_1b = 0;
+      //nppachit_f5_2a = 0;
+      //nppachit_f5_2b = 0;
       nppachit_f7_0 = 0;
       nppachit_f7_1 = 0;
+      nppachit_f7_1a = 0;
+      nppachit_f7_1b = 0;
+      nppachit_f7_2a = 0;
+      nppachit_f7_2b = 0;
+      nppachit_f7_1a_anode = 0;
+      nppachit_f7_1b_anode = 0;
+      nppachit_f7_2a_anode = 0;
+      nppachit_f7_2b_anode = 0;
+      
       for(int k=0;k<128;k++) ppactdc_first[k] = -1;
       for(int k=0;k<128;k++) ppactdc_second[k] = -1;
       // start to scan raw event tree
@@ -447,7 +558,7 @@ int main(int argc, char *argv[]) {
           TArtRawDataObject *d = seg->GetData(j);
           int ch = d->GetCh();
           int val = d->GetVal();
-          if(val>95000) continue;
+          if(val<30000) continue;
           if(ppactdc_first[ch]<0){
             ppactdc_first[ch]=val;
           }
@@ -457,7 +568,19 @@ int main(int argc, char *argv[]) {
 	  
           nppachit ++;
           //if(ch>=48&&ch<64) nppachit_f7 ++;
-          if(ch>=48&&ch<56){
+	  if(ch==12) nppachit_f7_1a_anode ++;
+	  if(ch==13) nppachit_f7_1b_anode ++;
+	  if(ch==14) nppachit_f7_2a_anode ++;
+	  if(ch==15) nppachit_f7_2b_anode ++;
+	  //if(ch>=32 && ch<36) nppachit_f5_1a++;
+	  //if(ch>=36 && ch<40) nppachit_f5_1b++;
+	  //if(ch>=40 && ch<44) nppachit_f5_2a++;
+	  //if(ch>=44 && ch<48) nppachit_f5_2b++;
+	  if(ch>=48 && ch<52) nppachit_f7_1a++;
+	  if(ch>=52 && ch<56) nppachit_f7_1b++;
+	  if(ch>=56 && ch<60) nppachit_f7_2a++;
+	  if(ch>=60 && ch<64) nppachit_f7_2b++;
+	  if(ch>=48&&ch<56){
             nppachit_f7_0 ++;
             //hf7ppac1tdc->Fill(val);
           }
@@ -489,29 +612,43 @@ int main(int argc, char *argv[]) {
     //fill some TBeam items
     intZ=-9999;
     intA=-9999;
-    z=beam_br37->GetZet(); neve=numEvents; aoq=beam_br37 -> GetAoQ();
-    beta37=tof37 -> GetBeta();
+    //z=beam_br37->GetZet(); neve=numEvents; aoq=beam_br37 -> GetAoQ();
+    //beta37=tof37 -> GetBeta();
     brho78=rips57->GetBrho();//beam_br57->GetBrho();
-    
+    length=tof37 ->GetLength();
+    beta37=tof37 -> GetBeta();
+    beta37=beta37;//*beta_multiplier;
+    z=beam_br37->GetZet(); neve=numEvents; aoq=beam_br37 -> GetAoQ();
+
     
     Float_t tx1 = -9999;
     Float_t ty1 = -9999;
-
+    
+    //Double_t bdc1b=-9999.;
+    //Double_t bdc2b=-9999.;
+    
+    
     auto bdc1trks = (TClonesArray *)storeMan->FindDataContainer("SAMURAIBDC1Track");
     if (bdc1trks) {
       bdc1x = -9999;
       bdc1y = -9999;
-
+      //bdc1a = -9999;
+      
       Int_t bdc1ntr = bdc1trks -> GetEntries();
       for (Int_t itr = 0; itr < bdc1ntr; ++itr) {
         auto trk = (TArtDCTrack *) bdc1trks -> At(itr);
         if (trk -> GetPosition(0) > -9999){
           tx1 = trk -> GetPosition(0);
-	  bdc1x=tx1-0.72;
-        } else if (trk -> GetPosition(1) > -9999){
+	  bdc1x=tx1-0.72;//-0.563;//-0.72;
+	  //bdc1a = trk ->GetAngle(0);
+	}
+	if (trk -> GetPosition(1) > -9999){
           ty1 = trk -> GetPosition(1);
 	  bdc1y=ty1;
+	  //bdc1b = trk ->GetAngle(1);
         }
+
+	
       }
     }
 
@@ -526,17 +663,25 @@ int main(int argc, char *argv[]) {
     if (bdc2trks) {
       bdc2x = -9999;
       bdc2y = -9999;
-
+      //bdc2a = -9999;
+      
       Int_t bdc2ntr = bdc2trks -> GetEntries();
       for (Int_t itr = 0; itr < bdc2ntr; ++itr) {
         auto trk = (TArtDCTrack *) bdc2trks -> At(itr);
         if (trk -> GetPosition(0) > -9999){
           tx2 = trk -> GetPosition(0);
-	  bdc2x=tx2-0.52;//include BDC offset
-        }else if (trk -> GetPosition(1) > -9999){
+	  bdc2x=tx2-0.52;//+0.436;//-0.52;//include BDC offset
+	  //bdc2a = trk ->GetAngle(0);
+	  
+        }
+	if (trk -> GetPosition(1) > -9999){
           ty2 = trk -> GetPosition(1);
 	  bdc2y=ty2;
-        }
+	  //bdc2b = trk ->GetAngle(1);
+	  
+	}
+	
+	
       }
     }
     TBeamEnergy *beamE = new TBeamEnergy(z,aoq,beta37);
@@ -548,6 +693,7 @@ int main(int argc, char *argv[]) {
 
     ///BDC projection///
     ProjX=-9999;ProjY=-9999;ProjZ=-9999;ProjA=-9999;ProjB=-9999;
+    //ProjX1=-9999;ProjY1=-9999;ProjZ1=-9999;ProjA1=-9999;ProjB1=-9999;
     ProjPX=-9999;ProjPY=-9999;ProjPZ=-9999;ProjP=-9999;ProjE=-9999;ProjBeta=-9999;
     double E1;
     E1=beamE->getCorrectedEnergy();
@@ -566,7 +712,34 @@ int main(int argc, char *argv[]) {
     ProjMeVu=bdcProj->getMeVu();
     ProjBeta=bdcProj->getBeta();
     }
-
+    /*
+    else if(z>0 && z<75 && aoq>1. && aoq<3 && ((bdc1x>-999 && bdc1y>-999 ) ||(bdc2x>-999 && bdc2y>-999))){
+      if(bdc1x>-999 && bdc1y>-999){
+	
+	bdcProj->ProjectParticle(bdc1x, bdc1y, -3160., bdc1a*2000./TMath::Pi(), bdc1b*2000./TMath::Pi(), z, E1, end_projection_z,beamE->getMass());//-580.4,-583.904
+	ProjA1=bdc1a;
+	ProjB1=bdc1b;
+      }
+      if(bdc2x>-999 && bdc2y>-999){
+	bdcProj->ProjectParticle(bdc2x, bdc2y, -2160., bdc2a*2000./TMath::Pi(), bdc2b*2000./TMath::Pi(), z, E1, end_projection_z,beamE->getMass());//-580.4,-583.904
+	ProjA1=bdc2a;
+	ProjB1=bdc2b;
+      }
+      
+      ProjX1=bdcProj->getX();
+      ProjY1=bdcProj->getY();
+      ProjZ1=bdcProj->getZ();
+      //ProjA1=bdcProj->getA();
+      //ProjB1=bdcProj->getB();
+      ProjPX=bdcProj->getPX();
+      ProjPY=bdcProj->getPY();
+      ProjPZ=bdcProj->getPZ();
+      ProjP=bdcProj->getP();
+      ProjE=bdcProj->getE();
+      ProjMeVu=bdcProj->getMeVu();
+      ProjBeta=bdcProj->getBeta();
+    }
+    */
     ////////////Raw detector information (PPAC, Plastic, IC)/////////////////////////
     F3PPAC1A_X = -9999; F3PPAC1A_Y = -9999; F3PPAC1B_X = -9999; F3PPAC1B_Y = -9999;
     F3PPAC2A_X = -9999; F3PPAC2A_Y = -9999; F3PPAC2B_X = -9999; F3PPAC2B_Y = -9999;
@@ -574,7 +747,10 @@ int main(int argc, char *argv[]) {
     F5PPAC2A_X = -9999; F5PPAC2A_Y = -9999; F5PPAC2B_X = -9999; F5PPAC2B_Y = -9999;
     F7PPAC1A_X = -9999; F7PPAC1A_Y = -9999; F7PPAC1B_X = -9999; F7PPAC1B_Y = -9999;
     F7PPAC2A_X = -9999; F7PPAC2A_Y = -9999; F7PPAC2B_X = -9999; F7PPAC2B_Y = -9999;
-    //F3PLA_TL = -9999; F3PLA_TR = -9999; F3PLA_QL = -9999; F3PLA_QR = -9999;
+
+    F3PLA_TL_slew = -9999; F3PLA_TR_slew = -9999;
+    F7PLA_TL_slew = -9999; F7PLA_TR_slew = -9999;
+    F3PLA_TL = -9999; F3PLA_TR = -9999; F3PLA_QL = -9999; F3PLA_QR = -9999;
     F7PLA_TL = -9999; F7PLA_TR = -9999; F7PLA_QL = -9999; F7PLA_QR = -9999;
     F13_1PLA_TL = -9999; F13_1PLA_TR = -9999; F13_1PLA_QL = -9999; F13_1PLA_QR = -9999;
     F13_2PLA_TL = -9999; F13_2PLA_TR = -9999; F13_2PLA_QL = -9999; F13_2PLA_QR = -9999;
@@ -614,12 +790,14 @@ int main(int argc, char *argv[]) {
     TArtPlastic *pla;
     pla = calibPLA -> FindPlastic((Char_t *) "F3pl");
     if (pla) {
+      F3PLA_TL_slew = pla -> GetTimeLSlew(); F3PLA_TR_slew = pla -> GetTimeRSlew();
       F3PLA_TL = pla -> GetTLRaw(); F3PLA_TR = pla -> GetTRRaw();
       F3PLA_QL = pla -> GetQLRaw(); F3PLA_QR = pla -> GetQRRaw();
       F3PLA_DT=F3PLA_TL-F3PLA_TR; F3PLA_Q_TEST=std::log(F3PLA_QR)-std::log(F3PLA_QL);
     }
     pla = calibPLA -> FindPlastic((Char_t *) "F7pl");
     if (pla) {
+      F7PLA_TL_slew = pla -> GetTimeLSlew(); F7PLA_TR_slew = pla -> GetTimeRSlew();
       F7PLA_TL = pla -> GetTLRaw(); F7PLA_TR = pla -> GetTRRaw();
       F7PLA_QL = pla -> GetQLRaw(); F7PLA_QR = pla -> GetQRRaw();
       F7PLA_DT=F7PLA_TL-F7PLA_TR; F7PLA_Q_TEST=std::log(F7PLA_QR)-std::log(F7PLA_QL);
@@ -639,10 +817,14 @@ int main(int argc, char *argv[]) {
 
 
 
-
-    TArtIC *ic = calibIC -> FindIC((Char_t *) "F7IC");
-    if (ic) for (Int_t i = 0; i < 6; i++) ICQ[i] = ic -> GetRawADC(i);
-///////////Focal Plane information////////////////
+    //////////Ion Chamber//////////////
+    TArtIC *ic = nullptr;
+    ic=calibIC -> FindIC((Char_t *) "F7IC");
+    if (ic) for (Int_t i = 0; i < 6; i++){
+	ICQ[i] = ic -> GetRawADC(i);
+      }
+    
+    ///////////Focal Plane information////////////////
     TArtFocalPlane *fp = nullptr;
     TVectorD *vec;
     fp = calibFP -> FindFocalPlane(3);
@@ -689,9 +871,9 @@ int main(int argc, char *argv[]) {
     //if(F7X>0 && F7X<10 && F7Y >-10 && F7Y <10){
     
     histAllBeamPID->Fill(aoq,z);
-    if(isGood){
-      intZ=GetIsotope(z,aoq)[0];
-      intA=GetIsotope(z,aoq)[1];
+    //if(isGood){
+    intZ=GetZ(z,aoq,0.5,0.002);
+    intA=GetA(z,aoq,0.5,0.002);
       if(fill_hist){
 	histF7_0ppac->Fill(nppachit_f7_0);
         histF7_1ppac->Fill(nppachit_f7_1);
@@ -726,14 +908,14 @@ int main(int argc, char *argv[]) {
 	hProjA->Fill(ProjA);
 	hProjB->Fill(ProjB);
       }
-    }
+      //}
     
     if(fill_cuts) cut_tree->Fill();
-    if(fill_raw) raw -> Fill();
+    //if(fill_raw) raw -> Fill();
     TBeam -> Fill();
     TBDC -> Fill();
     TFocalPlane -> Fill();
-
+    raw->Fill();
     numEvents++;
 
   }
@@ -785,6 +967,7 @@ int main(int argc, char *argv[]) {
   TBeam->Write();
   TBDC->Write();
   TFocalPlane -> Write();
+  raw->Write();
   outfile->Write();
   outfile->Close();
 
